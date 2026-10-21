@@ -9,8 +9,8 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/edugates-smartboard.css">
-  <script defer src="js/keen.js"></script>
   <script defer src="js/edugates-smartboard.js"></script>
+  <script defer src="js/keen.js"></script>
 </head>
 <body class="puzzle-page" data-puzzle="keen">
 
@@ -37,6 +37,10 @@
         <span id="sb-timer-display">00:00</span>
         <button type="button" id="sb-timer-toggle" onclick="toggleClassroomTimer()" style="background:none;border:none;cursor:pointer;font-size:0.85rem" title="Pause/Resume Timer">⏸️</button>
         <button type="button" onclick="resetClassroomTimer()" style="background:none;border:none;cursor:pointer;font-size:0.85rem" title="Reset Timer">🔄</button>
+      </div>
+      <div class="sb-moves-pill" title="Total Moves / Actions in Current Puzzle">
+        <span>🎯 Moves:</span>
+        <span id="sb-moves-display">0</span>
       </div>
     </div>
 
@@ -70,6 +74,11 @@
     </div>
 
     <div class="sb-action-group">
+      <div id="sb-palette-bar" class="sb-palette-bar" title="Switch In-Game Canvas Graphics Theme">
+        <button type="button" class="sb-palette-pill active" data-style="studio" onclick="setEdugatesBoardStyle('studio')">🎨 Studio</button>
+        <button type="button" class="sb-palette-pill" data-style="parchment" onclick="setEdugatesBoardStyle('parchment')">📜 Paper</button>
+        <button type="button" class="sb-palette-pill" data-style="blueprint" onclick="setEdugatesBoardStyle('blueprint')">📐 Blueprint</button>
+      </div>
       <button type="button" class="eis-btn" onclick="zoomBoard(-0.12)" title="Make Board Smaller">➖</button>
       <button type="button" class="eis-btn" onclick="zoomBoard(0)" title="Auto-Fit Board to Smartboard Screen">🎯 Fit</button>
       <button type="button" class="eis-btn" onclick="zoomBoard(0.12)" title="Make Board Larger">➕</button>

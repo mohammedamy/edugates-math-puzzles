@@ -277,15 +277,11 @@ function canvas_mouse_coords(event, element) {
 // for the canvas, the requested size, and whether we want something
 // monospaced.
 function canvas_set_font(ctx, size, monospaced) {
-  var s = window.getComputedStyle(onscreen_canvas);
-  // First set something that we're certain will work.  Constructing
-  // the font string from the computed style is a bit fragile, so
-  // this acts as a fallback.
-  ctx.font = `${size}px ` + (monospaced ? "monospace" : "sans-serif");
-  // In CSS Fonts Module Level 4, "font-stretch" gets serialised as
-  // a percentage, which can't be used in
-  // CanvasRenderingContext2d.font, so we omit it.
-  ctx.font = `${s.fontStyle} ${s.fontWeight} ${size}px ` + (monospaced ? "monospace" : s.fontFamily);
+  var weight = size <= 14 ? "600" : "700";
+  var family = monospaced
+    ? '"JetBrains Mono", "SF Mono", "Menlo", monospace'
+    : '"Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif';
+  ctx.font = weight + " " + size + "px " + family;
 }
 
 // Enable and disable items in the CSS menus.
@@ -806,6 +802,30 @@ function post_init() {
     mql = window.matchMedia(`(resolution: ${dpr}dppx)`);
     mql.addListener(update_pixel_ratio);
     rescale_puzzle();
+  };
+  window.__edugatesForceRedraw = function() {
+    if (window.__edugatesRawColours && window.__edugatesMapColour) {
+      for (var ci = 0; ci < window.__edugatesRawColours.length; ci++) {
+        if (window.__edugatesRawColours[ci] !== undefined) {
+          colours[ci] = window.__edugatesMapColour(ci, window.__edugatesRawColours[ci]);
+        }
+      }
+      if (colours[0]) {
+        document.documentElement.style.setProperty("--puzzle-background", colours[0]);
+      }
+    }
+    try {
+      var rp = Module.cwrap('resize_puzzle', 'void', ['number', 'number']);
+      var rps = Module.cwrap('restore_puzzle_size', 'void', []);
+      if (onscreen_canvas && onscreen_canvas.width > 0) {
+        rp(onscreen_canvas.width + 2, onscreen_canvas.height + 2);
+        rps();
+      } else {
+        rescale_puzzle();
+      }
+    } catch (e) {
+      rescale_puzzle();
+    }
   };
   update_pixel_ratio();
   // If we get here with everything having gone smoothly, i.e.
@@ -1908,19 +1928,27 @@ function _js_canvas_clip(dr, x, y, w, h) {
   ctx.clip();
 }
 function _js_canvas_draw_circle(dr, x, y, r, fill, outline) {
+  if (window.__edugatesDrawCircle) {
+    window.__edugatesDrawCircle(ctx, x, y, r, fill, outline, colours);
+    return;
+  }
   ctx.beginPath();
   ctx.arc(x + 0.5, y + 0.5, r, 0, 2 * Math.PI);
   if (fill >= 0) {
     ctx.fillStyle = colours[fill];
     ctx.fill();
   }
-  ctx.lineWidth = '1';
+  ctx.lineWidth = 1.5;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.strokeStyle = colours[outline];
   ctx.stroke();
 }
 function _js_canvas_draw_line(x1, y1, x2, y2, width, colour) {
+  if (window.__edugatesDrawLine) {
+    window.__edugatesDrawLine(ctx, x1, y1, x2, y2, width, colour, colours);
+    return;
+  }
   colour = colours[colour];
   ctx.beginPath();
   ctx.moveTo(x1 + 0.5, y1 + 0.5);
@@ -1930,11 +1958,12 @@ function _js_canvas_draw_line(x1, y1, x2, y2, width, colour) {
   ctx.lineJoin = 'round';
   ctx.strokeStyle = colour;
   ctx.stroke();
-  ctx.fillStyle = colour;
-  ctx.fillRect(x1, y1, 1, 1);
-  ctx.fillRect(x2, y2, 1, 1);
 }
 function _js_canvas_draw_poly(dr, pointptr, npoints, fill, outline) {
+  if (window.__edugatesDrawPoly) {
+    window.__edugatesDrawPoly(ctx, pointptr, npoints, fill, outline, colours, getValue);
+    return;
+  }
   ctx.beginPath();
   ctx.moveTo(getValue(pointptr, 'i32') + 0.5, getValue(pointptr + 4, 'i32') + 0.5);
   for (var i = 1; i < npoints; i++) ctx.lineTo(getValue(pointptr + 8 * i, 'i32') + 0.5, getValue(pointptr + 8 * i + 4, 'i32') + 0.5);
@@ -1943,22 +1972,31 @@ function _js_canvas_draw_poly(dr, pointptr, npoints, fill, outline) {
     ctx.fillStyle = colours[fill];
     ctx.fill();
   }
-  ctx.lineWidth = '1';
+  ctx.lineWidth = 1.25;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.strokeStyle = colours[outline];
   ctx.stroke();
 }
 function _js_canvas_draw_rect(dr, x, y, w, h, colour) {
+  if (window.__edugatesDrawRect) {
+    window.__edugatesDrawRect(ctx, x, y, w, h, colour, colours);
+    return;
+  }
   ctx.fillStyle = colours[colour];
   ctx.fillRect(x, y, w, h);
 }
 function _js_canvas_draw_text(x, y, halign, colour, fontsize, monospaced, text) {
+  var str = UTF8ToString(text);
+  if (window.__edugatesDrawText) {
+    window.__edugatesDrawText(ctx, x, y, halign, colour, fontsize, monospaced, str, colours, canvas_set_font);
+    return;
+  }
   canvas_set_font(ctx, fontsize, monospaced);
   ctx.fillStyle = colours[colour];
   ctx.textAlign = halign == 0 ? 'left' : halign == 1 ? 'center' : 'right';
   ctx.textBaseline = 'alphabetic';
-  ctx.fillText(UTF8ToString(text), x, y);
+  ctx.fillText(str, x, y);
 }
 function _js_canvas_draw_update(dr, x, y, w, h) {
   /*
@@ -2257,7 +2295,10 @@ function _js_select_preset(n) {
   menuform.elements["preset"].value = n;
 }
 function _js_set_colour(colour_number, colour_string) {
-  colours[colour_number] = UTF8ToString(colour_string);
+  var raw = UTF8ToString(colour_string);
+  if (!window.__edugatesRawColours) window.__edugatesRawColours = [];
+  window.__edugatesRawColours[colour_number] = raw;
+  colours[colour_number] = window.__edugatesMapColour ? window.__edugatesMapColour(colour_number, raw) : raw;
   if (colour_number == 0) document.documentElement.style.setProperty("--puzzle-background", colours[colour_number]);
 }
 function _js_update_key_labels(lsk_ptr, csk_ptr) {

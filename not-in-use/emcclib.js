@@ -186,7 +186,10 @@ mergeInto(LibraryManager.library, {
      * Record a colour string used by the puzzle.
      */
     js_set_colour: function(colour_number, colour_string) {
-        colours[colour_number] = UTF8ToString(colour_string);
+        var raw = UTF8ToString(colour_string);
+        if (!window.__edugatesRawColours) window.__edugatesRawColours = [];
+        window.__edugatesRawColours[colour_number] = raw;
+        colours[colour_number] = window.__edugatesMapColour ? window.__edugatesMapColour(colour_number, raw) : raw;
         if (colour_number == 0)
             document.documentElement.style.setProperty("--puzzle-background",
                                                        colours[colour_number]);

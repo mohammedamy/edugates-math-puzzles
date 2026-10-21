@@ -23,14 +23,15 @@
   --brand-yellow: #F0D72B;
   --brand-green: #10b981;
   --brand-danger: #ef4444;
-  --canvas-frame: #e2e8f0;
+  --canvas-frame: #38bdf8;
+  --canvas-mat: #1e293b;
 }
 
 html[data-theme="day"] {
-  --bg-main: #f1f5f9;
+  --bg-main: #e2e8f0;
   --bg-panel: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
+  --bg-card: #f8fafc;
+  --bg-card-hover: #f1f5f9;
   --bg-input: #f1f5f9;
   --border-color: #cbd5e1;
   --border-strong: #64748b;
@@ -41,7 +42,8 @@ html[data-theme="day"] {
   --brand-gold: #d97706;
   --brand-yellow: #b45309;
   --brand-green: #059669;
-  --canvas-frame: #94a3b8;
+  --canvas-frame: #0284c7;
+  --canvas-mat: #cbd5e1;
 }
 
 * {
@@ -56,10 +58,11 @@ html, body {
   min-height: 100vh;
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  font-family: "Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   line-height: 1.4;
   touch-action: manipulation;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 button, select, input, a {
@@ -494,14 +497,27 @@ body.puzzle-page {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  font-family: "JetBrains Mono", "SF Mono", "Courier New", monospace;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--brand-yellow);
+}
+
+.sb-moves-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 5px 10px;
   border-radius: 8px;
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-color);
-  font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
+  font-size: 0.84rem;
   font-weight: 800;
-  color: var(--brand-yellow);
+  color: var(--brand-sky);
 }
 
 /* Main 2-Column Smartboard Workspace */
@@ -529,16 +545,17 @@ body.puzzle-page {
   min-height: 0;
   background-color: var(--bg-panel);
   border: 2px solid var(--border-color);
-  border-radius: 14px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 12px;
   position: relative;
   overflow: auto;
 }
 
+/* Subtle dot-grid studio mat inside the viewport */
 .sb-canvas-viewport {
   flex: 1;
   width: 100%;
@@ -548,15 +565,27 @@ body.puzzle-page {
   justify-content: center;
   position: relative;
   overflow: auto;
+  padding: 8px;
+  border-radius: 12px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
 }
 
+/* Polished In-Game Tabletop Bezel around the Puzzle Canvas */
 #resizable {
   position: relative;
   margin: auto;
   display: inline-block;
+  padding: 6px;
+  border-radius: 14px;
+  background-color: var(--canvas-mat);
   border: 3px solid var(--canvas-frame);
-  border-radius: 6px;
-  background-color: var(--puzzle-background, #e6e6e6);
+  outline: 2px solid var(--border-color);
+  transition: border-color 0.15s ease;
+}
+
+#resizable.move-pulse {
+  border-color: var(--brand-gold);
 }
 
 #puzzlecanvas {
@@ -564,8 +593,11 @@ body.puzzle-page {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  font-family: sans-serif;
+  font-family: "Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-weight: 700;
   cursor: pointer;
+  border-radius: 8px;
+  background-color: #d4dce8;
 }
 
 #puzzlecanvas:focus {
@@ -575,44 +607,49 @@ body.puzzle-page {
 /* Teacher Whiteboard Annotation Canvas Overlay */
 #annotation-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 6px;
+  left: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
   pointer-events: none;
   touch-action: none;
   z-index: 15;
+  border-radius: 8px;
 }
 
 #annotation-canvas.active {
   pointer-events: auto;
   cursor: crosshair;
+  outline: 2px dashed var(--brand-gold);
 }
 
 #statusbar {
   width: 100%;
-  min-height: 28px;
-  padding: 4px 10px;
-  background-color: #1e293b;
+  min-height: 30px;
+  margin-top: 6px;
+  padding: 5px 12px;
+  background-color: #0f172a;
   color: #f8fafc;
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-top: 2px solid #334155;
+  border-radius: 6px;
+  border: 1px solid #334155;
 }
 
 #resizehandle {
   position: absolute;
   z-index: 5;
-  bottom: 0;
-  right: 0;
+  bottom: 6px;
+  right: 6px;
   width: 18px;
   height: 18px;
   cursor: se-resize;
-  color: #334155;
+  color: #64748b;
 }
 
 /* Victory Notification Banner */
@@ -625,7 +662,7 @@ body.puzzle-page {
   padding: 10px 16px;
   margin-top: 8px;
   border-radius: 10px;
-  background-color: rgba(16, 185, 129, 0.2);
+  background-color: rgba(16, 185, 129, 0.22);
   border: 2px solid var(--brand-green);
   color: var(--text-main);
   font-weight: 800;
@@ -812,6 +849,34 @@ body.puzzle-page {
   transform: scale(1.1);
 }
 
+/* Board Palette Style Switcher Pills */
+.sb-palette-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.sb-palette-pill {
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  min-height: 30px;
+}
+
+.sb-palette-pill.active {
+  background-color: var(--brand-teal);
+  color: #000000;
+}
+
 /* Rules & Math Theory Summary inside Dock */
 .sb-rules-box {
   font-size: 0.84rem;
@@ -916,7 +981,7 @@ body.puzzle-page {
   gap: 12px;
   font-size: 0.78rem;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .sb-permalink-bar a {
