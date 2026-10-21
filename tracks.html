@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0b1324">
+  <title>Tracks (Railway Paths) | Edugates International School Math-Science Team</title>
+  <link rel="icon" type="image/jpeg" href="assets/eis-logo.jpg">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/edugates-smartboard.css">
+  <script defer src="js/tracks.js"></script>
+  <script defer src="js/edugates-smartboard.js"></script>
+</head>
+<body class="puzzle-page" data-puzzle="tracks">
+
+  <!-- Top Branded Header -->
+  <header class="eis-topbar">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="index.html" class="eis-btn" title="Back to All Puzzles">🏠 All Puzzles</a>
+      <a href="index.html" class="eis-brand">
+        <img src="assets/eis-logo.jpg" alt="Edugates International School" class="eis-logo-crest">
+        <img src="assets/logo.png" alt="Math-Science Team" class="eis-logo-stem">
+        <div class="eis-brand-titles">
+          <span class="eis-school-name">Edugates International School</span>
+          <span class="eis-team-name">
+            Math-Science Team
+            <span class="eis-team-badge">Discrete Tomography & Paths</span>
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="sb-timer-pill" title="Classroom Stopwatch">
+        <span>⏱️</span>
+        <span id="sb-timer-display">00:00</span>
+        <button type="button" id="sb-timer-toggle" onclick="toggleClassroomTimer()" style="background:none;border:none;cursor:pointer;font-size:0.85rem" title="Pause/Resume Timer">⏸️</button>
+        <button type="button" onclick="resetClassroomTimer()" style="background:none;border:none;cursor:pointer;font-size:0.85rem" title="Reset Timer">🔄</button>
+      </div>
+    </div>
+
+    <div class="eis-topbar-actions">
+      <button type="button" class="eis-btn is-active" id="eis-turbo-btn" onclick="toggleLowCpuTurbo()" title="1x Native Pixel Ratio & Hardware Acceleration for Low-Processor Smartboards">⚡ Low-CPU: ON</button>
+      <button type="button" class="eis-btn" id="sb-pen-toggle" onclick="toggleBoardPen()" title="Toggle Teacher Whiteboard Annotation Pen">🖊️ Board Pen</button>
+      <button type="button" class="eis-btn" id="eis-theme-btn" onclick="toggleEdugatesTheme()">☀️ Light Board</button>
+      <a href="doc/tracks.html" class="eis-btn" title="Full Manual & Rules">📖 Manual</a>
+      <button type="button" class="eis-btn eis-btn-primary" onclick="toggleSmartboardFullscreen()">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Secondary Smartboard Puzzle Control Bar -->
+  <div class="sb-actionbar">
+    <div class="sb-action-group">
+      <button type="button" class="eis-btn eis-btn-green" id="new">🆕 New Game</button>
+      <button type="button" class="eis-btn" id="restart">🔄 Restart</button>
+      <button type="button" class="eis-btn" id="undo">↩️ Undo</button>
+      <button type="button" class="eis-btn" id="redo">↪️ Redo</button>
+      <button type="button" class="eis-btn" id="solve">💡 Solve</button>
+    </div>
+
+    <div class="sb-action-group">
+      <label for="sb-preset-select" style="font-size:0.82rem;font-weight:800;color:var(--text-muted)">📐 Size / Difficulty:</label>
+      <select id="sb-preset-select" class="sb-select" aria-label="Puzzle Size and Difficulty"></select>
+      <button type="button" class="eis-btn" id="specific" title="Enter Specific Game ID">🎯 Game ID</button>
+      <button type="button" class="eis-btn" id="random" title="Enter Competition Random Seed">🎲 Seed</button>
+      <button type="button" class="eis-btn" id="prefs" title="Puzzle Preferences">⚙️</button>
+      <button type="button" class="eis-btn" id="save" title="Download Save File">💾</button>
+      <button type="button" class="eis-btn" id="load" title="Upload Save File">📂</button>
+    </div>
+
+    <div class="sb-action-group">
+      <button type="button" class="eis-btn" onclick="zoomBoard(-0.12)" title="Make Board Smaller">➖</button>
+      <button type="button" class="eis-btn" onclick="zoomBoard(0)" title="Auto-Fit Board to Smartboard Screen">🎯 Fit</button>
+      <button type="button" class="eis-btn" onclick="zoomBoard(0.12)" title="Make Board Larger">➕</button>
+    </div>
+  </div>
+
+  <!-- Hidden Legacy Menu Form required by Emscripten C/JS Bridge -->
+  <form id="gamemenu" aria-hidden="true">
+    <ul>
+      <li><div tabindex="0">Type<ul role="menu" id="gametype"></ul></div></li>
+    </ul>
+  </form>
+
+  <!-- Main 2-Column Smartboard Arena -->
+  <main id="puzzle" class="sb-workspace">
+    <!-- Left / Center Board Stage -->
+    <section class="sb-board-stage">
+      <div id="apology" style="padding:16px;text-align:center;color:var(--brand-gold);font-weight:700;">
+        ⏳ Loading Tracks (Railway Paths) Engine for Smartboard...
+      </div>
+
+      <div class="sb-canvas-viewport">
+        <div id="resizable">
+          <canvas id="puzzlecanvas" tabindex="0"></canvas>
+          <canvas id="annotation-canvas"></canvas>
+          <div id="statusbar"></div>
+          <svg id="resizehandle" aria-label="resize" width="14" height="14">
+            <title>Drag to resize the puzzle. Right-click to restore default size.</title>
+            <path d="M12,2l-10,10m10,-6l-6,6m6,-2l-2,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Victory Banner -->
+      <div id="sb-victory-banner" class="sb-victory-banner">
+        <div>
+          🎉 <strong>Excellent Deduction!</strong> Edugates Math-Science Team Puzzle Completed!
+          <span id="sb-victory-time" style="margin-left:8px;color:var(--brand-yellow)"></span>
+        </div>
+        <button type="button" class="eis-btn eis-btn-gold" onclick="document.getElementById('new').click()">🆕 Next Puzzle →</button>
+      </div>
+
+      <div class="sb-permalink-bar">
+        <span><strong>Tracks (Railway Paths)</strong> • Share Puzzle:</span>
+        <a id="permalink-desc">🔗 By Game ID</a>
+        <span>|</span>
+        <a id="permalink-seed">🎲 By Random Seed</a>
+      </div>
+    </section>
+
+    <!-- Right Smartboard Touch Control Deck -->
+    <aside class="sb-control-dock">
+      <!-- 1. Smartboard Touch Click Mode Switcher -->
+      <div class="sb-dock-card">
+        <div class="sb-dock-title">
+          <span>👆 Smartboard Touch Action</span>
+          <span style="color:var(--brand-gold)">Tap / Drag</span>
+        </div>
+        <div class="sb-click-modes">
+          <button type="button" class="sb-click-btn active" data-mode="0" onclick="setClickMode(0)">
+            <span>👆 Left Click</span>
+            <small id="sb-left-hint">Primary Action</small>
+          </button>
+          <button type="button" class="sb-click-btn" data-mode="2" onclick="setClickMode(2)">
+            <span>🚩 Right Click</span>
+            <small id="sb-right-hint">Mark / Secondary</small>
+          </button>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px">
+          <button type="button" class="sb-click-btn" data-mode="1" onclick="setClickMode(1)" style="flex:1;min-height:38px;padding:6px">
+            <span>🔒 Middle / Aux Action</span>
+          </button>
+        </div>
+
+        <!-- Teacher Annotation Pen Controls (shown when Board Pen is active) -->
+        <div id="sb-pen-bar" class="sb-pen-bar">
+          <span style="font-size:0.78rem;font-weight:800;">Ink:</span>
+          <button type="button" class="sb-color-dot active" style="background:#f59e0b" onclick="setPenColor('#f59e0b', this)" title="Gold Ink"></button>
+          <button type="button" class="sb-color-dot" style="background:#38bdf8" onclick="setPenColor('#38bdf8', this)" title="Cyan Ink"></button>
+          <button type="button" class="sb-color-dot" style="background:#10b981" onclick="setPenColor('#10b981', this)" title="Green Ink"></button>
+          <button type="button" class="sb-color-dot" style="background:#ef4444" onclick="setPenColor('#ef4444', this)" title="Red Ink"></button>
+          <button type="button" class="eis-btn" onclick="clearBoardPen()" style="padding:4px 10px;min-height:30px;font-size:0.78rem">🧹 Clear Ink</button>
+        </div>
+      </div>
+
+      <!-- 2. Context-Aware On-Screen Touch Keypad -->
+      <div class="sb-dock-card" id="sb-keypad-card">
+        <div class="sb-dock-title">
+          <span>🔢 Smartboard Touch Keypad</span>
+          <span>No Keyboard Needed</span>
+        </div>
+        <div class="sb-keypad-grid" id="sb-keypad-grid"></div>
+      </div>
+
+      <!-- 3. Directional D-Pad & Cursor Controls -->
+      <div class="sb-dock-card">
+        <div class="sb-dock-title">
+          <span>🕹️ Board Cursor & Direction Pad</span>
+          <span>8-Way</span>
+        </div>
+        <div class="sb-dpad-grid">
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('Home')" title="Up-Left">↖</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('ArrowUp')" title="Up">▲</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('PageUp')" title="Up-Right">↗</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('ArrowLeft')" title="Left">◀</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('Enter')" title="Primary Action (Enter)" style="background:rgba(56,189,248,0.18);border-color:var(--brand-sky)">⏎</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('ArrowRight')" title="Right">▶</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('End')" title="Down-Left">↙</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('ArrowDown')" title="Down">▼</button>
+          <button type="button" class="sb-dpad-btn" onclick="sendPuzzleKey('PageDown')" title="Down-Right">↘</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button type="button" class="sb-dpad-btn" style="flex:1;font-size:0.82rem" onclick="sendPuzzleKey('Spacebar')">␣ Space (Secondary / Mark)</button>
+          <button type="button" class="sb-dpad-btn" style="flex:0 0 auto;padding:8px 12px;font-size:0.82rem" onclick="sendPuzzleKey('Backspace')">⌫</button>
+        </div>
+      </div>
+
+      <!-- 4. Classroom Guide & Mathematical Concept -->
+      <div class="sb-dock-card">
+        <div class="sb-dock-title">
+          <span>📐 Rules &amp; Math Concept</span>
+          <span style="color:var(--brand-gold)">Discrete Tomography & Paths</span>
+        </div>
+        <div class="sb-rules-box">
+          <p><strong>Concept:</strong> Reconstruct a continuous path from A to B satisfying row and column projection sums.</p>
+          <p>
+Complete the track from A to B so that the rows and
+columns contain the same number of track segments as are indicated in the
+clues to the top and right of the grid. There are only straight and
+90-degree curved rail sections, and the track may not cross itself.
+<p>
+Left-click on an edge between two squares to add a track segment between
+the two squares. Right-click on an edge to add a cross on the edge,
+indicating no track is possible there.
+<p>
+Left-click in a square to add a colour indicator showing that you know the
+square must contain a track, even if you don't know which edges it crosses
+yet. Right-click in a square to add a cross indicating it contains no
+track segment.
+<p>
+Left- or right-drag between squares to lay a straight line of is-track or
+is-not-track indicators, useful for filling in rows or columns to match the
+clue.
+        </div>
+      </div>
+    </aside>
+  </main>
+
+</body>
+</html>

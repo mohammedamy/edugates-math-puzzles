@@ -16,7 +16,7 @@ my $version = "Unidentified build";
 # https://developer.kaiostech.com/docs/getting-started/main-concepts/manifest
 length($displayname) <= 20 or die "Name too long: $displayname";
 length($description) <= 40 or die "Subtitle too long: $description";
-$objective .= "  Part of Simon Tatham's Portable Puzzle Collection.";
+$objective .= "  Edugates International School — Math-Science Team.";
 # https://developer.kaiostech.com/docs/distribution/submission-guideline
 length($objective) <= 220 or die "Description too long: $objective";
 

@@ -72,7 +72,7 @@ EOF
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ASCII" />
-<title>${puzzlename}, ${unfinishedtitlefragment}from Simon Tatham's Portable Puzzle Collection</title>
+<title>${puzzlename} — Edugates International School Math-Science Team</title>
 <script defer type="text/javascript" src="${jspath}${filename}.js"></script>
 <style>
 /* Top-level form for the game menu */
@@ -328,7 +328,7 @@ main {
 <body>
 <h1 align=center>${puzzlename}</h1>
 ${unfinishedheading}
-<h2 align=center>from Simon Tatham's Portable Puzzle Collection</h2>
+<h2 align=center>Edugates International School — Math-Science Team</h2>
 
 ${unfinishedpara}
 

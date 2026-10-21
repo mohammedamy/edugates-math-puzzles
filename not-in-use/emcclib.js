@@ -627,7 +627,7 @@ mergeInto(LibraryManager.library, {
      */
     js_canvas_get_preferred_size: function(wp, hp) {
         if (containing_div !== null) {
-            var dpr = window.devicePixelRatio || 1;
+            var dpr = window.__EDUGATES_DPR__ || window.devicePixelRatio || 1;
             setValue(wp, containing_div.clientWidth * dpr, "i32");
             setValue(hp, containing_div.clientHeight * dpr, "i32");
             return true;
@@ -648,12 +648,12 @@ mergeInto(LibraryManager.library, {
         offscreen_canvas.width = w;
         if (resizable_div !== null)
             resizable_div.style.width =
-                w / (window.devicePixelRatio || 1) + "px";
+                w / (window.__EDUGATES_DPR__ || window.devicePixelRatio || 1) + "px";
         else {
             onscreen_canvas.style.width =
-                w / (window.devicePixelRatio || 1) + "px";
+                w / (window.__EDUGATES_DPR__ || window.devicePixelRatio || 1) + "px";
             onscreen_canvas.style.height =
-                h / (window.devicePixelRatio || 1) + "px";
+                h / (window.__EDUGATES_DPR__ || window.devicePixelRatio || 1) + "px";
         }
 
         onscreen_canvas.height = h;
@@ -669,7 +669,7 @@ mergeInto(LibraryManager.library, {
      * Return the current device pixel ratio.
      */
     js_get_device_pixel_ratio: function() {
-        return window.devicePixelRatio || 1;
+        return window.__EDUGATES_DPR__ || window.devicePixelRatio || 1;
     },
 
     /*

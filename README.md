@@ -1,144 +1,66 @@
-Android port of Simon Tatham's Puzzles
-======================================
+# Edugates International School — Math-Science Team
+## Interactive Smartboard Math & Logic Puzzle Lab
 
-This is [Simon Tatham's Portable Puzzle Collection](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/),
-ported to Android.
+<p align="center">
+  <img src="assets/eis-logo.jpg" alt="Edugates International School Logo" width="120" />
+</p>
 
-The easiest way to install it is [from Google Play](https://play.google.com/store/apps/details?id=name.boyle.chris.sgtpuzzles).
+Welcome to the **Edugates International School — Math-Science Team** Interactive Puzzle Lab! This repository contains **41 mathematical, geometric, graph-theory, and deductive logic puzzles** compiled to high-efficiency WebAssembly and specifically engineered to run **smoothly in web browsers on low-processor classroom Smartboards**.
 
-If you'd like to get involved, read on:
+---
 
-Project goals
--------------
+## Key Features for Classroom Smartboards
 
-* Run in Android environments where puzzles make sense: phones, tablets,
-  Chromebooks, maybe TVs, not watches or cars.
-* Provide the same puzzle collection that the upstream project provides for
-  other platforms.
-* Provide appropriate controls for Android environments, e.g. on-screen buttons
-  and the use of long-press instead of right-click.
-* Provide appropriate display adjustments for mobile use-cases, e.g. night mode,
-  and minor changes to the recommended sizes of puzzles.
-* Run completely offline, including the documentation, and with minimum required
-  permissions.
-* Follow Android conventions: implicit saving of games in progress, standard
-  settings screen with immediate apply, etc.
-* Make it easy to exchange saved puzzle states with other users and other
-  platforms.
+### 1. Low-Processor Smartboard Engine (`1.0x DPR` & Zero GPU Bloat)
+- **1.0x Native Pixel Ratio Cap (`window.__EDUGATES_DPR__ = 1`)**: Classroom 4K/Retina interactive flat panels (IFPs) with modest ARM/Celeron processors often struggle with 4x pixel fill rates. The engine defaults to `1.0x` native canvas resolution (saving up to **75% pixel fill rate**), with a one-tap **1x Low-CPU / HD** toggle in the top toolbar.
+- **Zero Expensive Compositor Effects**: All CSS `backdrop-filter`, `box-shadow` blurs, `shadowBlur`, and continuous background animations are eliminated so the browser compositor only repaints dirty rectangles when a student touches the board.
+- **Integer-Clamped Dirty-Rect Blitting**: Offscreen-to-onscreen canvas blits in `_js_canvas_end_draw` use cached 2D contexts and integer-clamped coordinates to prevent sub-pixel interpolation overhead.
 
-Potential/experimental goals, that could exist on Android before potentially
-being included upstream later:
+### 2. Full Smartboard Touch & Multi-Mode Interaction
+- **Direct Touch & Drag**: Full `touchstart`, `touchmove`, and `touchend` support with `touch-action: none` on the puzzle canvas so dragging bridges, loops, or slants never scrolls or zooms the browser page.
+- **One-Tap Left / Right / Middle Click Mode Switcher**: Smartboard pens and single-finger touches normally only emit left clicks. The floating dock provides large, touch-friendly **Primary Action (Left Click)**, **Secondary / Mark (Right Click)**, and **Middle / Lock** mode toggles, plus two-finger tap right-click support.
+- **Context-Aware Touch Keypad & D-Pad**: Numeric puzzles (`Towers`, `Solo`, `Keen`, `Unequal`, `Range`, `Filling`, `Signpost`, `Bridges`) and Group Theory (`Group`) automatically display large on-screen number/letter buttons and directional arrow keys.
 
-* Accessibility improvements relative to upstream.
-* Translate the Puzzles into more languages: **first fix [issue #1](https://github.com/chrisboyle/sgtpuzzles/issues/1) properly** to
-  allow translating strings that come from C, which is most of them. I don't yet
-  know how to fix that, and I don't recommend starting work on any translations
-  until it's fixed.
-* Make it easier to have multiple states of the same game in progress, without
-  having to manage files.
+### 3. Classroom Teaching Tools
+- **Smartboard Annotation Pen (`✏️ Board Pen`)**: Draw directly over any puzzle in Yellow, Cyan, Red, or Green to explain deductive steps to the class without altering the underlying puzzle state.
+- **Auto-Fit Board Scaling & Zoom (`−` / `Fit` / `+`)**: Automatically scales every puzzle canvas to fit the classroom display, with instant manual zoom controls.
+- **Dark Board & Light Board Themes**: High-contrast **Dark Board** mode (reduces glare on projector/LED panels) and **Light Board** mode (ideal for brightly lit classrooms).
+- **Offline PWA Support**: Includes `manifest.json` and Service Worker (`sw.js`) so puzzles remain playable even if classroom Wi-Fi drops.
 
-Non-goals for this project
---------------------------
+---
 
-I do not want to make certain kinds of changes that I think would make the Android
-port too different from upstream:
+## Included Puzzles (All 41 Games)
 
-* New games that don't exist upstream.
-* Changes to game rules (implemented or documented) versus upstream.
-* Timers, scoring, or high-score tables that differ from upstream.
-* Hints or other progress feedback that differs from upstream.
+### Featured Classroom Classics
+- **[Bridges](bridges.html)** — Connect islands with horizontal and vertical bridges matching each island's degree.
+- **[Towers](towers.html)** — 3D Latin square skyscraper visibility puzzle.
+- **[Light Up](lightup.html)** — Place lamps to illuminate every corridor without shining on another lamp.
+- **[Slant](slant.html)** — Draw diagonal lines in every cell matching vertex degree clues without forming loops.
+- **[Net](net.html)** — Rotate network tiles to connect all terminals into a single spanning tree.
+- **[Slitherlink / Loopy](slither.html)** ([loopy.html](loopy.html)) — Form a single continuous loop around numbered cells.
 
-Any suggestions in this category should be sent upstream to Simon, as per the
-[Feedback section of his page](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/#:~:text=Feedback),
-and if any such improvements are accepted upstream then I'll merge them into the
-Android port if at all possible.
+### Complete 41-Puzzle Collection
+| Category | Puzzles |
+| :--- | :--- |
+| **Numbers & Latin Squares** | [Towers](towers.html), [Solo (Sudoku)](solo.html), [Keen (KenKen)](keen.html), [Unequal (Futoshiki)](unequal.html), [Group (Cayley Tables)](group.html), [Signpost](signpost.html), [Singles (Hitori)](singles.html), [Range (Kuromasu)](range.html), [Filling](filling.html) |
+| **Loops, Networks & Graphs** | [Bridges](bridges.html), [Slitherlink / Loopy](slither.html), [Slant](slant.html), [Net](net.html), [Netslide](netslide.html), [Pearl (Masyu)](pearl.html), [Tracks](tracks.html), [Untangle (Planar Graphs)](untangle.html), [Palisade](palisade.html) |
+| **Grid Deduction** | [Light Up](lightup.html), [Pattern (Nonograms)](pattern.html), [Galaxies](galaxies.html), [Tents](tents.html), [Dominosa](dominosa.html), [Magnets](magnets.html), [Mines](mines.html), [Mosaic](mosaic.html), [Rectangles (Shikaku)](rect.html), [Unruly](unruly.html), [Undead](undead.html), [Map (Four-Color Theorem)](map.html), [Black Box](blackbox.html), [Guess (Mastermind)](guess.html) |
+| **Spatial & Movement** | [Fifteen](fifteen.html), [Sixteen](sixteen.html), [Twiddle](twiddle.html), [Cube](cube.html), [Flip](flip.html), [Flood](flood.html), [Inertia](inertia.html), [Pegs](pegs.html), [Same Game](samegame.html) |
 
-You're welcome to discuss changes of this kind on this project's issue tracker,
-applying the tag `upstream` to issues to reflect that they won't be implemented
-here directly.
+---
 
-How to help without writing any code
-------------------------------------
+## Running Locally or on a Smartboard
 
-Good bug reports and well-thought-out feature suggestions (bearing in mind the above)
-are always helpful; here's the
-[issue tracker](https://github.com/chrisboyle/sgtpuzzles/issues).
-It's always worth a quick search to see if your bug/idea has already been reported.
+1. **GitHub Pages / Static Hosting**: Serve the repository root directory directly. Open `index.html` in any modern web browser.
+2. **Local Classroom Server**:
+   ```bash
+   python3 -m http.server 8080
+   ```
+   Then open `http://localhost:8080` on the Smartboard browser.
 
-Simon has an excellent page on [how to write a good bug report](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html).
+---
 
-Need to add/change some graphics? The sources live in
-`app/src/main/graphics-sources` and were converted to icons with
-[Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/)
+## Credits & License
 
-Coders should read on...
-
-Prerequisites
--------------
-
-Some knowledge of Android Development and/or C, and ideally JNI, depending
-on what you want to work on: the puzzles themselves are in C, most
-Android-specific code is in Kotlin, and JNI (Java Native Interface) is the
-API bridge between the two.
-
-If you have the option, a Linux-based development machine, as I haven't
-tried to build on Windows or OSX, and it will need some tweaks.
-
-[Android Studio](https://developer.android.com/studio)
-
-[Android NDK (Native Development Kit)](https://developer.android.com/ndk)
-
-If using gradle directly, create `local.properties` with `sdk.dir=/your_path_here`
-(I think Android Studio writes this automatically)
-
-I probably missed a few things here. File a bug when you find them. :-)
-
-Getting/configuring the source
-------------------------------
-
-The source lives at https://github.com/chrisboyle/sgtpuzzles - you can
-either clone/download it from there, or make your own fork on github
-(the Fork button near the top right). A fork means you can easily send
-me a "pull request" of your change, and I can review and integrate it,
-all within github.
-
-You'll also find a branch called `upstream`, which is Simon's code whenever
-I last synced. Handy for diffs, to see what I broke on Android. :-)
-
-This repository includes old `git-svn` commits that predate upstream's move
-to git. History will look slightly nicer if, after cloning, you do:
-
-    git fetch origin 'refs/replace/*:refs/replace/*'
-
-Sadly github itself does not appear to support replacement so you will still
-see duplicates there.
-
-You should now be able to edit, build and launch the app like any other Android
-project (except a lot of it is in C). Don't forget that you'll be signing with
-a dev key, so to test on a device that already has the Google Play version,
-uninstall that first.
-
-Architecture / where to find stuff
-----------------------------------
-
-Simon has some excellent [developer documentation](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/devel/)
-which is definitely worth reading first, at least the Introduction.
-
-The Android front-end (`android.c`) is basically just glue, passing everything to
-Kotlin. The Kotlin classes providing the UI layer, game chooser, etc. are in
-`app/src/main/kotlin`.  The main class `GamePlay` has the native methods that
-`android.c` implements. The game area on screen is a `GameView`, which basically
-just has a bitmap for the puzzle to draw on. Note that almost no native code is
-run until the user has chosen a game (unless there's a previous game to resume).
-
-Files for other platforms etc. that are not currently usable in this fork are
-in the `not-in-use` directory.
-
-If your change is relevant to other platforms, you should definitely ping Simon
-about it as well as me, but test on at least one other platform first in a
-separate checkout (see above).
-
-Happy hacking! :-)
-
---
-Chris Boyle
+- **Branding & Smartboard Optimization**: **Edugates International School — Math-Science Team**
+- **Original Puzzle Collection**: Adapted from [Simon Tatham's Portable Puzzle Collection](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/) and [Chris Boyle's sgtpuzzles](https://github.com/chrisboyle/sgtpuzzles) under the [MIT License](doc/licence.html).

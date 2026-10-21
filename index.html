@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Edugates International School Math-Science Team — Interactive Smartboard Logic, Discrete Mathematics, Topology, and Spatial Reasoning Puzzle Lab.">
+  <meta name="theme-color" content="#0b1324">
+  <title>Edugates International School — Math-Science Team | Smartboard Logic &amp; Discrete Math Lab</title>
+  <link rel="icon" type="image/jpeg" href="assets/eis-logo.jpg">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/edugates-smartboard.css">
+  <script defer src="js/edugates-smartboard.js"></script>
+</head>
+<body>
+
+  <!-- Top Branded School Header -->
+  <header class="eis-topbar">
+    <a href="index.html" class="eis-brand">
+      <img src="assets/eis-logo.jpg" alt="Edugates International School Crest" class="eis-logo-crest">
+      <img src="assets/logo.png" alt="Edugates Math-Science Team Logo" class="eis-logo-stem">
+      <div class="eis-brand-titles">
+        <span class="eis-school-name">Edugates International School</span>
+        <span class="eis-team-name">
+          Math-Science Team
+          <span class="eis-team-badge">Smartboard Logic Lab</span>
+        </span>
+      </div>
+    </a>
+
+    <div class="eis-topbar-actions">
+      <button type="button" class="eis-btn is-active" id="eis-turbo-btn" onclick="toggleLowCpuTurbo()" title="1x Native Pixel Ratio & Hardware Acceleration for Low-Processor Smartboards">⚡ Low-CPU: ON</button>
+      <button type="button" class="eis-btn" id="eis-theme-btn" onclick="toggleEdugatesTheme()">☀️ Light Board</button>
+      <a href="doc/index.html" class="eis-btn">📖 Teacher &amp; Student Manual</a>
+      <button type="button" class="eis-btn eis-btn-primary" onclick="toggleSmartboardFullscreen()">⛶ Toggle Fullscreen (For Board)</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hub-hero">
+    <div class="hub-hero-banner">
+      <div class="hub-hero-badges">
+        <span class="hub-pill hub-pill-gold">Edugates International School • Math-Science Team</span>
+        <span class="hub-pill hub-pill-teal">41 Interactive WebAssembly Workbenches • 60 FPS Low-CPU Smartboard Engine</span>
+      </div>
+      <h1>Smartboard Logic &amp; Discrete Mathematics Lab</h1>
+      <p>Explore Graph Theory, Latin Squares, Abstract Algebra, Geometric Optics, and Combinatorial Deduction — engineered for smooth zero-latency touch interaction on classroom Smartboards.</p>
+    </div>
+  </section>
+
+  <!-- Category Filter Tabs & Instant Search -->
+  <section class="hub-controls" aria-label="Puzzle Categories and Search">
+    <div class="hub-tabs" id="hubTabs">
+      <button type="button" class="hub-tab active" data-filter="all" onclick="filterPuzzles('all', this)">🏛️ All Lab Puzzles (41)</button>
+      <button type="button" class="hub-tab" data-filter="featured" onclick="filterPuzzles('featured', this)">⭐ Featured Smartboard Classics (6)</button>
+      <button type="button" class="hub-tab" data-filter="graph" onclick="filterPuzzles('graph', this)">🕸️ Graph Theory &amp; Topology (10)</button>
+      <button type="button" class="hub-tab" data-filter="algebra" onclick="filterPuzzles('algebra', this)">🔢 Algebra &amp; Latin Squares (6)</button>
+      <button type="button" class="hub-tab" data-filter="combinatorics" onclick="filterPuzzles('combinatorics', this)">🧮 Combinatorics &amp; Grids (11)</button>
+      <button type="button" class="hub-tab" data-filter="physics" onclick="filterPuzzles('physics', this)">🔬 Physics, Optics &amp; 3D (6)</button>
+      <button type="button" class="hub-tab" data-filter="algorithmic" onclick="filterPuzzles('algorithmic', this)">🎯 Algorithmic &amp; Group Games (8)</button>
+    </div>
+
+    <div class="hub-search-wrap">
+      <input type="search" id="hubSearch" class="hub-search" placeholder="🔍 Search puzzle or math topic (e.g. Graph, Optics, Sudoku)..." oninput="applySearchAndFilter()" autocomplete="off">
+    </div>
+  </section>
+
+  <div class="hub-section-title">
+    <span id="hubCategoryHeading">🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)</span>
+    <span id="hubCountBadge" style="font-size:0.85rem;color:var(--text-muted)">Showing 41 puzzles</span>
+  </div>
+
+  <!-- Main Grid -->
+  <main class="hub-grid" id="puzzleGrid">
+    <a href="bridges.html" class="puzzle-card featured-card" data-cat="graph" data-featured="true" data-search="🌉 bridges (hashi) graph theory connect islands using vertex degree invariants and planar graph connectivity. bridges">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/bridges.png" alt="Bridges (Hashi)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🌉 Bridges (Hashi) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Connect islands using vertex degree invariants and planar graph connectivity.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Graph Theory</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="towers.html" class="puzzle-card featured-card" data-cat="algebra" data-featured="true" data-search="🏙️ towers (skyscrapers) latin squares & spatial logic determine 3d skyscraper heights from orthogonal perspective sightlines. towers">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/towers.png" alt="Towers (Skyscrapers)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🏙️ Towers (Skyscrapers) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Determine 3D skyscraper heights from orthogonal perspective sightlines.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Latin Squares & Spatial Logic</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="lightup.html" class="puzzle-card featured-card" data-cat="physics" data-featured="true" data-search="💡 light up (akari) ray-casting & coordinate geometry place light emitters to illuminate every orthogonal grid ray without conflict. lightup">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/lightup.png" alt="Light Up (Akari)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">💡 Light Up (Akari) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Place light emitters to illuminate every orthogonal grid ray without conflict.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Ray-Casting & Coordinate Geometry</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="slant.html" class="puzzle-card featured-card" data-cat="graph" data-featured="true" data-search="📐 slant (gokigen) combinatorics & acyclic trees draw diagonal line segments matching vertex degrees while avoiding cycles. slant">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/slant.png" alt="Slant (Gokigen)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">📐 Slant (Gokigen) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Draw diagonal line segments matching vertex degrees while avoiding cycles.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Combinatorics & Acyclic Trees</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="net.html" class="puzzle-card featured-card" data-cat="graph" data-featured="true" data-search="⚡ net (network) spanning trees & networks rotate network tiles to link every terminal into a single connected spanning tree. net">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/net.png" alt="Net (Network)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">⚡ Net (Network) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Rotate network tiles to link every terminal into a single connected spanning tree.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Spanning Trees & Networks</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="slither.html" class="puzzle-card featured-card" data-cat="graph" data-featured="true" data-search="➰ slitherlink (loopy) jordan curve theorem & topology connect grid vertices into a single continuous non-intersecting closed loop. loopy">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/loopy.png" alt="Slitherlink (Loopy)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">➰ Slitherlink (Loopy) <span class="eis-team-badge" style="font-size:0.65rem">★ Featured</span></div>
+          <p class="puzzle-card-desc">Connect grid vertices into a single continuous non-intersecting closed loop.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Jordan Curve Theorem & Topology</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="solo.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="🔢 solo (sudoku & killer) latin squares & combinatorics complete bijective latin square sub-blocks with optional cage sum constraints. solo">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/solo.png" alt="Solo (Sudoku)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔢 Solo (Sudoku & Killer) </div>
+          <p class="puzzle-card-desc">Complete bijective Latin square sub-blocks with optional cage sum constraints.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Latin Squares & Combinatorics</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="keen.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="➗ keen (kenken) number theory & arithmetic logic solve latin squares governed by arithmetic (+, −, ×, ÷) cage equations. keen">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/keen.png" alt="Keen (KenKen)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">➗ Keen (KenKen) </div>
+          <p class="puzzle-card-desc">Solve Latin squares governed by arithmetic (+, −, ×, ÷) cage equations.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Number Theory & Arithmetic Logic</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="unequal.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="⚖️ unequal (futoshiki) order relations & inequalities order permutations in a latin square satisfying strict inequality (<, >) chains. unequal">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/unequal.png" alt="Unequal (Futoshiki)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">⚖️ Unequal (Futoshiki) </div>
+          <p class="puzzle-card-desc">Order permutations in a Latin square satisfying strict inequality (<, >) chains.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Order Relations & Inequalities</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="group.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="🧮 group (cayley tables) abstract algebra & group theory complete finite mathematical group operation tables using associativity and inverses. group">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/group.png" alt="Group (Abstract Algebra)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧮 Group (Cayley Tables) </div>
+          <p class="puzzle-card-desc">Complete finite mathematical group operation tables using associativity and inverses.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Abstract Algebra & Group Theory</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="singles.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="🎯 singles (hitori) set uniqueness & connectivity eliminate duplicate numbers while keeping remaining white cells orthogonally connected. singles">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/singles.png" alt="Singles (Hitori)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🎯 Singles (Hitori) </div>
+          <p class="puzzle-card-desc">Eliminate duplicate numbers while keeping remaining white cells orthogonally connected.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Set Uniqueness & Connectivity</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="blackbox.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="🔬 black box (laser optics) wave reflection & ray optics deduce hidden atomic positions by firing laser beams and observing reflections. blackbox">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/blackbox.png" alt="Black Box (Laser Optics)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔬 Black Box (Laser Optics) </div>
+          <p class="puzzle-card-desc">Deduce hidden atomic positions by firing laser beams and observing reflections.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Wave Reflection & Ray Optics</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="undead.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="🪞 undead (mirror optics) geometric optics & law of reflection trace reflected sightlines across diagonal mirrors to deduce entity positions. undead">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/undead.png" alt="Undead (Mirror Optics)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🪞 Undead (Mirror Optics) </div>
+          <p class="puzzle-card-desc">Trace reflected sightlines across diagonal mirrors to deduce entity positions.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Geometric Optics & Law of Reflection</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="magnets.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="🧲 magnets (polarity) electromagnetism & dipole constraints place dipole magnets (+ / −) matching pole counts while preventing like-pole repulsion. magnets">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/magnets.png" alt="Magnets (Polarity)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧲 Magnets (Polarity) </div>
+          <p class="puzzle-card-desc">Place dipole magnets (+ / −) matching pole counts while preventing like-pole repulsion.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Electromagnetism & Dipole Constraints</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="inertia.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="💎 inertia (kinematics) newtonian mechanics & vectors navigate a frictionless mass across vector trajectories using walls and stops. inertia">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/inertia.png" alt="Inertia (Kinematics)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">💎 Inertia (Kinematics) </div>
+          <p class="puzzle-card-desc">Navigate a frictionless mass across vector trajectories using walls and stops.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Newtonian Mechanics & Vectors</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="cube.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="🧊 cube (3d polyhedra) 3d spatial geometry & rotations roll a 3d polyhedron across a 2d manifold to map every face onto target cells. cube">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/cube.png" alt="Cube (3D Polyhedra)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧊 Cube (3D Polyhedra) </div>
+          <p class="puzzle-card-desc">Roll a 3D polyhedron across a 2D manifold to map every face onto target cells.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">3D Spatial Geometry & Rotations</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="galaxies.html" class="puzzle-card" data-cat="physics" data-featured="false" data-search="🌌 galaxies (symmetry) point symmetry & tessellations partition the plane into 180° rotationally symmetric polyomino domains. galaxies">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/galaxies.png" alt="Galaxies (Symmetry)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🌌 Galaxies (Symmetry) </div>
+          <p class="puzzle-card-desc">Partition the plane into 180° rotationally symmetric polyomino domains.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Point Symmetry & Tessellations</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="untangle.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="🕸️ untangle (planar graphs) kuratowski's theorem & planarity reposition graph vertices in euclidean space so no two edges intersect. untangle">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/untangle.png" alt="Untangle (Planar Graphs)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🕸️ Untangle (Planar Graphs) </div>
+          <p class="puzzle-card-desc">Reposition graph vertices in Euclidean space so no two edges intersect.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Kuratowski's Theorem & Planarity</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="map.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="🗺️ map (four-color theorem) four-color theorem & dual graphs color a planar subdivision with four colors such that no adjacent regions share a color. map">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/map.png" alt="Map (Four-Coloring)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🗺️ Map (Four-Color Theorem) </div>
+          <p class="puzzle-card-desc">Color a planar subdivision with four colors such that no adjacent regions share a color.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Four-Color Theorem & Dual Graphs</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="pearl.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="⚪ pearl (masyu) hamiltonian cycles & curvature construct a hamiltonian cycle obeying curvature rules through black and white pearls. pearl">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/pearl.png" alt="Pearl (Masyu)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">⚪ Pearl (Masyu) </div>
+          <p class="puzzle-card-desc">Construct a Hamiltonian cycle obeying curvature rules through black and white pearls.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Hamiltonian Cycles & Curvature</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="tracks.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="🛤️ tracks (railway paths) discrete tomography & paths reconstruct a continuous path from a to b satisfying row and column projection sums. tracks">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/tracks.png" alt="Tracks (Railway Paths)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🛤️ Tracks (Railway Paths) </div>
+          <p class="puzzle-card-desc">Reconstruct a continuous path from A to B satisfying row and column projection sums.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Discrete Tomography & Paths</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="signpost.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="🧭 signpost (vector chains) directed graphs & permutations link every cell from 1 to n into a directed hamiltonian path following vector arrows. signpost">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/signpost.png" alt="Signpost (Vector Chains)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧭 Signpost (Vector Chains) </div>
+          <p class="puzzle-card-desc">Link every cell from 1 to N into a directed Hamiltonian path following vector arrows.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Directed Graphs & Permutations</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="netslide.html" class="puzzle-card" data-cat="graph" data-featured="false" data-search="🔄 netslide (toroidal net) toroidal topology & group actions perform cyclic row and column shifts on a torus to connect the network tree. netslide">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/netslide.png" alt="Netslide (Toroidal Net)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔄 Netslide (Toroidal Net) </div>
+          <p class="puzzle-card-desc">Perform cyclic row and column shifts on a torus to connect the network tree.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Toroidal Topology & Group Actions</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="pattern.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🏁 pattern (nonogram) discrete tomography & binary logic reconstruct binary pixel matrices from 1d run-length projection sequences. pattern">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/pattern.png" alt="Pattern (Nonogram)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🏁 Pattern (Nonogram) </div>
+          <p class="puzzle-card-desc">Reconstruct binary pixel matrices from 1D run-length projection sequences.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Discrete Tomography & Binary Logic</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="mines.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="💣 mines (zero-guess logic) boolean constraint satisfaction locate hidden mines using pure local neighborhood cardinality (guaranteed solvable without guessing). mines">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/mines.png" alt="Mines (Pure Deduction)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">💣 Mines (Zero-Guess Logic) </div>
+          <p class="puzzle-card-desc">Locate hidden mines using pure local neighborhood cardinality (guaranteed solvable without guessing).</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Boolean Constraint Satisfaction</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="dominosa.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🁣 dominosa (domino tiling) combinatorial design & tilings tile the grid with a complete set of distinct unordered number pairs (0..n). dominosa">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/dominosa.png" alt="Dominosa (Domino Tiling)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🁣 Dominosa (Domino Tiling) </div>
+          <p class="puzzle-card-desc">Tile the grid with a complete set of distinct unordered number pairs (0..N).</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Combinatorial Design & Tilings</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="rect.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="▭ rectangles (shikaku) factorization & area dissection dissect the grid into non-overlapping rectangles whose areas match the given numbers. rect">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/rect.png" alt="Rectangles (Shikaku)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">▭ Rectangles (Shikaku) </div>
+          <p class="puzzle-card-desc">Dissect the grid into non-overlapping rectangles whose areas match the given numbers.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Factorization & Area Dissection</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="palisade.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🧱 palisade (five cells) polyomino partitioning divide the grid into equal-area polyomino regions satisfying boundary edge counts. palisade">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/palisade.png" alt="Palisade (Region Partition)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧱 Palisade (Five Cells) </div>
+          <p class="puzzle-card-desc">Divide the grid into equal-area polyomino regions satisfying boundary edge counts.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Polyomino Partitioning</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="filling.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🧩 filling (fillomino) connected components & area partition the grid into connected polyominoes where each cell displays its region's area. filling">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/filling.png" alt="Filling (Fillomino)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧩 Filling (Fillomino) </div>
+          <p class="puzzle-card-desc">Partition the grid into connected polyominoes where each cell displays its region's area.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Connected Components & Area</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="range.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🔭 range (kuromasu) orthogonal visibility & bounds place black blockers to bound orthogonal visibility lengths from numbered cells. range">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/range.png" alt="Range (Visible Distance)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔭 Range (Kuromasu) </div>
+          <p class="puzzle-card-desc">Place black blockers to bound orthogonal visibility lengths from numbered cells.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Orthogonal Visibility & Bounds</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="tents.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="⛺ tents (bijective matching) bipartite matching & hall's theorem establish a 1-to-1 matching between trees and non-adjacent tents with row/column sums. tents">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/tents.png" alt="Tents (Bipartite Matching)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">⛺ Tents (Bijective Matching) </div>
+          <p class="puzzle-card-desc">Establish a 1-to-1 matching between trees and non-adjacent tents with row/column sums.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Bipartite Matching & Hall's Theorem</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="mosaic.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="🔳 mosaic (3×3 kernel) 2d convolution & cellular logic reconstruct a binary image from 3×3 moore neighborhood density counts. mosaic">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/mosaic.png" alt="Mosaic (Neighborhood Sums)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔳 Mosaic (3×3 Kernel) </div>
+          <p class="puzzle-card-desc">Reconstruct a binary image from 3×3 Moore neighborhood density counts.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">2D Convolution & Cellular Logic</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="unruly.html" class="puzzle-card" data-cat="combinatorics" data-featured="false" data-search="⚖️ unruly (binairo / takuzu) parity & run-length constraints balance black and white squares in every row and column with no three consecutive. unruly">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/unruly.png" alt="Unruly (Binary Balance)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">⚖️ Unruly (Binairo / Takuzu) </div>
+          <p class="puzzle-card-desc">Balance black and white squares in every row and column with no three consecutive.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Parity & Run-Length Constraints</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="flip.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="💡 flip (lights out / gf(2)) linear algebra over gf(2) invert neighborhoods of tiles to unify the grid state over binary field gf(2). flip">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/flip.png" alt="Flip (GF(2) Matrix Logic)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">💡 Flip (Lights Out / GF(2)) </div>
+          <p class="puzzle-card-desc">Invert neighborhoods of tiles to unify the grid state over binary field GF(2).</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Linear Algebra over GF(2)</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="guess.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🔐 guess (mastermind) information entropy & knuth's algorithm deduce the secret color permutation in minimal queries using exact/partial match feedback. guess">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/guess.png" alt="Guess (Information Theory)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔐 Guess (Mastermind) </div>
+          <p class="puzzle-card-desc">Deduce the secret color permutation in minimal queries using exact/partial match feedback.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Information Entropy & Knuth's Algorithm</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="flood.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🌊 flood (graph percolation) graph percolation & search unify the entire grid into a single connected color component within the move budget. flood">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/flood.png" alt="Flood (Greedy Percolation)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🌊 Flood (Graph Percolation) </div>
+          <p class="puzzle-card-desc">Unify the entire grid into a single connected color component within the move budget.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Graph Percolation & Search</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="fifteen.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🔢 fifteen (permutation parity) permutation groups & parity order 15 numbered tiles via transposition slides in the alternating group a₁₅. fifteen">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/fifteen.png" alt="Fifteen (Sliding Parity)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔢 Fifteen (Permutation Parity) </div>
+          <p class="puzzle-card-desc">Order 15 numbered tiles via transposition slides in the alternating group A₁₅.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Permutation Groups & Parity</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="sixteen.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🔄 sixteen (toroidal shift) cyclic permutations & commutators restore matrix order using cyclic row and column permutations without a blank space. sixteen">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/sixteen.png" alt="Sixteen (Toroidal Shift)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🔄 Sixteen (Toroidal Shift) </div>
+          <p class="puzzle-card-desc">Restore matrix order using cyclic row and column permutations without a blank space.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Cyclic Permutations & Commutators</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="twiddle.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🌀 twiddle (block rotations) rotation groups & matrix sorting sort a numerical matrix by rotating overlapping k×k sub-matrices. twiddle">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/twiddle.png" alt="Twiddle (2×2 Rotations)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🌀 Twiddle (Block Rotations) </div>
+          <p class="puzzle-card-desc">Sort a numerical matrix by rotating overlapping k×k sub-matrices.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Rotation Groups & Matrix Sorting</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="pegs.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="📍 pegs (peg solitaire) resource invariants & backtracking jump pegs orthogonally to reduce the board to a single remaining peg. pegs">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/pegs.png" alt="Pegs (Pagoda Invariants)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">📍 Pegs (Peg Solitaire) </div>
+          <p class="puzzle-card-desc">Jump pegs orthogonally to reduce the board to a single remaining peg.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Resource Invariants & Backtracking</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="samegame.html" class="puzzle-card" data-cat="algorithmic" data-featured="false" data-search="🧱 same game (cluster clear) connected components & optimization clear monochromatic connected components to maximize quadratic cluster scoring. samegame">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/samegame.png" alt="Same Game (Connected Clusters)" class="puzzle-thumb" loading="lazy" width="56" height="56">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🧱 Same Game (Cluster Clear) </div>
+          <p class="puzzle-card-desc">Clear monochromatic connected components to maximize quadratic cluster scoring.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Connected Components & Optimization</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+  </main>
+
+  <footer class="eis-footer">
+    <strong>Edugates International School — Math-Science Team</strong> • Smartboard Logic &amp; Discrete Mathematics Portal • Optimized for Low-Processor Classroom Interactive Displays
+  </footer>
+
+  <script>
+    var currentCategoryFilter = "all";
+    var CATEGORY_TITLES = {
+      all: "🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)",
+      featured: "⭐ Featured Smartboard Classroom Classics",
+      graph: "🕸️ Graph Theory, Spanning Trees & Topological Loops",
+      algebra: "🔢 Latin Squares, Inequalities & Abstract Algebra",
+      combinatorics: "🧮 Combinatorics, Discrete Tomography & Grid Deduction",
+      physics: "🔬 Ray Optics, Electromagnetism, Kinematics & 3D Geometry",
+      algorithmic: "🎯 Algorithmic State Spaces, GF(2) Matrix Logic & Permutation Groups"
+    };
+
+    function filterPuzzles(cat, btnEl) {
+      currentCategoryFilter = cat;
+      var tabs = document.querySelectorAll(".hub-tab");
+      for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
+      if (btnEl) btnEl.classList.add("active");
+      var heading = document.getElementById("hubCategoryHeading");
+      if (heading && CATEGORY_TITLES[cat]) heading.textContent = CATEGORY_TITLES[cat];
+      applySearchAndFilter();
+    }
+
+    function applySearchAndFilter() {
+      var q = (document.getElementById("hubSearch").value || "").trim().toLowerCase();
+      var cards = document.querySelectorAll(".puzzle-card");
+      var visible = 0;
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i];
+        var cCat = c.getAttribute("data-cat");
+        var cFeat = c.getAttribute("data-featured") === "true";
+        var cSearch = c.getAttribute("data-search") || "";
+        var matchCat = (currentCategoryFilter === "all") ||
+                       (currentCategoryFilter === "featured" && cFeat) ||
+                       (cCat === currentCategoryFilter);
+        var matchQ = !q || cSearch.indexOf(q) !== -1;
+        if (matchCat && matchQ) {
+          c.style.display = "";
+          visible++;
+        } else {
+          c.style.display = "none";
+        }
+      }
+      var badge = document.getElementById("hubCountBadge");
+      if (badge) badge.textContent = "Showing " + visible + (visible === 1 ? " puzzle" : " puzzles");
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

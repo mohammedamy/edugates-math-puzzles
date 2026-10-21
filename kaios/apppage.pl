@@ -19,7 +19,7 @@ print <<EOF;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ASCII" />
 <meta name="theme-color" content="rgb(50,50,50)" />    
-<title>${displayname}</title>
+<title>${displayname} — Edugates International School Math-Science Team</title>
 <!-- The KaiAds scripts are only present in Kai Store versions. -->
 <script src="kaiads.v5.min.js"></script>
 <script defer type="text/javascript" src="${name}.js"></script>

@@ -217,9 +217,11 @@ function element_coords(element) {
 // the top left corner of the element by subtracting element_coords
 // from event.page{X,Y}.
 function relative_mouse_coords(event, element) {
-    var ecoords = element_coords(element);
-    return {x: event.pageX - ecoords.x,
-            y: event.pageY - ecoords.y};
+    var rect = element.getBoundingClientRect();
+    var cx = event.clientX !== undefined ? event.clientX : (event.changedTouches && event.changedTouches[0] ? event.changedTouches[0].clientX : event.pageX - window.pageXOffset);
+    var cy = event.clientY !== undefined ? event.clientY : (event.changedTouches && event.changedTouches[0] ? event.changedTouches[0].clientY : event.pageY - window.pageYOffset);
+    return {x: cx - rect.left,
+            y: cy - rect.top};
 }
 
 // Higher-level mouse helper function to specifically map mouse
@@ -227,10 +229,11 @@ function relative_mouse_coords(event, element) {
 // This depends on the details of how a canvas gets scaled by CSS.
 function canvas_mouse_coords(event, element) {
     var rcoords = relative_mouse_coords(event, element);
-    // Assume that the CSS object-fit property is "fill" (the default).
-    var xscale = element.width / element.offsetWidth / fe_scale;
-    var yscale = element.height / element.offsetHeight / fe_scale;
-    return {x: rcoords.x * xscale, y: rcoords.y * yscale}
+    var ow = element.offsetWidth || element.clientWidth || 1;
+    var oh = element.offsetHeight || element.clientHeight || 1;
+    var xscale = element.width / ow / fe_scale;
+    var yscale = element.height / oh / fe_scale;
+    return {x: (rcoords.x * xscale) | 0, y: (rcoords.y * yscale) | 0}
 }
 
 // Set the font on a CanvasRenderingContext2d based on the CSS font

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=US-ASCII">
+<title>Flip — Edugates International School Math-Science Team</title>
+<link rel="previous" href="samegame.html">
+<link rel="ToC" href="index.html">
+<link rel="up" href="index.html">
+<link rel="index" href="docindex.html">
+<link rel="next" href="guess.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style type="text/css">
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0b1120;
+    color: #f8fafc;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 24px 48px;
+    line-height: 1.65;
+    font-size: 16px;
+    word-wrap: break-word;
+  }
+  a:link { color: #38bdf8; text-decoration: none; font-weight: 600; }
+  a:visited { color: #7dd3fc; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3 { color: #fbbf24; margin-top: 1.3em; }
+  .edugates-doc-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #131c31;
+    border: 2px solid #263554;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+  .edugates-doc-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .edugates-doc-brand img {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 2px;
+    object-fit: contain;
+  }
+  .edugates-doc-school {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #f8fafc;
+  }
+  .edugates-doc-dept {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #38bdf8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .edugates-doc-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .edugates-doc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e293b;
+    color: #f8fafc !important;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+  .edugates-doc-btn.primary {
+    background: #0284c7;
+    border-color: #38bdf8;
+  }
+  hr { border: 0; border-top: 1px solid #263554; margin: 24px 0; }
+</style></head>
+<body>
+<div class="edugates-doc-banner">
+  <div class="edugates-doc-brand">
+    <img src='../assets/eis-logo.jpg' alt='Edugates International School'>
+    <div>
+      <div class="edugates-doc-school">Edugates International School</div>
+      <div class="edugates-doc-dept">Math-Science Team &bull; Official Puzzle Reference Manual</div>
+    </div>
+  </div>
+  <div class="edugates-doc-actions">
+    <a class="edugates-doc-btn primary" href="../flip.html">&#9654; Play Puzzle on Smartboard</a>
+    <a class="edugates-doc-btn" href="../index.html">&larr; Smartboard Puzzle Hub</a>
+  </div>
+</div>
+<p><a href="samegame.html">Previous</a> | <a href="index.html">Contents</a> | <a href="docindex.html">Index</a> | <a href="guess.html">Next</a></p>
+<h1><a name="C14"></a>Chapter 14: <a name="i0"></a>Flip</h1>
+<p>
+You have a grid of squares, some light and some dark. Your aim is to light all the squares up at the same time. You can choose any square and flip its state from light to dark or dark to light, but when you do so, other squares around it change state as well.
+</p>
+<p>
+Each square contains a small diagram showing which other squares change when you flip it.
+</p>
+<h2><a name="S14.1"></a>14.1 <a name="i1"></a>Flip controls</h2>
+<p>
+<em>On Android, please touch for left click and long press for right click. Also note that where this manual refers to pressing a letter on the keyboard, the Android version has icons at the bottom of the screen instead (Control and Shift are not available). There is also an optional "Night mode" which uses darker colours in low light.</em>
+</p>
+<p>
+This game can be played with either the keyboard or the mouse.
+</p>
+<p>
+Left-click in a square to flip it and its associated squares, or use the cursor keys to choose a square and the space bar or Enter key to flip.
+</p>
+<p>
+If you use the &#8216;Solve&#8217; function on this game, it will mark some of the squares in red. If you click once in every square with a red mark, the game should be solved. (If you click in a square <em>without</em> a red mark, a red mark will appear in it to indicate that you will need to reverse that operation to reach the solution.)
+</p>
+<p>
+(All the actions described in <a href="common.html#S2.1">section 2.1</a> are also available.)
+</p>
+<h2><a name="S14.2"></a>14.2 <a name="i2"></a>Flip parameters</h2>
+<p>
+These parameters are available from the &#8216;Custom...&#8217; option on the &#8216;Type&#8217; menu.
+</p>
+<dl><dt>
+<em>Width</em>, <em>Height</em>
+</dt>
+<dd>
+Size of grid in squares.
+</dd>
+<dt>
+<em>Shape type</em>
+</dt>
+<dd>
+This control determines the shape of the region which is flipped by clicking in any given square. The default setting, &#8216;Crosses&#8217;, causes every square to flip itself and its four immediate neighbours (or three or two if it's at an edge or corner). The other setting, &#8216;Random&#8217;, causes a random shape to be chosen for every square, so the game is different every time.
+</dd>
+</dl>
+
+<hr>
+<p style="font-size:0.85rem;color:#94a3b8;text-align:center;">
+  <strong>Edugates International School &mdash; Math-Science Team</strong> &bull;
+  Interactive Smartboard Edition (Adapted from Simon Tatham&rsquo;s Portable Puzzle Collection under MIT Licence)
+</p>
+</body>
+</html>
