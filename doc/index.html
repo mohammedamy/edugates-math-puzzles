@@ -1,163 +1,299 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=US-ASCII">
-<title>Contents — Edugates International School Math-Science Team</title>
-<link rel="index" href="docindex.html">
-<link rel="next" href="intro.html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style type="text/css">
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #0b1120;
-    color: #f8fafc;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px 24px 48px;
-    line-height: 1.65;
-    font-size: 16px;
-    word-wrap: break-word;
-  }
-  a:link { color: #38bdf8; text-decoration: none; font-weight: 600; }
-  a:visited { color: #7dd3fc; }
-  a:hover { text-decoration: underline; }
-  h1, h2, h3 { color: #fbbf24; margin-top: 1.3em; }
-  .edugates-doc-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    background: #131c31;
-    border: 2px solid #263554;
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-  }
-  .edugates-doc-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .edugates-doc-brand img {
-    width: 42px;
-    height: 42px;
-    border-radius: 8px;
-    background: #fff;
-    padding: 2px;
-    object-fit: contain;
-  }
-  .edugates-doc-school {
-    font-weight: 800;
-    font-size: 1rem;
-    color: #f8fafc;
-  }
-  .edugates-doc-dept {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #38bdf8;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .edugates-doc-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .edugates-doc-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #1e293b;
-    color: #f8fafc !important;
-    border: 2px solid #334155;
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    text-decoration: none !important;
-  }
-  .edugates-doc-btn.primary {
-    background: #0284c7;
-    border-color: #38bdf8;
-  }
-  hr { border: 0; border-top: 1px solid #263554; margin: 24px 0; }
-</style><meta name="AppleTitle" content="Puzzles Help"></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher &amp; Student Reference Manual — Edugates International School Math-Science Team</title>
+  <link rel="icon" type="image/jpeg" href="../assets/eis-logo.jpg">
+  <style type="text/css">
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #09101f;
+      color: #f8fafc;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 24px 48px;
+      line-height: 1.55;
+    }
+    .edugates-doc-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #111c33;
+      border: 2px solid #293e66;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .edugates-doc-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .edugates-doc-brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #fff;
+      padding: 2px;
+      object-fit: contain;
+    }
+    .edugates-doc-school {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #f8fafc;
+    }
+    .edugates-doc-dept {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #2ABFBF;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .edugates-doc-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .edugates-doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #192947;
+      color: #f8fafc !important;
+      border: 1.5px solid #293e66;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none !important;
+    }
+    .edugates-doc-btn:hover {
+      border-color: #38bdf8;
+      background: #22375e;
+    }
+    .edugates-doc-btn.primary {
+      background: #f59e0b;
+      border-color: #fbbf24;
+      color: #000 !important;
+      font-weight: 800;
+    }
+    .doc-hero {
+      background: #111c33;
+      border: 2px solid #293e66;
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .doc-hero h1 {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #fbbf24;
+      margin-bottom: 4px;
+    }
+    .doc-hero p {
+      font-size: 0.92rem;
+      color: #94a3b8;
+      max-width: 680px;
+    }
+    .doc-search {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #293e66;
+      background: #0c1526;
+      color: #f8fafc;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 270px;
+    }
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .doc-card {
+      background: #192947;
+      border: 1.5px solid #293e66;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .doc-card:hover {
+      border-color: #f59e0b;
+    }
+    .doc-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-card-head img {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid #293e66;
+      background: #fff;
+    }
+    .doc-card-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+    .doc-card-chap {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+    }
+    .doc-card-links {
+      display: flex;
+      gap: 6px;
+    }
+    .doc-card-links a {
+      flex: 1;
+      text-align: center;
+      padding: 6px 8px;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .btn-read {
+      background: #111c33;
+      color: #38bdf8;
+      border: 1px solid #293e66;
+    }
+    .btn-play {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    hr { border: 0; border-top: 1px solid #293e66; margin: 28px 0 16px; }
+  </style>
+</head>
 <body>
-<div class="edugates-doc-banner">
-  <div class="edugates-doc-brand">
-    <img src='../assets/eis-logo.jpg' alt='Edugates International School'>
-    <div>
-      <div class="edugates-doc-school">Edugates International School</div>
-      <div class="edugates-doc-dept">Math-Science Team &bull; Official Puzzle Reference Manual</div>
+
+  <div class="edugates-doc-banner">
+    <div class="edugates-doc-brand">
+      <img src="../assets/eis-logo.jpg" alt="Edugates International School">
+      <img src="../assets/logo.png" alt="Math-Science Team">
+      <div>
+        <div class="edugates-doc-school">Edugates International School</div>
+        <div class="edugates-doc-dept">Math-Science Team &bull; Official Teacher &amp; Student Reference Manual</div>
+      </div>
+    </div>
+    <div class="edugates-doc-actions">
+      <a class="edugates-doc-btn" href="intro.html">📘 Chapter 1: Introduction</a>
+      <a class="edugates-doc-btn" href="common.html">⚙️ Chapter 2: Common Features</a>
+      <a class="edugates-doc-btn primary" href="../index.html">&larr; Back to Smartboard Puzzle Hub</a>
     </div>
   </div>
-  <div class="edugates-doc-actions">
-    
-    <a class="edugates-doc-btn" href="../index.html">&larr; Smartboard Puzzle Hub</a>
+
+  <div class="doc-hero">
+    <div>
+      <h1>📖 Complete Rules &amp; Mathematical Reference Guide</h1>
+      <p>Select any of the 41 mathematical workbenches below to read its complete rules, control reference, and generation parameters, or launch it directly on the Smartboard.</p>
+    </div>
+    <input type="search" id="docSearch" class="doc-search" placeholder="🔍 Filter manual chapters..." oninput="filterDocs()">
   </div>
-</div>
-<p>Previous | Contents | <a href="docindex.html">Index</a> | <a href="intro.html">Next</a></p>
-<h1>Edugates International School — Math-Science Team Puzzle Manual</h1>
-<p>
-This is a collection of small one-player puzzle games.
-</p>
-<p>
-This manual is copyright 2004-2024 Simon Tatham. All rights reserved. You may distribute this documentation under the MIT licence. See <a href="licence.html#AA">appendix A</a> for the licence text in full.
-</p>
 
-<ul>
-<li><a href="intro.html#C1">Chapter 1: Introduction</a></li>
-<li><a href="common.html#C2">Chapter 2: Common features</a></li>
-<li><a href="net.html#C3">Chapter 3: Net</a></li>
-<li><a href="cube.html#C4">Chapter 4: Cube</a></li>
-<li><a href="fifteen.html#C5">Chapter 5: Fifteen</a></li>
-<li><a href="sixteen.html#C6">Chapter 6: Sixteen</a></li>
-<li><a href="twiddle.html#C7">Chapter 7: Twiddle</a></li>
-<li><a href="rect.html#C8">Chapter 8: Rectangles</a></li>
-<li><a href="netslide.html#C9">Chapter 9: Netslide</a></li>
-<li><a href="pattern.html#C10">Chapter 10: Pattern</a></li>
-<li><a href="solo.html#C11">Chapter 11: Solo</a></li>
-<li><a href="mines.html#C12">Chapter 12: Mines</a></li>
-<li><a href="samegame.html#C13">Chapter 13: Same Game</a></li>
-<li><a href="flip.html#C14">Chapter 14: Flip</a></li>
-<li><a href="guess.html#C15">Chapter 15: Guess</a></li>
-<li><a href="pegs.html#C16">Chapter 16: Pegs</a></li>
-<li><a href="dominosa.html#C17">Chapter 17: Dominosa</a></li>
-<li><a href="untangle.html#C18">Chapter 18: Untangle</a></li>
-<li><a href="blackbox.html#C19">Chapter 19: Black Box</a></li>
-<li><a href="slant.html#C20">Chapter 20: Slant</a></li>
-<li><a href="lightup.html#C21">Chapter 21: Light Up</a></li>
-<li><a href="map.html#C22">Chapter 22: Map</a></li>
-<li><a href="loopy.html#C23">Chapter 23: Loopy</a></li>
-<li><a href="inertia.html#C24">Chapter 24: Inertia</a></li>
-<li><a href="tents.html#C25">Chapter 25: Tents</a></li>
-<li><a href="bridges.html#C26">Chapter 26: Bridges</a></li>
-<li><a href="unequal.html#C27">Chapter 27: Unequal</a></li>
-<li><a href="galaxies.html#C28">Chapter 28: Galaxies</a></li>
-<li><a href="filling.html#C29">Chapter 29: Filling</a></li>
-<li><a href="keen.html#C30">Chapter 30: Keen</a></li>
-<li><a href="towers.html#C31">Chapter 31: Towers</a></li>
-<li><a href="singles.html#C32">Chapter 32: Singles</a></li>
-<li><a href="magnets.html#C33">Chapter 33: Magnets</a></li>
-<li><a href="signpost.html#C34">Chapter 34: Signpost</a></li>
-<li><a href="range.html#C35">Chapter 35: Range</a></li>
-<li><a href="pearl.html#C36">Chapter 36: Pearl</a></li>
-<li><a href="undead.html#C37">Chapter 37: Undead</a></li>
-<li><a href="unruly.html#C38">Chapter 38: Unruly</a></li>
-<li><a href="flood.html#C39">Chapter 39: Flood</a></li>
-<li><a href="tracks.html#C40">Chapter 40: Tracks</a></li>
-<li><a href="palisade.html#C41">Chapter 41: Palisade</a></li>
-<li><a href="mosaic.html#C42">Chapter 42: Mosaic</a></li>
-<li><a href="licence.html#AA">Appendix A: Licence</a></li>
-<li><a href="docindex.html#Index">Index</a></li>
-</ul>
+  <div class="doc-grid" id="docGrid"></div>
 
-<hr>
-<p style="font-size:0.85rem;color:#94a3b8;text-align:center;">
-  <strong>Edugates International School &mdash; Math-Science Team</strong> &bull;
-  Interactive Smartboard Edition (Adapted from Simon Tatham&rsquo;s Portable Puzzle Collection under MIT Licence)
-</p>
+  <hr>
+  <p style="font-size:0.85rem;color:#94a3b8;text-align:center;">
+    <strong>Edugates International School &mdash; Math-Science Team</strong> &bull;
+    Interactive Smartboard Edition (Adapted from Simon Tatham&rsquo;s Portable Puzzle Collection under <a href="licence.html#AA" style="color:#38bdf8">MIT Licence</a> &bull; <a href="docindex.html" style="color:#38bdf8">Full Alphabetical Index</a>)
+  </p>
+
+  <script>
+    var CHAPTERS = [
+      ["bridges", "Bridges (Hashi)", "Chapter 26 • Graph Theory"],
+      ["towers", "Towers (Skyscrapers)", "Chapter 31 • Latin Squares"],
+      ["lightup", "Light Up (Akari)", "Chapter 21 • Ray Optics"],
+      ["slant", "Slant (Gokigen)", "Chapter 20 • Acyclic Trees"],
+      ["net", "Net (Network)", "Chapter 3 • Spanning Trees"],
+      ["loopy", "Loopy (Slitherlink)", "Chapter 23 • Topology"],
+      ["solo", "Solo (Sudoku & Killer)", "Chapter 11 • Latin Squares"],
+      ["keen", "Keen (KenKen)", "Chapter 30 • Arithmetic Logic"],
+      ["unequal", "Unequal (Futoshiki)", "Chapter 27 • Inequalities"],
+      ["group", "Group (Cayley Tables)", "Abstract Algebra & Groups"],
+      ["singles", "Singles (Hitori)", "Chapter 32 • Set Uniqueness"],
+      ["blackbox", "Black Box (Laser Optics)", "Chapter 19 • Wave Reflection"],
+      ["undead", "Undead (Mirror Optics)", "Chapter 37 • Geometric Optics"],
+      ["magnets", "Magnets (Polarity)", "Chapter 33 • Dipole Balance"],
+      ["inertia", "Inertia (Kinematics)", "Chapter 24 • Vector Mechanics"],
+      ["cube", "Cube (3D Polyhedra)", "Chapter 4 • 3D Rotations"],
+      ["galaxies", "Galaxies (Symmetry)", "Chapter 28 • Point Symmetry"],
+      ["untangle", "Untangle (Planar Graphs)", "Chapter 18 • Planarity"],
+      ["map", "Map (Four-Color Theorem)", "Chapter 22 • Graph Coloring"],
+      ["pearl", "Pearl (Masyu)", "Chapter 36 • Hamiltonian Cycles"],
+      ["tracks", "Tracks (Railway Paths)", "Chapter 40 • Tomography"],
+      ["signpost", "Signpost (Vector Chains)", "Chapter 34 • Directed Graphs"],
+      ["netslide", "Netslide (Toroidal Net)", "Chapter 9 • Toroidal Shifts"],
+      ["pattern", "Pattern (Nonogram)", "Chapter 10 • Binary Tomography"],
+      ["mines", "Mines (Zero-Guess Logic)", "Chapter 12 • Boolean Logic"],
+      ["dominosa", "Dominosa (Domino Tiling)", "Chapter 17 • Combinatorics"],
+      ["rect", "Rectangles (Shikaku)", "Chapter 8 • Area Dissection"],
+      ["palisade", "Palisade (Five Cells)", "Chapter 41 • Polyominoes"],
+      ["filling", "Filling (Fillomino)", "Chapter 29 • Connected Areas"],
+      ["range", "Range (Kuromasu)", "Chapter 35 • Visibility Bounds"],
+      ["tents", "Tents (Matching)", "Chapter 25 • Bipartite Matching"],
+      ["mosaic", "Mosaic (3×3 Kernel)", "Chapter 42 • 2D Convolution"],
+      ["unruly", "Unruly (Binairo)", "Chapter 38 • Parity Balance"],
+      ["flip", "Flip (Lights Out / GF(2))", "Chapter 14 • Matrix Logic"],
+      ["guess", "Guess (Mastermind)", "Chapter 15 • Information Theory"],
+      ["flood", "Flood (Percolation)", "Chapter 39 • Graph Percolation"],
+      ["fifteen", "Fifteen (Sliding Parity)", "Chapter 5 • Alternating Group"],
+      ["sixteen", "Sixteen (Toroidal Shift)", "Chapter 6 • Cyclic Shifts"],
+      ["twiddle", "Twiddle (Block Rotations)", "Chapter 7 • Matrix Sorting"],
+      ["pegs", "Pegs (Peg Solitaire)", "Chapter 16 • Invariants"],
+      ["samegame", "Same Game (Cluster Clear)", "Chapter 13 • Optimization"]
+    ];
+
+    var grid = document.getElementById("docGrid");
+    for (var i = 0; i < CHAPTERS.length; i++) {
+      var c = CHAPTERS[i];
+      var id = c[0];
+      var title = c[1];
+      var chap = c[2];
+      var docHref = (id === "group" ? "index.html" : (id + ".html"));
+      var playHref = "../" + (id === "loopy" ? "slither.html" : (id + ".html"));
+      var card = document.createElement("div");
+      card.className = "doc-card";
+      card.setAttribute("data-search", (title + " " + chap + " " + id).toLowerCase());
+      card.innerHTML =
+        '<div class="doc-card-head">' +
+          '<img src="../assets/puzzles/' + id + '.png" alt="' + title + '" loading="lazy">' +
+          '<div>' +
+            '<div class="doc-card-chap">' + chap + '</div>' +
+            '<div class="doc-card-title">' + title + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="doc-card-links">' +
+          '<a class="btn-read" href="' + docHref + '">📖 Read Manual</a>' +
+          '<a class="btn-play" href="' + playHref + '">▶ Launch Lab</a>' +
+        '</div>';
+      grid.appendChild(card);
+    }
+
+    function filterDocs() {
+      var q = (document.getElementById("docSearch").value || "").trim().toLowerCase();
+      var cards = grid.querySelectorAll(".doc-card");
+      for (var i = 0; i < cards.length; i++) {
+        var s = cards[i].getAttribute("data-search") || "";
+        cards[i].style.display = (!q || s.indexOf(q) !== -1) ? "" : "none";
+      }
+    }
+  </script>
 </body>
 </html>

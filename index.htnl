@@ -29,11 +29,12 @@
     </a>
 
     <div class="eis-topbar-actions">
+      <button type="button" class="eis-btn eis-btn-gold" onclick="openTrophyRoomModal()" title="View Classroom House Standings & STEM Olympiad Badges">🏆 Trophy Room</button>
       <button type="button" class="eis-btn is-active" id="eis-sound-btn" onclick="toggleEdugatesSound()" title="Toggle Smartboard Sound Effects">🔊 Sound</button>
       <button type="button" class="eis-btn is-active" id="eis-turbo-btn" onclick="toggleLowCpuTurbo()" title="1x Native Pixel Ratio & Hardware Acceleration for Low-Processor Smartboards">⚡ Low-CPU: ON</button>
       <button type="button" class="eis-btn" id="eis-theme-btn" onclick="toggleEdugatesTheme()">☀️ Light Board</button>
-      <a href="doc/index.html" class="eis-btn">📖 Teacher &amp; Student Manual</a>
-      <button type="button" class="eis-btn eis-btn-primary" onclick="toggleSmartboardFullscreen()">⛶ Toggle Fullscreen (For Board)</button>
+      <a href="doc/index.html" class="eis-btn">📖 Manual</a>
+      <button type="button" class="eis-btn eis-btn-primary" onclick="toggleSmartboardFullscreen()">⛶ Fullscreen</button>
     </div>
   </header>
 

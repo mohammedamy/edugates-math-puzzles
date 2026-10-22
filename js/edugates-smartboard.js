@@ -517,6 +517,52 @@
         if (idx === 7) return "#10b981";
         if (idx === 8) return "#8b5cf6";
         break;
+      case "mines":
+        // 0:BG2, 1:BG, 2:1, 3:2, 4:3, 5:4, 6:5, 7:6, 8:7, 9:8, 10:MINE, 11:BANG, 12:CROSS, 13:FLAG
+        if (idx === 0) return s.tile;
+        if (idx === 1) return s.bg;
+        if (idx === 2) return "#0284c7";
+        if (idx === 3) return "#059669";
+        if (idx === 4) return "#e11d48";
+        if (idx === 5) return "#4f46e5";
+        if (idx === 6) return "#b45309";
+        if (idx === 7) return "#0891b2";
+        if (idx === 8) return "#0f172a";
+        if (idx === 9) return "#475569";
+        if (idx === 10) return "#0f172a";
+        if (idx === 11) return "#fda4af";
+        if (idx === 12) return "#e11d48";
+        if (idx === 13) return "#f59e0b";
+        break;
+      case "pearl":
+        // 0:BG, 1:GRID, 2:OUTLINE, 3:BLACK, 4:WHITE, 5:ERROR, 6:DRAGON, 7:CURSOR, 8:FAINT
+        if (idx === 0) return s.tile;
+        if (idx === 1) return s.lo;
+        if (idx === 2) return s.ink;
+        if (idx === 3) return "#0f172a";
+        if (idx === 4) return "#ffffff";
+        if (idx === 5) return s.err;
+        if (idx === 6) return "#0284c7";
+        if (idx === 7) return "#f59e0b";
+        if (idx === 8) return "#cbd5e1";
+        break;
+      case "magnets":
+        if (idx === 0) return s.bg;
+        if (idx === 1) return s.hi;
+        if (idx === 2) return s.lo;
+        if (idx === 3) return s.ink;
+        if (idx === 4) return s.err;
+        if (idx === 5) return "#e11d48"; // + Red North Pole
+        if (idx === 6) return "#0284c7"; // - Blue South Pole
+        if (idx === 7) return "#94a3b8"; // Neutral
+        break;
+      case "flood":
+      case "samegame":
+        // Jewel-tone colorblind-friendly palette for Flood & SameGame
+        if (idx === 0) return s.bg;
+        var jewel = [null, "#ef4444", "#10b981", "#2563eb", "#f59e0b", "#8b5cf6", "#06b6d4", "#ec4899", "#14b8a6", "#6366f1", "#84cc16"];
+        if (idx >= 1 && idx <= 10 && jewel[idx]) return jewel[idx];
+        break;
     }
     return null;
   }
@@ -1494,7 +1540,49 @@
       document.body.classList.add("dock-left");
     }
 
-    // 1. Add Sound Button & Best Time Pill to Topbar
+    // 1. Add Sound Button, Quick Lab Switcher & Best Time Pill to Topbar
+    var topbar = document.querySelector(".eis-topbar");
+    var homeLink = topbar ? topbar.querySelector("a[href='index.html'].eis-btn") : null;
+    if (homeLink) {
+      homeLink.textContent = "🏠 Hub";
+    }
+    var penToggleBtn = document.getElementById("sb-pen-toggle");
+    if (penToggleBtn) {
+      penToggleBtn.textContent = "🖊️ Pen";
+    }
+    if (homeLink && homeLink.parentNode && !document.getElementById("sb-quick-lab-select")) {
+      var labSelect = document.createElement("select");
+      labSelect.id = "sb-quick-lab-select";
+      labSelect.className = "sb-quick-lab-select";
+      labSelect.title = "Quick-Switch to Any of the 41 Math-Science Workbenches";
+      var labGroups = [
+        { label: "★ Featured Classics", items: [["bridges","🌉 Bridges"],["towers","🏙️ Towers"],["lightup","💡 Light Up"],["slant","📐 Slant"],["net","⚡ Net"],["loopy","➰ Slitherlink"]] },
+        { label: "🕸️ Graph Theory", items: [["untangle","🕸️ Untangle"],["map","🗺️ Map"],["pearl","⚪ Pearl"],["tracks","🛤️ Tracks"],["signpost","🧭 Signpost"],["netslide","🔄 Netslide"]] },
+        { label: "🔢 Algebra & Squares", items: [["solo","🔢 Solo (Sudoku)"],["keen","➗ Keen (KenKen)"],["unequal","⚖️ Unequal"],["group","🧮 Group"],["singles","🎯 Singles"]] },
+        { label: "🔬 Physics & Optics", items: [["blackbox","🔬 Black Box"],["undead","🪞 Undead"],["magnets","🧲 Magnets"],["inertia","💎 Inertia"],["cube","🧊 Cube"],["galaxies","🌌 Galaxies"]] },
+        { label: "🧮 Combinatorics", items: [["pattern","🏁 Pattern"],["mines","💣 Mines"],["dominosa","🁣 Dominosa"],["rect","▭ Rectangles"],["palisade","🧱 Palisade"],["filling","🧩 Filling"],["range","🔭 Range"],["tents","⛺ Tents"],["mosaic","🔳 Mosaic"],["unruly","⚖️ Unruly"]] },
+        { label: "🎯 Algorithmic", items: [["flip","💡 Flip"],["guess","🔐 Guess"],["flood","🌊 Flood"],["fifteen","🔢 Fifteen"],["sixteen","🔄 Sixteen"],["twiddle","🌀 Twiddle"],["pegs","📍 Pegs"],["samegame","🧱 Same Game"]] }
+      ];
+      for (var gIdx = 0; gIdx < labGroups.length; gIdx++) {
+        var grp = document.createElement("optgroup");
+        grp.label = labGroups[gIdx].label;
+        var gItems = labGroups[gIdx].items;
+        for (var mIdx = 0; mIdx < gItems.length; mIdx++) {
+          var opt = document.createElement("option");
+          var targetFile = gItems[mIdx][0] === "loopy" ? "slither.html" : (gItems[mIdx][0] + ".html");
+          opt.value = targetFile;
+          opt.textContent = gItems[mIdx][1];
+          if (gItems[mIdx][0] === puzzleId) opt.selected = true;
+          grp.appendChild(opt);
+        }
+        labSelect.appendChild(grp);
+      }
+      labSelect.onchange = function () {
+        if (labSelect.value) window.location.href = labSelect.value;
+      };
+      homeLink.parentNode.insertBefore(labSelect, homeLink.nextSibling);
+    }
+
     var topActions = document.querySelector(".eis-topbar-actions");
     if (topActions && !document.getElementById("eis-sound-btn")) {
       var soundBtn = document.createElement("button");
@@ -1849,6 +1937,16 @@
     if (solvedEl) solvedEl.textContent = "✅ " + summary.solvedPuzzlesCount + " / 41 Labs";
     if (streakEl) streakEl.textContent = "🔥 " + summary.streak + (summary.streak === 1 ? " Day" : " Days");
 
+    var statBoxes = document.querySelectorAll(".hub-mastery-strip .hub-stat-box");
+    for (var sbIdx = 0; sbIdx < statBoxes.length; sbIdx++) {
+      statBoxes[sbIdx].title = "Tap to Open Classroom Trophy Room & Team Standings";
+      statBoxes[sbIdx].onclick = window.openTrophyRoomModal;
+    }
+
+    if (window.location.search.indexOf("trophy=1") !== -1) {
+      setTimeout(function () { window.openTrophyRoomModal(); }, 120);
+    }
+
     // Populate Daily STEM Olympiad Challenge Card if present
     var dailyContainer = document.getElementById("hub-daily-card");
     if (dailyContainer && daily) {
@@ -1941,6 +2039,137 @@
     setTimeout(function () {
       window.location.href = chosen.getAttribute("href");
     }, 420);
+  };
+
+  // ==========================================================================
+  // 11B. CLASSROOM TROPHY ROOM, ACHIEVEMENTS & HOUSE STANDINGS MODAL
+  // ==========================================================================
+  function computeOlympiadBadges() {
+    var data = loadMasteryData();
+    var pMap = data.puzzles || {};
+    var summary = getMasterySummary();
+
+    function countSolvedInList(list) {
+      var c = 0;
+      for (var i = 0; i < list.length; i++) {
+        if (pMap[list[i]] && pMap[list[i]].solvedCount > 0) c++;
+      }
+      return c;
+    }
+
+    var hasFastSolve = false;
+    var pKeys = Object.keys(pMap);
+    for (var k = 0; k < pKeys.length; k++) {
+      var bt = pMap[pKeys[k]].bestTime;
+      if (bt !== null && bt !== undefined && bt <= 60) {
+        hasFastSolve = true;
+        break;
+      }
+    }
+
+    var dailyDates = Object.keys(data.dailyCompleted || {});
+
+    return [
+      { icon: "🌟", title: "First Axiom", desc: "Complete your first Math-Science puzzle workbench.", unlocked: summary.solvedPuzzlesCount >= 1 },
+      { icon: "⚡", title: "Speed Tactician", desc: "Solve any workbench in under 60 seconds.", unlocked: hasFastSolve },
+      { icon: "🌉", title: "Graph Theorist", desc: "Master 3+ Graph Theory & Topology workbenches.", unlocked: countSolvedInList(["bridges","slant","net","loopy","untangle","map","pearl","tracks","signpost","netslide"]) >= 3 },
+      { icon: "🔢", title: "Algebra Virtuoso", desc: "Master 3+ Latin Squares & Abstract Algebra labs.", unlocked: countSolvedInList(["towers","solo","keen","unequal","group","singles"]) >= 3 },
+      { icon: "🔬", title: "Quantum Physicist", desc: "Master 3+ Ray Optics, Polarity & 3D Geometry labs.", unlocked: countSolvedInList(["lightup","blackbox","undead","magnets","inertia","cube","galaxies"]) >= 3 },
+      { icon: "🧮", title: "Combinatorialist", desc: "Master 5+ Combinatorics & Grid Deduction labs.", unlocked: countSolvedInList(["pattern","mines","dominosa","rect","palisade","filling","range","tents","mosaic","unruly"]) >= 5 },
+      { icon: "📅", title: "Daily Olympian", desc: "Complete a Daily STEM Olympiad Challenge.", unlocked: dailyDates.length >= 1 },
+      { icon: "👑", title: "Olympiad Grandmaster", desc: "Earn 30+ total Mastery Stars across the lab.", unlocked: summary.totalStars >= 30 }
+    ];
+  }
+
+  window.openTrophyRoomModal = function () {
+    playSound("mode");
+    var backdrop = document.getElementById("eis-trophy-modal");
+    if (!backdrop) {
+      backdrop = document.createElement("div");
+      backdrop.id = "eis-trophy-modal";
+      backdrop.className = "eis-modal-backdrop";
+      backdrop.onclick = function (e) {
+        if (e.target === backdrop) backdrop.classList.remove("open");
+      };
+      document.body.appendChild(backdrop);
+    }
+
+    var summary = getMasterySummary();
+    var badges = computeOlympiadBadges();
+    var unlockedCount = 0;
+    for (var i = 0; i < badges.length; i++) {
+      if (badges[i].unlocked) unlockedCount++;
+    }
+
+    var teamsHtml = "";
+    for (var tIdx = 0; tIdx < teamsState.teams.length; tIdx++) {
+      var t = teamsState.teams[tIdx];
+      teamsHtml +=
+        '<div class="sb-team-chip' + (teamsState.activeIdx === tIdx ? ' active-turn' : '') + '" style="flex:1;min-width:165px;justify-content:space-between" onclick="window.__selectModalTeam(' + tIdx + ')">' +
+          '<div style="display:flex;align-items:center;gap:6px">' +
+            '<span class="sb-team-dot" style="background:' + t.color + '"></span>' +
+            '<span class="sb-team-name">' + t.name + '</span>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:5px">' +
+            '<span class="sb-team-score">' + t.score + '</span>' +
+            '<button type="button" class="sb-team-btn" onclick="event.stopPropagation();window.__adjModalTeam(' + tIdx + ',-5)">−</button>' +
+            '<button type="button" class="sb-team-btn" onclick="event.stopPropagation();window.__adjModalTeam(' + tIdx + ',10)">+</button>' +
+          '</div>' +
+        '</div>';
+    }
+
+    var badgesHtml = "";
+    for (var bIdx = 0; bIdx < badges.length; bIdx++) {
+      var b = badges[bIdx];
+      badgesHtml +=
+        '<div class="eis-badge-card' + (b.unlocked ? ' unlocked' : '') + '">' +
+          '<div class="eis-badge-icon"><span>' + b.icon + '</span><span style="font-size:0.72rem;font-weight:800;color:' + (b.unlocked ? 'var(--brand-green)' : 'var(--text-muted)') + '">' + (b.unlocked ? '✅ UNLOCKED' : '🔒 LOCKED') + '</span></div>' +
+          '<div class="eis-badge-title">' + b.title + '</div>' +
+          '<div class="eis-badge-desc">' + b.desc + '</div>' +
+        '</div>';
+    }
+
+    backdrop.innerHTML =
+      '<div class="eis-modal-card">' +
+        '<div class="eis-modal-header">' +
+          '<h2>🏆 Edugates Math-Science Team — Trophy Room & House Standings</h2>' +
+          '<button type="button" class="eis-btn" onclick="document.getElementById(\'eis-trophy-modal\').classList.remove(\'open\')">✖ Close</button>' +
+        '</div>' +
+        '<div class="hub-mastery-strip" style="border-top:none;padding-top:0">' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">Current Rank</span><span class="hub-stat-val gold">🏅 ' + summary.rankTitle + '</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">Mastery Stars</span><span class="hub-stat-val gold">⭐ ' + summary.totalStars + ' / 123</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">Labs Solved</span><span class="hub-stat-val teal">✅ ' + summary.solvedPuzzlesCount + ' / 41</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">Olympiad Badges</span><span class="hub-stat-val green">🎖️ ' + unlockedCount + ' / 8</span></div>' +
+        '</div>' +
+        '<div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">' +
+            '<span style="font-size:0.84rem;font-weight:900;text-transform:uppercase;color:var(--brand-teal)">🏅 Classroom House / Team Standings</span>' +
+            '<button type="button" class="eis-btn" style="min-height:28px;padding:3px 10px;font-size:0.75rem" onclick="resetClassroomTeamScores();openTrophyRoomModal()">🔄 Reset Team Scores</button>' +
+          '</div>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap">' + teamsHtml + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div style="font-size:0.84rem;font-weight:900;text-transform:uppercase;color:var(--brand-gold);margin-bottom:8px">🎖️ STEM Olympiad Achievement Badges (' + unlockedCount + ' / 8 Unlocked)</div>' +
+          '<div class="eis-badges-grid">' + badgesHtml + '</div>' +
+        '</div>' +
+      '</div>';
+
+    backdrop.classList.add("open");
+  };
+
+  window.__selectModalTeam = function (idx) {
+    teamsState.activeIdx = idx;
+    saveTeamsState();
+    renderTeamBar();
+    window.openTrophyRoomModal();
+  };
+
+  window.__adjModalTeam = function (idx, delta) {
+    teamsState.teams[idx].score = Math.max(0, teamsState.teams[idx].score + delta);
+    saveTeamsState();
+    playSound(delta > 0 ? "key" : "undo");
+    renderTeamBar();
+    window.openTrophyRoomModal();
   };
 
   // ==========================================================================
