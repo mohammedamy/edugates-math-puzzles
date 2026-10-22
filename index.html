@@ -29,6 +29,7 @@
     </a>
 
     <div class="eis-topbar-actions">
+      <button type="button" class="eis-btn is-active" id="eis-sound-btn" onclick="toggleEdugatesSound()" title="Toggle Smartboard Sound Effects">🔊 Sound</button>
       <button type="button" class="eis-btn is-active" id="eis-turbo-btn" onclick="toggleLowCpuTurbo()" title="1x Native Pixel Ratio & Hardware Acceleration for Low-Processor Smartboards">⚡ Low-CPU: ON</button>
       <button type="button" class="eis-btn" id="eis-theme-btn" onclick="toggleEdugatesTheme()">☀️ Light Board</button>
       <a href="doc/index.html" class="eis-btn">📖 Teacher &amp; Student Manual</a>
@@ -36,32 +37,91 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section: Class Mastery Dashboard + Daily STEM Olympiad Challenge -->
   <section class="hub-hero">
-    <div class="hub-hero-banner">
-      <div class="hub-hero-badges">
-        <span class="hub-pill hub-pill-gold">Edugates International School • Math-Science Team</span>
-        <span class="hub-pill hub-pill-teal">41 Interactive WebAssembly Workbenches • 60 FPS Low-CPU Smartboard Engine</span>
+    <div class="hub-hero-grid">
+      <div class="hub-hero-banner">
+        <div>
+          <div class="hub-hero-badges" style="margin-bottom:8px">
+            <span class="hub-pill hub-pill-gold">Edugates International School • Math-Science Team</span>
+            <span class="hub-pill hub-pill-teal">41 WebAssembly Workbenches • 60 FPS Smartboard Engine</span>
+          </div>
+          <h1>Smartboard Logic &amp; Discrete Mathematics Lab</h1>
+          <p style="margin-top:6px">Explore Graph Theory, Latin Squares, Abstract Algebra, Geometric Optics, and Combinatorial Deduction — engineered for zero-latency touch interaction and team competition on classroom Smartboards.</p>
+        </div>
+
+        <!-- Live Class Mastery Progress Strip -->
+        <div class="hub-mastery-strip" aria-label="Classroom Mastery Progress">
+          <div class="hub-stat-box">
+            <span class="hub-stat-label">Team Rank</span>
+            <span class="hub-stat-val gold" id="hub-stat-rank">🏅 Logic Initiate</span>
+          </div>
+          <div class="hub-stat-box">
+            <span class="hub-stat-label">Mastery Stars</span>
+            <span class="hub-stat-val gold" id="hub-stat-stars">⭐ 0 / 123</span>
+          </div>
+          <div class="hub-stat-box">
+            <span class="hub-stat-label">Workbenches Solved</span>
+            <span class="hub-stat-val teal" id="hub-stat-solved">✅ 0 / 41 Labs</span>
+          </div>
+          <div class="hub-stat-box">
+            <span class="hub-stat-label">Active Streak</span>
+            <span class="hub-stat-val green" id="hub-stat-streak">🔥 0 Days</span>
+          </div>
+        </div>
       </div>
-      <h1>Smartboard Logic &amp; Discrete Mathematics Lab</h1>
-      <p>Explore Graph Theory, Latin Squares, Abstract Algebra, Geometric Optics, and Combinatorial Deduction — engineered for smooth zero-latency touch interaction on classroom Smartboards.</p>
+
+      <!-- Daily STEM Olympiad Spotlight Card (Populated by edugates-smartboard.js) -->
+      <div class="hub-daily-card" id="hub-daily-card">
+        <div class="hub-daily-header">
+          <span class="hub-daily-tag">🏆 Daily STEM Olympiad Challenge</span>
+          <span class="hub-daily-date">📅 Today</span>
+        </div>
+        <div class="hub-daily-body">
+          <img src="assets/puzzles/bridges.png" alt="Daily Challenge" class="hub-daily-thumb">
+          <div class="hub-daily-info">
+            <h3>🌉 Bridges (Hashi)</h3>
+            <p>Connect islands with single or double bridges so no two bridges cross.</p>
+          </div>
+        </div>
+        <div class="hub-daily-footer">
+          <span style="font-size:0.76rem;font-weight:800;color:var(--brand-gold)">⚡ Graph Theory</span>
+          <a href="bridges.html" class="eis-btn eis-btn-gold" style="min-height:34px;padding:6px 14px">🚀 Launch Daily →</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Category Filter Tabs & Instant Search -->
+  <!-- Category Filter Tabs, Difficulty Pills & Instant Search -->
   <section class="hub-controls" aria-label="Puzzle Categories and Search">
-    <div class="hub-tabs" id="hubTabs">
-      <button type="button" class="hub-tab active" data-filter="all" onclick="filterPuzzles('all', this)">🏛️ All Lab Puzzles (41)</button>
-      <button type="button" class="hub-tab" data-filter="featured" onclick="filterPuzzles('featured', this)">⭐ Featured Smartboard Classics (6)</button>
-      <button type="button" class="hub-tab" data-filter="graph" onclick="filterPuzzles('graph', this)">🕸️ Graph Theory &amp; Topology (10)</button>
-      <button type="button" class="hub-tab" data-filter="algebra" onclick="filterPuzzles('algebra', this)">🔢 Algebra &amp; Latin Squares (6)</button>
-      <button type="button" class="hub-tab" data-filter="combinatorics" onclick="filterPuzzles('combinatorics', this)">🧮 Combinatorics &amp; Grids (11)</button>
-      <button type="button" class="hub-tab" data-filter="physics" onclick="filterPuzzles('physics', this)">🔬 Physics, Optics &amp; 3D (6)</button>
-      <button type="button" class="hub-tab" data-filter="algorithmic" onclick="filterPuzzles('algorithmic', this)">🎯 Algorithmic &amp; Group Games (8)</button>
+    <div class="hub-controls-row">
+      <div class="hub-tabs" id="hubTabs">
+        <button type="button" class="hub-tab active" data-filter="all" onclick="filterPuzzles('all', this)">🏛️ All Lab Puzzles (41)</button>
+        <button type="button" class="hub-tab" data-filter="featured" onclick="filterPuzzles('featured', this)">⭐ Featured Classics (6)</button>
+        <button type="button" class="hub-tab" data-filter="graph" onclick="filterPuzzles('graph', this)">🕸️ Graph Theory (10)</button>
+        <button type="button" class="hub-tab" data-filter="algebra" onclick="filterPuzzles('algebra', this)">🔢 Algebra &amp; Squares (6)</button>
+        <button type="button" class="hub-tab" data-filter="combinatorics" onclick="filterPuzzles('combinatorics', this)">🧮 Combinatorics (11)</button>
+        <button type="button" class="hub-tab" data-filter="physics" onclick="filterPuzzles('physics', this)">🔬 Physics &amp; Optics (6)</button>
+        <button type="button" class="hub-tab" data-filter="algorithmic" onclick="filterPuzzles('algorithmic', this)">🎯 Algorithmic (8)</button>
+      </div>
     </div>
 
-    <div class="hub-search-wrap">
-      <input type="search" id="hubSearch" class="hub-search" placeholder="🔍 Search puzzle or math topic (e.g. Graph, Optics, Sudoku)..." oninput="applySearchAndFilter()" autocomplete="off">
+    <div class="hub-controls-row">
+      <div class="hub-subfilters" id="hubDiffPills">
+        <span style="font-size:0.76rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-right:2px">Level:</span>
+        <button type="button" class="hub-diff-pill active" data-diff="all" onclick="filterDifficulty('all', this)">All Levels</button>
+        <button type="button" class="hub-diff-pill" data-diff="starter" onclick="filterDifficulty('starter', this)">🟢 Starter (14)</button>
+        <button type="button" class="hub-diff-pill" data-diff="intermediate" onclick="filterDifficulty('intermediate', this)">🟡 Intermediate (16)</button>
+        <button type="button" class="hub-diff-pill" data-diff="olympiad" onclick="filterDifficulty('olympiad', this)">🔴 Olympiad (11)</button>
+        <button type="button" class="hub-diff-pill" data-diff="solved" onclick="filterDifficulty('solved', this)">✅ Solved</button>
+      </div>
+
+      <div class="hub-search-actions">
+        <div class="hub-search-wrap">
+          <input type="search" id="hubSearch" class="hub-search" placeholder="🔍 Search puzzle or math topic (e.g. Graph, Optics, Sudoku)..." oninput="applySearchAndFilter()" autocomplete="off">
+        </div>
+        <button type="button" class="eis-btn eis-btn-gold" onclick="launchRandomPuzzle()" title="Pick a Random Puzzle from Current View">🎲 Surprise Me</button>
+      </div>
     </div>
   </section>
 
@@ -653,6 +713,7 @@
 
   <script>
     var currentCategoryFilter = "all";
+    var currentDiffFilter = "all";
     var CATEGORY_TITLES = {
       all: "🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)",
       featured: "⭐ Featured Smartboard Classroom Classics",
@@ -665,11 +726,21 @@
 
     function filterPuzzles(cat, btnEl) {
       currentCategoryFilter = cat;
+      if (window.playEdugatesSound) window.playEdugatesSound("mode");
       var tabs = document.querySelectorAll(".hub-tab");
       for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
       if (btnEl) btnEl.classList.add("active");
       var heading = document.getElementById("hubCategoryHeading");
       if (heading && CATEGORY_TITLES[cat]) heading.textContent = CATEGORY_TITLES[cat];
+      applySearchAndFilter();
+    }
+
+    function filterDifficulty(diff, btnEl) {
+      currentDiffFilter = diff;
+      if (window.playEdugatesSound) window.playEdugatesSound("mode");
+      var pills = document.querySelectorAll(".hub-diff-pill");
+      for (var i = 0; i < pills.length; i++) pills[i].classList.remove("active");
+      if (btnEl) btnEl.classList.add("active");
       applySearchAndFilter();
     }
 
@@ -681,12 +752,17 @@
         var c = cards[i];
         var cCat = c.getAttribute("data-cat");
         var cFeat = c.getAttribute("data-featured") === "true";
+        var cDiff = c.getAttribute("data-diff") || "intermediate";
+        var cSolved = c.getAttribute("data-solved") === "true";
         var cSearch = c.getAttribute("data-search") || "";
         var matchCat = (currentCategoryFilter === "all") ||
                        (currentCategoryFilter === "featured" && cFeat) ||
                        (cCat === currentCategoryFilter);
+        var matchDiff = (currentDiffFilter === "all") ||
+                        (currentDiffFilter === "solved" && cSolved) ||
+                        (cDiff === currentDiffFilter);
         var matchQ = !q || cSearch.indexOf(q) !== -1;
-        if (matchCat && matchQ) {
+        if (matchCat && matchDiff && matchQ) {
           c.style.display = "";
           visible++;
         } else {

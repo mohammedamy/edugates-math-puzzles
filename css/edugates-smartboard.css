@@ -1,17 +1,18 @@
 /* ==========================================================================
    Edugates International School — Math-Science Team
-   Smartboard & Low-Processor Web Browser Stylesheet
+   Smartboard & Low-Processor Web Browser Stylesheet (v3.0 UI & Engagement Upgrade)
    Optimized for 60 FPS rendering on interactive flat panels (MAXHUB, SmartBoard,
    Promethean, ViewBoard) and low-power ARM/x86 processors.
    Zero backdrop-filter, zero heavy blur, strict layout containment.
    ========================================================================== */
 
 :root {
-  --bg-main: #0b1324;
-  --bg-panel: #131f36;
-  --bg-card: #192844;
-  --bg-card-hover: #213458;
-  --bg-input: #0e182b;
+  --bg-main: #09101f;
+  --bg-panel: #111c33;
+  --bg-panel-elevated: #162440;
+  --bg-card: #192947;
+  --bg-card-hover: #22375e;
+  --bg-input: #0c1526;
   --border-color: #293e66;
   --border-strong: #3b5998;
   --text-main: #f8fafc;
@@ -20,19 +21,22 @@
   --brand-teal: #2ABFBF;
   --brand-sky: #38bdf8;
   --brand-gold: #f59e0b;
-  --brand-yellow: #F0D72B;
+  --brand-yellow: #fde047;
   --brand-green: #10b981;
-  --brand-danger: #ef4444;
+  --brand-purple: #a855f7;
+  --brand-danger: #f43f5e;
   --canvas-frame: #38bdf8;
   --canvas-mat: #1e293b;
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.32);
 }
 
 html[data-theme="day"] {
   --bg-main: #e2e8f0;
   --bg-panel: #ffffff;
-  --bg-card: #f8fafc;
-  --bg-card-hover: #f1f5f9;
-  --bg-input: #f1f5f9;
+  --bg-panel-elevated: #f8fafc;
+  --bg-card: #f1f5f9;
+  --bg-card-hover: #e2e8f0;
+  --bg-input: #f8fafc;
   --border-color: #cbd5e1;
   --border-strong: #64748b;
   --text-main: #0f172a;
@@ -42,8 +46,11 @@ html[data-theme="day"] {
   --brand-gold: #d97706;
   --brand-yellow: #b45309;
   --brand-green: #059669;
+  --brand-purple: #7e22ce;
+  --brand-danger: #e11d48;
   --canvas-frame: #0284c7;
   --canvas-mat: #cbd5e1;
+  --shadow-soft: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -78,10 +85,12 @@ button, select, input, a {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 8px 16px;
+  padding: 7px 16px;
   background-color: var(--bg-panel);
   border-bottom: 2px solid var(--border-color);
   flex-wrap: wrap;
+  position: relative;
+  z-index: 40;
 }
 
 .eis-brand {
@@ -93,8 +102,8 @@ button, select, input, a {
 }
 
 .eis-logo-crest {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 8px;
   object-fit: cover;
   border: 1.5px solid var(--brand-teal);
@@ -103,8 +112,8 @@ button, select, input, a {
 }
 
 .eis-logo-stem {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   object-fit: contain;
   background: #fff;
@@ -119,7 +128,7 @@ button, select, input, a {
 }
 
 .eis-school-name {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -127,7 +136,7 @@ button, select, input, a {
 }
 
 .eis-team-name {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 900;
   color: var(--text-main);
   display: flex;
@@ -139,7 +148,7 @@ button, select, input, a {
 .eis-team-badge {
   background-color: var(--brand-gold);
   color: #000000;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 999px;
@@ -150,7 +159,7 @@ button, select, input, a {
 .eis-topbar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -158,18 +167,19 @@ button, select, input, a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 13px;
-  border-radius: 8px;
+  gap: 5px;
+  padding: 7px 12px;
+  border-radius: 9px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-card);
   color: var(--text-main);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
   user-select: none;
-  min-height: 40px;
+  min-height: 38px;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
 }
 
 .eis-btn:hover, .eis-btn:focus-visible {
@@ -179,7 +189,7 @@ button, select, input, a {
 }
 
 .eis-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .eis-btn-primary {
@@ -196,12 +206,30 @@ button, select, input, a {
   background-color: var(--brand-gold);
   border-color: #fbbf24;
   color: #000000;
+  font-weight: 800;
+}
+
+.eis-btn-gold:hover {
+  background-color: #fbbf24;
+  color: #000000;
 }
 
 .eis-btn-green {
   background-color: #059669;
   border-color: #10b981;
   color: #ffffff;
+  font-weight: 800;
+}
+
+.eis-btn-green:hover {
+  background-color: #047857;
+}
+
+.eis-btn-purple {
+  background-color: #7e22ce;
+  border-color: #a855f7;
+  color: #ffffff;
+  font-weight: 800;
 }
 
 .eis-btn.is-active {
@@ -211,43 +239,54 @@ button, select, input, a {
 }
 
 .eis-btn:disabled {
-  opacity: 0.42;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 
 /* ==========================================================================
-   PORTAL HOME PAGE (index.html)
+   PORTAL HOME PAGE (index.html) — HERO & MASTERY DASHBOARD
    ========================================================================== */
 .hub-hero {
-  max-width: 1360px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px 18px 12px;
-  text-align: center;
+  padding: 16px 18px 10px;
+}
+
+.hub-hero-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+@media (max-width: 980px) {
+  .hub-hero-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .hub-hero-banner {
   background-color: var(--bg-panel);
   border: 2px solid var(--border-color);
   border-radius: 16px;
-  padding: 20px 24px;
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .hub-hero-badges {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .hub-pill {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 800;
-  padding: 4px 12px;
+  padding: 4px 11px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -259,31 +298,159 @@ button, select, input, a {
 }
 
 .hub-pill-teal {
-  background-color: rgba(42, 191, 191, 0.18);
+  background-color: rgba(42, 191, 191, 0.16);
   border: 1px solid var(--brand-teal);
   color: var(--brand-teal);
 }
 
 .hub-hero h1 {
-  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  font-size: clamp(1.4rem, 2.5vw, 2.05rem);
   font-weight: 900;
   color: var(--text-main);
+  line-height: 1.2;
 }
 
 .hub-hero p {
-  font-size: 1rem;
+  font-size: 0.94rem;
   color: var(--text-muted);
-  max-width: 780px;
+  max-width: 760px;
+}
+
+/* Class Mastery Strip inside Hero */
+.hub-mastery-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1.5px solid var(--border-color);
+}
+
+@media (max-width: 640px) {
+  .hub-mastery-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.hub-stat-box {
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hub-stat-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.hub-stat-val {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hub-stat-val.gold { color: var(--brand-gold); }
+.hub-stat-val.teal { color: var(--brand-teal); }
+.hub-stat-val.green { color: var(--brand-green); }
+
+/* Daily STEM Olympiad Spotlight Card */
+.hub-daily-card {
+  background-color: var(--bg-panel);
+  border: 2px solid var(--brand-gold);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+}
+
+.hub-daily-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hub-daily-tag {
+  background-color: var(--brand-gold);
+  color: #000000;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hub-daily-date {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--brand-sky);
+}
+
+.hub-daily-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hub-daily-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 2px solid var(--brand-gold);
+  object-fit: cover;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.hub-daily-info h3 {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+
+.hub-daily-info p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.hub-daily-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
 }
 
 /* Filter & Search Bar */
 .hub-controls {
-  max-width: 1360px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 8px 18px 14px;
+  padding: 6px 18px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hub-controls-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   justify-content: space-between;
 }
@@ -295,39 +462,78 @@ button, select, input, a {
 }
 
 .hub-tab {
-  padding: 8px 14px;
+  padding: 7px 13px;
   border-radius: 10px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-panel);
   color: var(--text-main);
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;
-  min-height: 40px;
+  min-height: 38px;
+}
+
+.hub-tab:hover {
+  border-color: var(--brand-sky);
 }
 
 .hub-tab.active {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
   color: #000000;
+  font-weight: 800;
+}
+
+.hub-subfilters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hub-diff-pill {
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-color);
+  background-color: var(--bg-input);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.hub-diff-pill.active {
+  background-color: var(--brand-teal);
+  border-color: var(--brand-teal);
+  color: #000000;
+}
+
+.hub-search-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 280px;
 }
 
 .hub-search-wrap {
   position: relative;
-  min-width: 240px;
   flex: 1;
   max-width: 340px;
 }
 
 .hub-search {
   width: 100%;
-  padding: 9px 14px;
+  padding: 8px 14px;
   border-radius: 10px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-input);
   color: var(--text-main);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 600;
+  min-height: 38px;
 }
 
 .hub-search:focus {
@@ -337,23 +543,23 @@ button, select, input, a {
 
 /* Puzzle Cards Grid */
 .hub-section-title {
-  max-width: 1360px;
-  margin: 6px auto 10px;
+  max-width: 1400px;
+  margin: 4px auto 10px;
   padding: 0 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: var(--brand-sky);
 }
 
 .hub-grid {
-  max-width: 1360px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 18px 28px;
+  padding: 0 18px 32px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
   gap: 14px;
 }
 
@@ -361,6 +567,7 @@ button, select, input, a {
   contain: layout style;
   background-color: var(--bg-card);
   border: 2px solid var(--border-color);
+  border-top: 4px solid var(--brand-teal);
   border-radius: 14px;
   padding: 14px;
   text-decoration: none;
@@ -369,8 +576,17 @@ button, select, input, a {
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
-  min-height: 152px;
+  min-height: 168px;
+  position: relative;
+  transition: border-color 0.14s ease, background-color 0.14s ease;
 }
+
+/* Category Accent Top Borders */
+.puzzle-card[data-cat="graph"] { border-top-color: #2ABFBF; }
+.puzzle-card[data-cat="algebra"] { border-top-color: #f59e0b; }
+.puzzle-card[data-cat="combinatorics"] { border-top-color: #38bdf8; }
+.puzzle-card[data-cat="physics"] { border-top-color: #10b981; }
+.puzzle-card[data-cat="algorithmic"] { border-top-color: #a855f7; }
 
 .puzzle-card:hover, .puzzle-card:focus-visible {
   border-color: var(--brand-gold);
@@ -378,8 +594,13 @@ button, select, input, a {
   outline: none;
 }
 
-.puzzle-card.featured-card {
-  border-color: rgba(245, 158, 11, 0.65);
+.puzzle-card.spotlight-pulse {
+  border-color: #fde047 !important;
+  outline: 3px solid var(--brand-gold);
+}
+
+.puzzle-card.is-solved {
+  background-image: linear-gradient(180deg, rgba(16, 185, 129, 0.07) 0%, transparent 100%);
 }
 
 .puzzle-card-top {
@@ -404,19 +625,73 @@ button, select, input, a {
 }
 
 .puzzle-card-title {
-  font-size: 1.08rem;
+  font-size: 1.04rem;
   font-weight: 800;
   color: var(--text-main);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .puzzle-card-desc {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: var(--text-muted);
   line-height: 1.35;
+}
+
+.puzzle-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding-top: 4px;
+}
+
+.diff-badge {
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.diff-starter {
+  background-color: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+html[data-theme="day"] .diff-starter { color: #047857; }
+
+.diff-intermediate {
+  background-color: rgba(56, 189, 248, 0.16);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+html[data-theme="day"] .diff-intermediate { color: #0369a1; }
+
+.diff-olympiad {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+}
+html[data-theme="day"] .diff-olympiad { color: #b45309; }
+
+.card-stars {
+  color: var(--brand-gold);
+  letter-spacing: 1px;
+  font-size: 0.82rem;
+}
+
+.card-best-time {
+  color: var(--brand-teal);
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size: 0.73rem;
 }
 
 .puzzle-card-footer {
@@ -429,7 +704,7 @@ button, select, input, a {
 }
 
 .math-domain-tag {
-  font-size: 0.72rem;
+  font-size: 0.71rem;
   font-weight: 800;
   color: var(--brand-gold);
   text-transform: uppercase;
@@ -462,34 +737,67 @@ body.puzzle-page {
 }
 
 /* Secondary Puzzle Action Toolbar */
+body.puzzle-page .eis-topbar {
+  padding: 4px 12px;
+  gap: 6px;
+}
+
+body.puzzle-page .eis-topbar .eis-btn {
+  padding: 4px 9px;
+  font-size: 0.78rem;
+  min-height: 32px;
+}
+
+body.puzzle-page .eis-school-name {
+  font-size: 0.66rem;
+}
+
+body.puzzle-page .eis-team-name {
+  font-size: 0.88rem;
+  gap: 6px;
+}
+
+body.puzzle-page .eis-team-badge {
+  font-size: 0.64rem;
+  padding: 2px 6px;
+}
+
 .sb-actionbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 6px 14px;
+  gap: 6px;
+  padding: 5px 12px;
   background-color: var(--bg-card);
   border-bottom: 1.5px solid var(--border-color);
   flex-wrap: wrap;
   flex-shrink: 0;
+  position: relative;
+  z-index: 35;
+}
+
+.sb-actionbar .eis-btn {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  min-height: 34px;
 }
 
 .sb-action-group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
 .sb-select {
-  padding: 7px 10px;
+  padding: 5px 9px;
   border-radius: 8px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-input);
   color: var(--text-main);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  min-height: 38px;
+  min-height: 34px;
   cursor: pointer;
 }
 
@@ -497,7 +805,7 @@ body.puzzle-page {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px;
+  padding: 4px 10px;
   border-radius: 8px;
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-color);
@@ -507,32 +815,197 @@ body.puzzle-page {
   color: var(--brand-yellow);
 }
 
+.sb-timer-pill.blitz-urgent {
+  border-color: var(--brand-danger);
+  background-color: rgba(244, 63, 94, 0.2);
+  color: #fda4af;
+}
+
 .sb-moves-pill {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 10px;
+  padding: 4px 10px;
   border-radius: 8px;
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-color);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: var(--brand-sky);
 }
 
-/* Main 2-Column Smartboard Workspace */
+.sb-best-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--brand-gold);
+}
+
+/* More Tools Popover Drawer */
+.sb-more-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.sb-more-popover {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 250px;
+  background-color: var(--bg-panel);
+  border: 2px solid var(--brand-sky);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: var(--shadow-soft);
+  z-index: 80;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sb-more-popover.open {
+  display: flex;
+}
+
+.sb-more-popover .eis-btn {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 8px 12px;
+}
+
+/* Safe Solve Confirmation Popover */
+.sb-solve-confirm {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 12px;
+  background-color: var(--bg-panel);
+  border: 2px solid var(--brand-gold);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-soft);
+  z-index: 85;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sb-solve-confirm.open {
+  display: flex;
+}
+
+/* ==========================================================================
+   CLASSROOM TEAM BATTLE & SCOREBOARD BAR
+   ========================================================================== */
+.sb-team-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 14px;
+  background-color: var(--bg-panel-elevated);
+  border-bottom: 2px solid var(--brand-gold);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.sb-team-bar.visible {
+  display: flex;
+}
+
+.sb-teams-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.sb-team-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sb-team-chip.active-turn {
+  border-color: var(--brand-gold);
+  background-color: rgba(245, 158, 11, 0.16);
+}
+
+.sb-team-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.sb-team-name {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.sb-team-score {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.96rem;
+  font-weight: 900;
+  color: var(--brand-gold);
+  padding: 1px 6px;
+  background-color: var(--bg-input);
+  border-radius: 6px;
+}
+
+.sb-team-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-input);
+  color: var(--text-main);
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sb-team-btn:hover {
+  background-color: var(--brand-gold);
+  color: #000;
+}
+
+/* ==========================================================================
+   MAIN 2-COLUMN SMARTBOARD WORKSPACE (Supports Left/Right Dock Swap)
+   ========================================================================== */
 .sb-workspace {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: row;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 8px 14px;
   overflow: hidden;
 }
 
+body.dock-left .sb-workspace {
+  flex-direction: row-reverse;
+}
+
 @media (max-width: 900px) {
-  .sb-workspace {
+  .sb-workspace,
+  body.dock-left .sb-workspace {
     flex-direction: column;
     overflow: visible;
   }
@@ -550,12 +1023,12 @@ body.puzzle-page {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 12px;
+  padding: 10px;
   position: relative;
-  overflow: auto;
+  overflow: hidden;
 }
 
-/* Subtle dot-grid studio mat inside the viewport */
+/* Subtle studio mat inside the viewport */
 .sb-canvas-viewport {
   flex: 1;
   width: 100%;
@@ -565,7 +1038,7 @@ body.puzzle-page {
   justify-content: center;
   position: relative;
   overflow: auto;
-  padding: 8px;
+  padding: 6px;
   border-radius: 12px;
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-color);
@@ -581,7 +1054,7 @@ body.puzzle-page {
   background-color: var(--canvas-mat);
   border: 3px solid var(--canvas-frame);
   outline: 2px solid var(--border-color);
-  transition: border-color 0.15s ease;
+  transition: border-color 0.14s ease;
 }
 
 #resizable.move-pulse {
@@ -623,14 +1096,24 @@ body.puzzle-page {
   outline: 2px dashed var(--brand-gold);
 }
 
+/* Confetti Overlay Canvas */
+#sb-confetti-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 28;
+}
+
 #statusbar {
   width: 100%;
-  min-height: 30px;
-  margin-top: 6px;
-  padding: 5px 12px;
+  min-height: 28px;
+  margin-top: 5px;
+  padding: 4px 12px;
   background-color: #0f172a;
   color: #f8fafc;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.01em;
   text-align: center;
@@ -652,33 +1135,138 @@ body.puzzle-page {
   color: #64748b;
 }
 
-/* Victory Notification Banner */
-.sb-victory-banner {
-  display: none;
+/* Ergonomic Bottom Quick-Action Bar (Low-Reach Smartboard Accessibility) */
+.sb-bottom-quickbar {
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 5px 10px;
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-color);
   border-radius: 10px;
-  background-color: rgba(16, 185, 129, 0.22);
-  border: 2px solid var(--brand-green);
+  flex-wrap: wrap;
+}
+
+.sb-quickbar-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sb-quick-pill {
+  padding: 5px 11px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-color);
+  background-color: var(--bg-panel);
   color: var(--text-main);
+  font-size: 0.8rem;
   font-weight: 800;
+  cursor: pointer;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sb-quick-pill.active {
+  background-color: var(--brand-gold);
+  border-color: #fbbf24;
+  color: #000000;
+}
+
+/* ==========================================================================
+   CELEBRATORY VICTORY MODAL CARD (Over Board Stage)
+   ========================================================================== */
+.sb-victory-banner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 460px);
+  padding: 20px 22px;
+  border-radius: 18px;
+  background-color: var(--bg-panel);
+  border: 3px solid var(--brand-gold);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+  color: var(--text-main);
+  z-index: 30;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
 }
 
 .sb-victory-banner.visible {
   display: flex;
 }
 
-/* Right Smartboard Touch Control Deck */
+.sb-victory-stars {
+  font-size: 2.2rem;
+  color: var(--brand-gold);
+  letter-spacing: 6px;
+  line-height: 1;
+}
+
+.sb-victory-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--text-main);
+}
+
+.sb-victory-stats {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.sb-vstat {
+  flex: 1;
+  min-width: 105px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.sb-vstat-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sb-vstat-val {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--brand-yellow);
+  margin-top: 2px;
+}
+
+.sb-victory-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   RIGHT / LEFT SMARTBOARD TOUCH CONTROL DOCK
+   ========================================================================== */
 .sb-control-dock {
-  width: 330px;
+  width: 335px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   overflow-y: auto;
 }
 
@@ -696,7 +1284,7 @@ body.puzzle-page {
 }
 
 .sb-dock-title {
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -705,6 +1293,25 @@ body.puzzle-page {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 6px;
+}
+
+.sb-dock-title.clickable-accordion {
+  cursor: pointer;
+  margin-bottom: 0;
+  user-select: none;
+}
+
+.sb-dock-card.expanded .sb-dock-title.clickable-accordion {
+  margin-bottom: 8px;
+}
+
+.sb-accordion-body {
+  display: none;
+}
+
+.sb-dock-card.expanded .sb-accordion-body {
+  display: block;
 }
 
 /* 3-Way Touch Click Mode Selector */
@@ -719,15 +1326,15 @@ body.puzzle-page {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 9px 6px;
+  padding: 8px 6px;
   border-radius: 10px;
   border: 2px solid var(--border-color);
   background-color: var(--bg-card);
   color: var(--text-main);
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 800;
   cursor: pointer;
-  min-height: 54px;
+  min-height: 50px;
   text-align: center;
 }
 
@@ -756,15 +1363,15 @@ body.puzzle-page {
 }
 
 .sb-key-btn {
-  padding: 10px 6px;
+  padding: 9px 6px;
   border-radius: 10px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-card);
   color: var(--text-main);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 800;
   cursor: pointer;
-  min-height: 46px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -804,15 +1411,15 @@ body.puzzle-page {
 }
 
 .sb-dpad-btn {
-  padding: 8px;
+  padding: 7px;
   border-radius: 8px;
   border: 1.5px solid var(--border-color);
   background-color: var(--bg-card);
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 800;
   cursor: pointer;
-  min-height: 42px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -837,8 +1444,8 @@ body.puzzle-page {
 }
 
 .sb-color-dot {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid #fff;
   cursor: pointer;
@@ -853,7 +1460,7 @@ body.puzzle-page {
 .sb-palette-bar {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-color);
   border-radius: 8px;
@@ -861,15 +1468,15 @@ body.puzzle-page {
 }
 
 .sb-palette-pill {
-  padding: 4px 9px;
+  padding: 4px 8px;
   border-radius: 6px;
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 800;
   cursor: pointer;
-  min-height: 30px;
+  min-height: 28px;
 }
 
 .sb-palette-pill.active {
@@ -877,12 +1484,36 @@ body.puzzle-page {
   color: #000000;
 }
 
-/* Rules & Math Theory Summary inside Dock */
+/* Quick Start Summary & Rules Box inside Dock */
+.sb-quickstart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  font-size: 0.8rem;
+}
+
+.sb-quickstart-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--text-main);
+}
+
+.sb-quickstart-item strong {
+  color: var(--brand-gold);
+  flex-shrink: 0;
+}
+
 .sb-rules-box {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   line-height: 1.45;
-  max-height: 220px;
+  max-height: 210px;
   overflow-y: auto;
 }
 
@@ -973,21 +1604,9 @@ body.puzzle-page {
   color: var(--text-main);
 }
 
-/* Permalinks / Seed Modal or Footer */
+/* Permalinks / Seed Footer (hidden on stage when moved to More Tools) */
 .sb-permalink-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-.sb-permalink-bar a {
-  color: var(--brand-sky);
-  text-decoration: none;
-  font-weight: 700;
+  display: none;
 }
 
 /* Footer */

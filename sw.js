@@ -1,8 +1,8 @@
 /*
  * Edugates International School — Math-Science Team
- * Offline Smartboard Service Worker (Low-CPU Cache-First Strategy)
+ * Offline Smartboard Service Worker (v3.0 — Network-First HTML/JS/CSS + Cache-First WASM/Assets)
  */
-const CACHE_NAME = 'edugates-math-science-smartboard-v1';
+const CACHE_NAME = 'edugates-math-science-smartboard-v3';
 
 const CORE_ASSETS = [
   './',
@@ -45,28 +45,44 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then(function (cachedResponse) {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then(function (networkResponse) {
-        if (
-          networkResponse &&
-          networkResponse.status === 200 &&
-          networkResponse.type === 'basic'
-        ) {
-          var responseToCache = networkResponse.clone();
+  var url = event.request.url || '';
+  var isHeavyBinary = url.indexOf('.wasm') !== -1 || url.indexOf('/assets/') !== -1;
+
+  if (isHeavyBinary) {
+    // Cache-First for immutable WASM binaries & images
+    event.respondWith(
+      caches.match(event.request).then(function (cachedResponse) {
+        if (cachedResponse) return cachedResponse;
+        return fetch(event.request).then(function (networkResponse) {
+          if (networkResponse && networkResponse.status === 200) {
+            var clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(function (cache) {
+              cache.put(event.request, clone);
+            });
+          }
+          return networkResponse;
+        });
+      })
+    );
+  } else {
+    // Network-First with Offline Cache Fallback for HTML, CSS, and JS
+    event.respondWith(
+      fetch(event.request).then(function (networkResponse) {
+        if (networkResponse && networkResponse.status === 200) {
+          var clone = networkResponse.clone();
           caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, clone);
           });
         }
         return networkResponse;
       }).catch(function () {
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
+        return caches.match(event.request).then(function (cached) {
+          if (cached) return cached;
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
+    );
+  }
 });
