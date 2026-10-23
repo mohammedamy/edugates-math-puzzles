@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teacher &amp; Student Reference Manual — Edugates International School Math-Science Team</title>
   <link rel="icon" type="image/jpeg" href="../assets/eis-logo.jpg">
+  <link rel="stylesheet" href="../css/katex.min.css">
+  <script defer src="../js/katex.min.js"></script>
+  <script defer src="../js/auto-render.min.js"></script>
   <style type="text/css">
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -333,6 +336,9 @@
         grid.appendChild(card);
       }
       filterDocs();
+      if (typeof renderMathInElement === "function") {
+        renderMathInElement(document.body, { delimiters: [{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}], throwOnError: false });
+      }
     }
 
     function toggleDocLang() {

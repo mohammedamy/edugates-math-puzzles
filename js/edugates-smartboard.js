@@ -46,336 +46,566 @@
 
   // Bilingual Dictionary for all 41 Mathematical Workbenches
   var PUZZLE_I18N = {
-    bridges: {
-      titleEn: "🌉 Bridges (Hashi)", titleAr: "🌉 الجسور (هاشي)",
-      domainEn: "Graph Theory", domainAr: "نظرية البيانات ودرجات الرؤوس",
-      descEn: "Connect islands using vertex degree invariants and planar graph connectivity.",
-      descAr: "اربط الجزر بجسور مفردة أو مزدوجة وفق درجات الرؤوس دون تقاطع أي جسرين.",
-      leftAr: "مد جسر / قفل", rightAr: "علامة عدم وجود جسر", middleAr: "تمييز الجزيرة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> نظرية البيانات المستوية وتوازن درجات الرؤوس.</p><p>اربط جميع الجزر في شبكة متصلة واحدة باستخدام جسور أفقية أو رأسية، بحيث يطابق عدد الجسور المتصلة بكل جزيرة الرقم المكتوب بداخلها.</p><p>• لا يمكن وضع أكثر من جسرين بين نفس الجزيرتين.<br>• لا يُسمح بتقاطع الجسور مع بعضها.<br>• اسحب بين جزيرتين لمد جسر أو إزالته.</p>"
+    "bridges": {
+        "titleEn": "🌉 Bridges (Hashi)",
+        "titleAr": "🌉 الجسور (هاشي)",
+        "domainEn": "Graph Theory: $G = (V, E)$, $\\deg(v)$, Planar Connectivity",
+        "domainAr": "نظرية البيانات: $G = (V, E)$، درجات الرؤوس $\\deg(v)$ والاتصال المستوي",
+        "descEn": "Connect islands using degree invariants $\\sum_{u} w(v, u) = k_v$ without edge intersections.",
+        "descAr": "اربط الجزر بجسور مفردة أو مزدوجة لتحقيق شرط الدرجات $\\sum_{u} w(v, u) = k_v$ دون أي تقاطع.",
+        "leftAr": "مد جسر / قفل",
+        "rightAr": "علامة عدم وجود جسر",
+        "middleAr": "تمييز الجزيرة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Planar Graph Degree Sequences and Connectivity ($c(G) = 1$).</p>\n<p>Construct an undirected planar multigraph where vertices represent islands and edges represent bridges ($w(e) \\in \\{1, 2\\}$):</p>\n<div class=\"katex-display\">$$\\deg(v) = \\sum_{u \\in N(v)} w(v, u) = k_v \\quad (k_v \\in \\{1, \\dots, 8\\}), \\qquad \\operatorname{cr}(G) = 0$$</div>\n<p>• Bridges must run purely horizontally or vertically.<br>• At most 2 bridges can link any pair of islands ($w(e) \\le 2$).<br>• No two bridges may cross each other.<br>• All islands must belong to a single connected component ($c(G) = 1$).</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> نظرية البيانات المستوية وتوازن درجات الرؤوس ($c(G) = 1$).</p>\n<p>قم ببناء بيان مستوي متصل يمثل الجزر كرؤوس والجسور كأضلاع ($w(e) \\in \\{1, 2\\}$):</p>\n<div class=\"katex-display\">$$\\deg(v) = \\sum_{u \\in N(v)} w(v, u) = k_v \\quad (k_v \\in \\{1, \\dots, 8\\}), \\qquad \\operatorname{cr}(G) = 0$$</div>\n<p>• تمتد الجسور أفقياً أو رأسياً فقط.<br>• لا يمكن وضع أكثر من جسرين بين نفس الجزيرتين ($w(e) \\le 2$).<br>• لا يُسمح بتقاطع الجسور إطلاقاً.<br>• يجب أن تكون جميع الجزر متصلة في مكون واحد مترابط ($c(G) = 1$).</p>"
     },
-    towers: {
-      titleEn: "🏙️ Towers (Skyscrapers)", titleAr: "🏙️ الأبراج (ناطحات السحاب)",
-      domainEn: "Latin Squares & Spatial Logic", domainAr: "المربعات اللاتينية والمنطق الفراغي",
-      descEn: "Determine 3D skyscraper heights from orthogonal perspective sightlines.",
-      descAr: "استنتج ارتفاعات الأبراج ثلاثية الأبعاد من عدد الأبراج المرئية على حواف الشبكة.",
-      leftAr: "تحديد المربع", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح المربع",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المربعات اللاتينية وخطوط الرؤية المتعامدة ثلاثية الأبعاد.</p><p>املأ الشبكة بأبراج تتراوح ارتفاعاتها من 1 إلى حجم الشبكة، بحيث يظهر كل ارتفاع مرة واحدة فقط في كل صف وعمود.</p><p>• الأرقام على الحواف تمثل عدد الأبراج المرئية عند النظر من ذلك الاتجاه (الأبراج الأطول تحجب الأبراج الأقصر خلفها).<br>• انقر على مربع ثم اختر رقماً من لوحة اللمس لوضع برج، أو استخدم وضع القلم لتسجيل الاحتمالات.</p>"
+    "towers": {
+        "titleEn": "🏙️ Towers (Skyscrapers)",
+        "titleAr": "🏙️ الأبراج (ناطحات السحاب)",
+        "domainEn": "Latin Squares: $L \\in \\{1,\\dots,N\\}^{N\\times N}$, Orthogonal Sightlines",
+        "domainAr": "المربعات اللاتينية: $L \\in \\{1,\\dots,N\\}^{N\\times N}$ وخطوط الرؤية المتعامدة",
+        "descEn": "Deduce 3D heights from boundary visibility sequences $V(\\mathbf{x}) = |\\{j \\mid \\forall k < j, L_k < L_j\\}|$.",
+        "descAr": "استنتج ارتفاعات الأبراج ثلاثية الأبعاد من متتاليات الرؤية الحدية $V(\\mathbf{x}) = |\\{j \\mid \\forall k < j, L_k < L_j\\}|$.",
+        "leftAr": "تحديد المربع",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح المربع",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Latin Squares with Monotone Prefix Visibility Constraints.</p>\n<p>Place skyscraper heights $1, \\dots, N$ such that each row and column forms a permutation $\\sigma \\in S_N$:</p>\n<div class=\"katex-display\">$$\\forall i, j: L_{i,j} \\in \\{1, \\dots, N\\}, \\quad \\sum_{k=1}^N L_{ik} = \\frac{N(N+1)}{2}, \\quad V(\\text{ray}) = \\left|\\left\\{j \\,\\middle|\\, \\forall k < j, h_k < h_j\\right\\}\\right|$$</div>\n<p>• Taller buildings completely conceal shorter buildings behind them.<br>• Edge clues dictate the exact count of visible towers along each orthogonal sightline.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المربعات اللاتينية وقيود الرؤية الرتيبة ثلاثية الأبعاد.</p>\n<p>املأ الشبكة بأبراج بارتفاعات $1, \\dots, N$ بحيث يشكل كل صف وكل عمود تبديلة كاملة $\\sigma \\in S_N$:</p>\n<div class=\"katex-display\">$$\\forall i, j: L_{i,j} \\in \\{1, \\dots, N\\}, \\quad \\sum_{k=1}^N L_{ik} = \\frac{N(N+1)}{2}, \\quad V(\\text{ray}) = \\left|\\left\\{j \\,\\middle|\\, \\forall k < j, h_k < h_j\\right\\}\\right|$$</div>\n<p>• الأبراج الأطول تحجب الأبراج الأقصر خلفها تماماً.<br>• الأرقام على الحواف تمثل عدد الأبراج المرئية عند النظر من ذلك الاتجاه على طول خط الرؤية المتعامد.</p>"
     },
-    lightup: {
-      titleEn: "💡 Light Up (Akari)", titleAr: "💡 الإضاءة (أكاري)",
-      domainEn: "Ray-Casting & Coordinate Geometry", domainAr: "تتبع الأشعة والهندسة الإحداثية",
-      descEn: "Place light emitters to illuminate every orthogonal grid ray without conflict.",
-      descAr: "ضع المصابيح لإضاءة جميع الممرات المتعامدة دون أن يضيء مصباحان بعضهما.",
-      leftAr: "💡 وضع مصباح", rightAr: "⚫ علامة نقطة (لا مصباح)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> انتشار الأشعة المتعامدة والقيود المنطقية المحلية.</p><p>ضع مصابيح ضوئية في المربعات البيضاء بحيث تُضاء جميع المربعات البيضاء في الشبكة.</p><p>• ينشر المصباح الضوء أفقياً ورأسياً حتى يصطدم بجدار أسود.<br>• لا يجوز أن يسلط مصباحان الضوء على بعضهما مباشرة.<br>• الأرقام داخل الجدران السوداء تحدد عدد المصابيح المجاورة لها أفقياً ورأسياً.</p>"
+    "lightup": {
+        "titleEn": "💡 Light Up (Akari)",
+        "titleAr": "💡 الإضاءة (أكاري)",
+        "domainEn": "Ray-Casting & Vertex Cover: $R_\\theta(x, y)$, Local Constraints",
+        "domainAr": "تتبع الأشعة وتغطية الرؤوس: $R_\\theta(x, y)$ والقيود الموضعية",
+        "descEn": "Illuminate all white cells $\\forall w \\in W: \\text{lit}(w) = 1$ with zero bulb collisions $B \\cap R(B) = \\emptyset$.",
+        "descAr": "أنر جميع الخلايا البيضاء $\\forall w \\in W: \\text{lit}(w) = 1$ دون أن يسلط مصباحان الضوء على بعضهما.",
+        "leftAr": "💡 وضع مصباح",
+        "rightAr": "⚫ علامة نقطة (لا مصباح)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Orthogonal Ray-Casting & Exact Cell Illumination.</p>\n<p>Place light bulbs $b \\in B$ on white grid cells $W$ such that every cell is covered by at least one ray:</p>\n<div class=\"katex-display\">$$\\forall w \\in W: \\exists b \\in B \\text{ s.t. } w \\in \\operatorname{Ray}(b), \\qquad \\forall b_1 \\neq b_2 \\in B: b_1 \\notin \\operatorname{Ray}(b_2)$$</div>\n<p>• Rays propagate horizontally and vertically until absorbed by black barrier cells.<br>• Numbered black cells enforce local 4-neighborhood degree constraints: $\\sum_{u \\in N_4(cell)} \\mathbb{I}(u \\in B) = c$.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> انتشار الأشعة المتعامدة وتغطية الخلايا بالضوء.</p>\n<p>ضع مصابيح $b \\in B$ في الخلايا البيضاء $W$ بحيث تُضاء جميع الخلايا بشعاع واحد على الأقل دون تقاطع مصباحين:</p>\n<div class=\"katex-display\">$$\\forall w \\in W: \\exists b \\in B \\text{ s.t. } w \\in \\operatorname{Ray}(b), \\qquad \\forall b_1 \\neq b_2 \\in B: b_1 \\notin \\operatorname{Ray}(b_2)$$</div>\n<p>• تنتشر الأشعة أفقياً ورأسياً حتى تصطدم بجدار أسود.<br>• الأرقام داخل الجدران تحدد عدد المصابيح في الجوار المباشر: $\\sum_{u \\in N_4(cell)} \\mathbb{I}(u \\in B) = c$.</p>"
     },
-    slant: {
-      titleEn: "📐 Slant (Gokigen)", titleAr: "📐 الخطوط المائلة (غوكيغن)",
-      domainEn: "Combinatorics & Acyclic Trees", domainAr: "التوافقيات والأشجار اللا دورية",
-      descEn: "Draw diagonal line segments matching vertex degrees while avoiding cycles.",
-      descAr: "ارسم أقطاراً مائلة في كل خلية لتحقيق أرقام التقاطعات دون تكوين أي حلقة مغلقة.",
-      leftAr: "╱ قطر مائل (/)", rightAr: "╲ قطر مائل (\\)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الأشجار الخالية من الدورات ودرجات رؤوس الشبكة.</p><p>ارسم خطاً قطرياً (╱ أو ╲) في كل مربع من مربعات الشبكة.</p><p>• يجب أن يساوي عدد الخطوط الملتقية عند كل دائرة مرقمة الرقم المكتوب فيها.<br>• يُمنع منعاً باتاً تكوين أي مسار مغلق (حلقة) من الخطوط القطرية.</p>"
+    "slant": {
+        "titleEn": "📐 Slant (Gokigen)",
+        "titleAr": "📐 الخطوط المائلة (غوكيغن)",
+        "domainEn": "Acyclic Trees & Vertex Degrees: $E \\subset V \\times V$, $C_k = \\emptyset$",
+        "domainAr": "الأشجار اللا دورية ودرجات الرؤوس: $E \\subset V \\times V$ ومنع الحلقات ($C_k = \\emptyset$)",
+        "descEn": "Draw diagonals matching vertex degrees $\\deg(v) = k_v$ with zero cycles $H_1(G, \\mathbb{Z}) = 0$.",
+        "descAr": "ارسم خطوطاً قطرية لتحقيق درجات الرؤوس $\\deg(v) = k_v$ دون تكوين أي حلقة مغلقة ($C_k = \\emptyset$).",
+        "leftAr": "╱ قطر مائل (/)",
+        "rightAr": "╲ قطر مائل (\\)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Acyclic Planar Graphs (Forest Topology) & Vertex Invariants.</p>\n<p>Draw a diagonal line segment (╱ or ╲) in every unit square of the grid:</p>\n<div class=\"katex-display\">$$\\deg(v) = k_v \\in \\{0, 1, 2, 3, 4\\}, \\qquad H_1(G, \\mathbb{Z}) = 0 \\iff \\text{Cycles } C_k = \\emptyset$$</div>\n<p>• The number of diagonal endpoints meeting at each labeled grid vertex must equal the clue $k_v$.<br>• The resulting diagonal graph must remain strictly acyclic (no closed loops permitted).</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> البيانات المستوية الخالية من الدورات (الأشجار) ودرجات الرؤوس.</p>\n<p>ارسم خطاً قطرياً (╱ أو ╲) في كل مربع من مربعات الشبكة:</p>\n<div class=\"katex-display\">$$\\deg(v) = k_v \\in \\{0, 1, 2, 3, 4\\}, \\qquad H_1(G, \\mathbb{Z}) = 0 \\iff \\text{Cycles } C_k = \\emptyset$$</div>\n<p>• يجب أن يساوي عدد أطراف الخطوط القطرية الملتقية عند كل رأس الرقم المكتوب فيه $k_v$.<br>• يُمنع تكوين أي مسار مغلق (حلقة دورية) على الإطلاق في البيان الناتج.</p>"
     },
-    net: {
-      titleEn: "⚡ Net (Network)", titleAr: "⚡ الشبكة الكهربائية (نت)",
-      domainEn: "Spanning Trees & Networks", domainAr: "الأشجار الممتدة وترابط الشبكات",
-      descEn: "Rotate network tiles to link every terminal into a single connected spanning tree.",
-      descAr: "قم بتدوير قطع الشبكة لتوصيل جميع الأطراف بالمصدر المركزي في شجرة متصلة واحدة.",
-      leftAr: "↺ تدوير لليسار", rightAr: "↻ تدوير لليمين", middleAr: "🔒 قفل القطعة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الأشجار الممتدة (Spanning Trees) والاتصال الطوبولوجي.</p><p>قم بتدوير مربعات الأسلاك حتى تتصل جميع الأجهزة الطرفية بمصدر الطاقة المركزي.</p><p>• يجب أن تشكل الشبكة شجرة متصلة كاملة بدون أطراف سائبة أو حلقات مغلقة.<br>• يمكنك قفل المربعات المؤكدة بالنقر الأوسط أو زر القفل.</p>"
+    "net": {
+        "titleEn": "⚡ Net (Network)",
+        "titleAr": "⚡ الشبكة الكهربائية (نت)",
+        "domainEn": "Spanning Trees & Graph Topology: $T \\subseteq G$, $|E| = |V| - 1$",
+        "domainAr": "الأشجار الممتدة وترابط الشبكات: $T \\subseteq G$ و $|E| = |V| - 1$",
+        "descEn": "Rotate grid tiles so all terminals join a single connected spanning tree ($c(T) = 1$).",
+        "descAr": "أدر قطع الشبكة لربط جميع الأطراف بمصدر الطاقة في شجرة ممتدة متصلة واحدة ($c(T) = 1$).",
+        "leftAr": "↺ تدوير لليسار",
+        "rightAr": "↻ تدوير لليمين",
+        "middleAr": "🔒 قفل القطعة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Spanning Trees ($|E| = |V| - 1$) and Topological Boundary Synchronization.</p>\n<p>Rotate individual wire square tiles to assemble a single connected network spanning tree:</p>\n<div class=\"katex-display\">$$|E| = |V| - 1, \\qquad c(T) = 1 \\quad (\\text{Connected, Acyclic Tree without Dead Ends})$$</div>\n<p>• Every active terminal must possess an unbroken path to the central power generator.<br>• No wire segments may lead to empty walls or unconnected adjacent edges.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الأشجار الممتدة ($|E| = |V| - 1$) والترابط الطوبولوجي للشبكات.</p>\n<p>قم بتدوير قطع الأسلاك المربعة لتوصيل جميع الأجهزة الطرفية بمصدر الطاقة الرئيسي في شجرة متصلة واحدة:</p>\n<div class=\"katex-display\">$$|E| = |V| - 1, \\qquad c(T) = 1 \\quad (\\text{Connected Spanning Tree})$$</div>\n<p>• يجب أن يتصل كل جهاز طرفي بمسار مباشر إلى المولد المركزي.<br>• لا يجوز أن تواجه أي وصلة سلكية جداراً فارغاً أو طرفاً غير متصل.</p>"
     },
-    loopy: {
-      titleEn: "➰ Slitherlink (Loopy)", titleAr: "➰ المسار المغلق (سليذرلينك)",
-      domainEn: "Jordan Curve Theorem & Topology", domainAr: "مبرهنة منحنى جوردان والطوبولوجيا",
-      descEn: "Connect grid vertices into a single continuous non-intersecting closed loop.",
-      descAr: "اربط نقاط الشبكة لتكوين مسار مغلق واحد متصل دون تقاطعات أو تفرعات.",
-      leftAr: "➰ رسم ضلع المسار", rightAr: "✖️ علامة استبعاد (X)", middleAr: "مسح الضلع",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> مبرهنة منحنى جوردان والدورات البسيطة في البيانات.</p><p>ارسم حلقة مغلقة واحدة متصلة عبر أضلاع الشبكة.</p><p>• الرقم داخل أي خلية يحدد عدد أضلاعها المشمولة في الحلقة.<br>• لا يجوز أن تتقاطع الحلقة مع نفسها أو تتفرع.</p>"
+    "loopy": {
+        "titleEn": "➰ Slitherlink (Loopy)",
+        "titleAr": "➰ المسار المغلق (سليذرلينك)",
+        "domainEn": "Jordan Curve Theorem: Simple Closed Loops, $\\oint d\\theta = 2\\pi$",
+        "domainAr": "مبرهنة منحنى جوردان: المسارات المغلقة البسيطة و $\\oint d\\theta = 2\\pi$",
+        "descEn": "Connect lattice edges into a single 2-regular loop matching face degrees $|E(f) \\cap L| = c_f$.",
+        "descAr": "اربط أضلاع الشبكة لتكوين مسار مغلق ثنائي الانتظام $\\deg(v) \\in \\{0, 2\\}$ يحقق أرقام الخلايا $c_f$.",
+        "leftAr": "➰ رسم ضلع المسار",
+        "rightAr": "✖️ علامة استبعاد (X)",
+        "middleAr": "مسح الضلع",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> The Jordan Curve Theorem & 2-Regular Eulerian Subgraphs.</p>\n<p>Draw a continuous, simple closed loop traversing grid edge segments:</p>\n<div class=\"katex-display\">$$\\forall v \\in V: \\deg(v) \\in \\{0, 2\\}, \\qquad |E(f) \\cap L| = c_f, \\qquad \\oint_L d\\theta = 2\\pi$$</div>\n<p>• The clue inside a cell indicates the exact number of its 4 boundary edges included in the loop.<br>• The loop must never branch, self-intersect, or fragment into multiple loops.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مبرهنة منحنى جوردان والبيانات الجزئية ثنائية الانتظام $\\deg(v) \\in \\{0, 2\\}$.</p>\n<p>ارسم مساراً مغلقاً بسيطاً واحداً متصلاً يمر عبر أضلاع الشبكة:</p>\n<div class=\"katex-display\">$$\\forall v \\in V: \\deg(v) \\in \\{0, 2\\}, \\qquad |E(f) \\cap L| = c_f, \\qquad \\oint_L d\\theta = 2\\pi$$</div>\n<p>• يحدد الرقم داخل الخلية عدد أضلاعها الأربعة المشمولة في المسار.<br>• يُمنع تفرع المسار أو تقاطعه مع نفسه أو انقسامه إلى أكثر من حلقة واحدة.</p>"
     },
-    solo: {
-      titleEn: "🔢 Solo (Sudoku & Killer)", titleAr: "🔢 سولو (سودوكو وكيلر)",
-      domainEn: "Latin Squares & Combinatorics", domainAr: "المربعات اللاتينية والتوافقيات",
-      descEn: "Complete bijective Latin square sub-blocks with optional cage sum constraints.",
-      descAr: "أكمل المربعات اللاتينية الفرعية دون تكرار أي رقم في الصف أو العمود أو القطاع.",
-      leftAr: "تحديد الخلية", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التقابل في المربعات اللاتينية وتجزئة المجموعات.</p><p>املأ الشبكة بالأرقام بحيث يحتوي كل صف، وكل عمود، وكل قطاع محدد على جميع الأرقام دون تكرار.</p>"
+    "solo": {
+        "titleEn": "🔢 Solo (Sudoku & Killer)",
+        "titleAr": "🔢 سولو (سودوكو وكيلر)",
+        "domainEn": "Latin Squares & Permutations: $\\forall i, j: \\sigma_i \\in S_N, \\sum_{\\text{cage}} = K$",
+        "domainAr": "المربعات اللاتينية والتباديل: $\\forall i, j: \\sigma_i \\in S_N$ ومجاميع الأقفاص $\\sum = K$",
+        "descEn": "Partition cells into bijective Latin sub-blocks with optional cage sums $\\sum_{c} x_c = K$.",
+        "descAr": "أكمل المربعات اللاتينية الفرعية والكتل المتعامدة مع مطابقة مجاميع الأقفاص $\\sum_{c} x_c = K$.",
+        "leftAr": "تحديد الخلية",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Bijective Permutation Matrices & Subset Sum Constraints.</p>\n<p>Fill the grid with digits $1, \\dots, N$ such that each row, column, and sub-block is a bijection:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• In Killer variants, numbers within a dashed cage must sum to the cage value $K$ with no duplicates.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مصفوفات التباديل التقابلية ومجاميع المجموعات الجزئية.</p>\n<p>املأ الشبكة بالأرقام $1, \\dots, N$ بحيث يمثل كل صف وعمود وكتلة تقابلاً تاما:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• في نمط كيلر (Killer)، يجب أن يساوي مجموع أرقام كل قفص القيمة المكتوبة في زاويته دون تكرار أي رقم داخل القفص.</p>"
     },
-    keen: {
-      titleEn: "➗ Keen (KenKen)", titleAr: "➗ كين (مربعات الحساب - كين كين)",
-      domainEn: "Number Theory & Arithmetic Logic", domainAr: "نظرية الأعداد والمنطق الحسابي",
-      descEn: "Solve Latin squares governed by arithmetic (+, −, ×, ÷) cage equations.",
-      descAr: "حل المربع اللاتيني بتحقيق المعادلات الحسابية (+، −، ×، ÷) داخل الأقفاص المحددة.",
-      leftAr: "تحديد الخلية", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التحليل إلى عوامل والعمليات الحسابية على المربعات اللاتينية.</p><p>املأ الشبكة كـمربع لاتيني (بدون تكرار في أي صف أو عمود)، بحيث تنتج الأرقام داخل كل قفص القيمة والعملية الحسابية المكتوبة في زاويته.</p>"
+    "keen": {
+        "titleEn": "➗ Keen (KenKen)",
+        "titleAr": "➗ كين (مربعات الحساب - كين كين)",
+        "domainEn": "Arithmetic Fields & Factorization: $\\prod x_i = k$, $\\sum x_i = s$",
+        "domainAr": "الحقول الحسابية والتحليل: $\\prod x_i = k$ و $\\sum x_i = s$",
+        "descEn": "Solve Latin square configurations governed by algebraic cage operations $(+, -, \\times, \\div)$.",
+        "descAr": "حل المربع اللاتيني بتحقيق العمليات الحسابية داخل الأقفاص المحددة $(+, -, \\times, \\div)$.",
+        "leftAr": "تحديد الخلية",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Algebraic Operations over Latin Squares & Prime Factorization.</p>\n<p>Place numbers $1, \\dots, N$ in an $N \\times N$ grid with no repeats in any row or column:</p>\n<div class=\"katex-display\">$$x_{i,j} \\in \\{1, \\dots, N\\}, \\qquad \\operatorname{op}(x_1, \\dots, x_m) = K \\quad (\\operatorname{op} \\in \\{+, -, \\times, \\div\\})$$</div>\n<p>• Cages evaluate commutative operations: $\\sum x_i = K$ or $\\prod x_i = K$.<br>• Two-cell cages with subtraction or division evaluate in magnitude order: $|x_1 - x_2| = K$ or $\\max(x_1, x_2)/\\min(x_1, x_2) = K$.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> العمليات الجبرية على المربعات اللاتينية والتحليل إلى عوامل أولية.</p>\n<p>املأ الشبكة بالأرقام $1, \\dots, N$ كمربع لاتيني دون تكرار في أي صف أو عمود:</p>\n<div class=\"katex-display\">$$x_{i,j} \\in \\{1, \\dots, N\\}, \\qquad \\operatorname{op}(x_1, \\dots, x_m) = K \\quad (\\operatorname{op} \\in \\{+, -, \\times, \\div\\})$$</div>\n<p>• تحقق الأقفاص العمليات الحسابية المعطاة: $\\sum x_i = K$ أو $\\prod x_i = K$.<br>• أقفاص الطرح والقسمة تحسب بالفرق المطلق $|x_1 - x_2| = K$ أو النسبة الأكبر إلى الأصغر.</p>"
     },
-    unequal: {
-      titleEn: "⚖️ Unequal (Futoshiki)", titleAr: "⚖️ المتباينات (فوتوشيكي)",
-      domainEn: "Order Relations & Inequalities", domainAr: "علاقات الترتيب والمتباينات",
-      descEn: "Order permutations in a Latin square satisfying strict inequality (<, >) chains.",
-      descAr: "رتب الأرقام في مربع لاتيني مع تحقيق إشارات التباين الصارمة (<، >) بين الخلايا.",
-      leftAr: "تحديد الخلية", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الترتيب الجزئي وسلاسل المتباينات في المربعات اللاتينية.</p><p>ضع الأرقام من 1 إلى حجم الشبكة دون تكرار في أي صف أو عمود، مع الالتزام بجميع علامات الأكبر والأصغر (&lt; ، &gt;) المرسومة بين الخلايا المتجاورة.</p>"
+    "unequal": {
+        "titleEn": "⚖️ Unequal (Futoshiki)",
+        "titleAr": "⚖️ المتباينات (فوتوشيكي)",
+        "domainEn": "Posets & Strict Inequalities: $x_{i,j} < x_{i',j'}$, Linear Extensions",
+        "domainAr": "المجموعات المرتبة جزئياً: $x_{i,j} < x_{i',j'}$ والترتيب التام",
+        "descEn": "Solve Latin square permutations satisfying strict partially ordered inequality chains $x_u < x_v$.",
+        "descAr": "رتب الأرقام في مربع لاتيني مع الالتزام التام بسلاسل المتباينات الصارمة $x_u < x_v$.",
+        "leftAr": "تحديد الخلية",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Partially Ordered Sets (Posets) & Topological Sorting of Latin Squares.</p>\n<p>Assign values $1, \\dots, N$ to an $N \\times N$ grid satisfying Latin conditions and strict order relations:</p>\n<div class=\"katex-display\">$$x_{i,j} \\in \\{1, \\dots, N\\}, \\qquad \\forall (u, v) \\in E_{<}: x_u < x_v, \\qquad |\\{x_{i,1}, \\dots, x_{i,N}\\}| = N$$</div>\n<p>• Transitive inequality chains impose strict upper and lower bounds on intermediate grid cells.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المجموعات المرتبة جزئياً (Posets) والترتيب الطوبولوجي للمربعات اللاتينية.</p>\n<p>عيّن الأرقام $1, \\dots, N$ في شبكة $N \\times N$ مع تحقيق شروط المربع اللاتيني وعلاقات الترتيب الصارمة:</p>\n<div class=\"katex-display\">$$x_{i,j} \\in \\{1, \\dots, N\\}, \\qquad \\forall (u, v) \\in E_{<}: x_u < x_v, \\qquad |\\{x_{i,1}, \\dots, x_{i,N}\\}| = N$$</div>\n<p>• سلاسل المتباينات المتعدية تفرض حدوداً عليا ودنيا صارمة على القيم الممكنة للخلايا.</p>"
     },
-    group: {
-      titleEn: "🧮 Group (Cayley Tables)", titleAr: "🧮 الزمر الرياضية (جداول كايلي)",
-      domainEn: "Abstract Algebra & Group Axioms", domainAr: "الجبر المجرد وبديهيات الزمر",
-      descEn: "Reconstruct finite group Cayley tables using associativity, identity, and inverses.",
-      descAr: "أكمل جدول كايلي لزمرة منتهية بتطبيق خاصية التجميع والعنصر المحايد والمعكوس.",
-      leftAr: "تحديد الخلية", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> نظرية الزمر المنتهية، العنصر المحايد، والمعكوسات، وخاصية التجميع $(ab)c = a(bc)$.</p><p>أكمل جدول ضرب الزمرة (جدول كايلي) بالأحرف بحيث يحقق جميع بديهيات الزمرة الرياضية.</p>"
+    "group": {
+        "titleEn": "🧮 Group (Cayley Tables)",
+        "titleAr": "🧮 الزمر الرياضية (جداول كايلي)",
+        "domainEn": "Abstract Algebra: Cayley Tables, $(a \\cdot b) \\cdot c = a \\cdot (b \\cdot c), a \\cdot e = a$",
+        "domainAr": "الجبر المجرد: جداول كايلي، $(a \\cdot b) \\cdot c = a \\cdot (b \\cdot c)$ والمحايد $e$",
+        "descEn": "Reconstruct finite group operation tables $(G, \\cdot)$ using associativity, identity $e$, and inverses $a^{-1}$.",
+        "descAr": "أكمل جدول عمليات الزمرة $(G, \\cdot)$ بتطبيق خاصية التجميع والعنصر المحايد $e$ والمعكوس $a^{-1}$.",
+        "leftAr": "تحديد الخلية",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Group Axioms & Cayley's Theorem over Finite Operational Tables.</p>\n<p>Complete the binary operation table for finite group $(G, \\cdot)$ ensuring all axioms hold:</p>\n<div class=\"katex-display\">$$\\forall a, b, c \\in G: \\ (a \\cdot b) \\cdot c = a \\cdot (b \\cdot c), \\quad \\exists e \\in G: a \\cdot e = a, \\quad \\exists a^{-1} \\in G: a \\cdot a^{-1} = e$$</div>\n<p>• By the Latin square property of groups, each group element appears exactly once per row and column.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> بديهيات الزمر ومبرهنة كايلي على جداول العمليات الثنائية المنتهية.</p>\n<p>أكمل جدول العملية الثنائية للزمرة $(G, \\cdot)$ مع التأكد من تحقق البديهيات الجبرية:</p>\n<div class=\"katex-display\">$$\\forall a, b, c \\in G: \\ (a \\cdot b) \\cdot c = a \\cdot (b \\cdot c), \\quad \\exists e \\in G: a \\cdot e = a, \\quad \\exists a^{-1} \\in G: a \\cdot a^{-1} = e$$</div>\n<p>• وفق خاصية المربع اللاتيني للزمر، يظهر كل عنصر من عناصر الزمرة مرة واحدة بالضبط في كل صف وكل عمود.</p>"
     },
-    singles: {
-      titleEn: "🎯 Singles (Hitori)", titleAr: "🎯 المفردات (هيتوري)",
-      domainEn: "Set Uniqueness & Graph Connectivity", domainAr: "تفرد العناصر وترابط الشبكة",
-      descEn: "Eliminate duplicate numbers while keeping remaining cells orthogonally connected.",
-      descAr: "ظلل الأرقام المكررة بحيث لا تتجاور خليتان مظللتان وتبقى الخلايا البيضاء متصلة.",
-      leftAr: "⬛ تظليل الخلية", rightAr: "⭕ وضع دائرة (إبقاء)", middleAr: "مسح العلامة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> حذف التكرار مع الحفاظ على الاتصال الطوبولوجي للمكونات البيضاء.</p><p>ظلل بعض المربعات بحيث:<br>• لا يتكرر أي رقم في صف أو عمود بين المربعات غير المظللة.<br>• لا تتجاور خليتان مظللتان أفقياً أو رأسياً.<br>• تبقى جميع الخلايا البيضاء متصلة ببعضها في منطقة واحدة.</p>"
+    "singles": {
+        "titleEn": "🎯 Singles (Hitori)",
+        "titleAr": "🎯 المفردات (هيتوري)",
+        "domainEn": "Topological Connectivity & Independent Sets: $\\alpha(G)$, $\\operatorname{dist}(u, v) \\ge 2$",
+        "domainAr": "الاتصال الطوبولوجي والمجموعات المستقلة: $\\alpha(G)$ والمسافة $\\ge 2$",
+        "descEn": "Shade duplicates so white cells are unique per line and black cells form an independent set.",
+        "descAr": "ظلل الأرقام المكررة بحيث لا تتجاور خليتان سوداوان وتبقى الخلايا البيضاء متصلة طوبولوجياً.",
+        "leftAr": "⬛ تظليل الخلية",
+        "rightAr": "⭕ وضع دائرة (إبقاء)",
+        "middleAr": "مسح العلامة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Vertex Independent Sets & Connected Planar Subgraphs.</p>\n<p>Shade grid cells black ($B$) such that unshaded white cells ($W$) contain no duplicate values:</p>\n<div class=\"katex-display\">$$\\forall b_1, b_2 \\in B: \\operatorname{dist}_1(b_1, b_2) > 1, \\qquad c(W) = 1, \\qquad |\\{w \\in W_{\\text{row } i} \\mid \\operatorname{val}(w) = k\\}| \\le 1$$</div>\n<p>• Black cells cannot share an orthogonal edge.<br>• All white cells must remain connected into a single contiguous open space.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المجموعات المستقلة في البيانات والبيانات الجزئية المتصلة.</p>\n<p>ظلل بعض الخلايا بالأسود ($B$) بحيث لا يتكرر أي رقم بين الخلايا البيضاء ($W$):</p>\n<div class=\"katex-display\">$$\\forall b_1, b_2 \\in B: \\operatorname{dist}_1(b_1, b_2) > 1, \\qquad c(W) = 1, \\qquad |\\{w \\in W_{\\text{row } i} \\mid \\operatorname{val}(w) = k\\}| \\le 1$$</div>\n<p>• لا يجوز تجاور خليتين مظللتين أفقياً أو رأسياً (مجموعة مستقلة).<br>• يجب أن تظل جميع الخلايا البيضاء متصلة في منطقة واحدة مترابطة طوبولوجياً.</p>"
     },
-    blackbox: {
-      titleEn: "🔬 Black Box (Laser Optics)", titleAr: "🔬 الصندوق الأسود (بصريات الليزر)",
-      domainEn: "Ray Reflection & Wave Scattering", domainAr: "انعكاس الأشعة وتشتت الموجات",
-      descEn: "Deduce hidden atomic positions by firing laser beams and analyzing reflection paths.",
-      descAr: "استنتج مواقع الكرات المخفية بإطلاق أشعة الليزر وتحليل مسارات الانعكاس والامتصاص.",
-      leftAr: "🔴 وضع كرة / إطلاق ليزر", rightAr: "✖️ علامة خلية فارغة", middleAr: "قفل الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> البصريات الهندسية والاستنتاج العكسي من تشتت الأشعة.</p><p>أطلق أشعة الليزر من حواف الصندوق وراقب أين تخرج (أو تُمتص `H` أو تنعكس `R`)، ثم حدد مواقع الكرات المخفية واضغط إظهار للتحقق.</p>"
+    "blackbox": {
+        "titleEn": "🔬 Black Box (Laser Optics)",
+        "titleAr": "🔬 الصندوق الأسود (بصريات الليزر)",
+        "domainEn": "Scattering Optics & Inverse Problems: Path Reflection $\\theta_r = \\theta_i$",
+        "domainAr": "بصريات التشتت والمسائل العكسية: مسار الانعكاس $\\theta_r = \\theta_i$",
+        "descEn": "Locate hidden atoms by firing ray probes and solving inverse scattering equations.",
+        "descAr": "استنتج مواقع الكرات المخفية بإطلاق حزم الليزر وتحليل معادلات التشتت والانعكاس العكسية.",
+        "leftAr": "🔴 وضع كرة / إطلاق ليزر",
+        "rightAr": "✖️ علامة خلية فارغة",
+        "middleAr": "قفل الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Inverse Scattering Problems & Snell-Law Deflection Geometry.</p>\n<p>Trace laser beams propagating through a discrete scattering medium:</p>\n<div class=\"katex-display\">$$\\vec{v}_{\\text{out}} = \\mathbf{R}(\\text{Atoms}) \\vec{v}_{\\text{in}}, \\qquad d(\\text{ray}, \\text{atom}) = 0 \\implies \\text{Absorption (H)}, \\quad d = 1 \\implies \\Delta\\theta = 90^\\circ$$</div>\n<p>• Beams entering adjacent to an atom reflect immediately backwards ($R$).<br>• Deduce the exact coordinates of all hidden scattering centers from boundary entry/exit pairs.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المسائل العكسية في تشتت الموجات وانكسار الأشعة في الأوساط المتقطعة.</p>\n<p>تتبع حزم الليزر المنطلقة عبر الصندوق وحلل تفاعلها مع الكرات المخفية:</p>\n<div class=\"katex-display\">$$\\vec{v}_{\\text{out}} = \\mathbf{R}(\\text{Atoms}) \\vec{v}_{\\text{in}}, \\qquad d(\\text{ray}, \\text{atom}) = 0 \\implies \\text{Absorption (H)}, \\quad d = 1 \\implies \\Delta\\theta = 90^\\circ$$</div>\n<p>• الأشعة التي تصطدم بالكرة تُمتص ($H$)، والأشعة المارة بجوارها تنحرف بزاوية $90^\\circ$، والانعكاس المباشر يعطي ($R$).<br>• حدد مواقع الكرات بدقة من خلال أزواج نقاط الدخول والخروج.</p>"
     },
-    undead: {
-      titleEn: "🪞 Undead (Mirror Optics)", titleAr: "🪞 المرايا المنطقية (أنديد)",
-      domainEn: "Geometric Optics & Sightline Algebra", domainAr: "البصريات الهندسية وجبر خطوط الرؤية",
-      descEn: "Trace mirror reflection paths to place spectral entities matching sightline counts.",
-      descAr: "تتبع انعكاسات المرايا لتوزيع الكائنات الثلاثة وفق أعداد الرؤية المباشرة والمنعكسة.",
-      leftAr: "تحديد الخلية", rightAr: "وضع الملاحظات (قلم)", middleAr: "مسح الخلية",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> قانون الانعكاس الضوئي وحساب المشاهدات على المسارات المنكسرة.</p><p>ضع في كل خلية فارغة: شبحاً (G) لا يُرى إلا في المرايا، أو مصاص دماء (V) يُرى مباشرة فقط ولا يظهر في المرايا، أو زومبي (Z) يُرى في الحالتين، لتحقيق الأعداد المطلوبة.</p>"
+    "undead": {
+        "titleEn": "🪞 Undead (Mirror Optics)",
+        "titleAr": "🪞 المرايا المنطقية (أنديد)",
+        "domainEn": "Geometric Reflections: Parity of Mirrors, Sightline Algebra $\\sum = K$",
+        "domainAr": "الانعكاسات الهندسية: تكافؤ المرايا وجبر خطوط الرؤية $\\sum = K$",
+        "descEn": "Solve mirror ray paths to place Ghosts ($G$), Vampires ($V$), and Zombies ($Z$) matching edge tallies.",
+        "descAr": "تتبع مسارات انعكاس المرايا لتوزيع الأشباح ($G$) ومصاصي الدماء ($V$) والزومبي ($Z$) بدقة.",
+        "leftAr": "تحديد الخلية",
+        "rightAr": "وضع الملاحظات (قلم)",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Parity of Reflections & Piecewise Linear Sightline Transformations.</p>\n<p>Place entities $\\{G, V, Z\\}$ satisfying the optical properties of mirrors:</p>\n<div class=\"katex-display\">$$\\text{Visibility}(R) = \\sum_{e \\in \\text{Path}(R)} \\chi(e), \\quad \\chi(G) = \\mathbb{I}(\\text{Reflected}), \\quad \\chi(V) = \\mathbb{I}(\\text{Direct}), \\quad \\chi(Z) = 1$$</div>\n<p>• Ghosts are visible only after reflecting in at least one diagonal mirror.<br>• Vampires are visible only along direct unobstructed sightlines before any reflection.<br>• Zombies are universally visible along the entire ray trajectory.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> تكافؤ الانعكاسات والتحويلات الخطية لمسارات الرؤية عبر المرايا.</p>\n<p>وزع الكائنات الثلاثة $\\{G, V, Z\\}$ وفق الخواص البصرية للمرايا:</p>\n<div class=\"katex-display\">$$\\text{Visibility}(R) = \\sum_{e \\in \\text{Path}(R)} \\chi(e), \\quad \\chi(G) = \\mathbb{I}(\\text{Reflected}), \\quad \\chi(V) = \\mathbb{I}(\\text{Direct}), \\quad \\chi(Z) = 1$$</div>\n<p>• الشبح ($G$): لا يُرى إلا بعد الانعكاس في مرآة واحدة على الأقل.<br>• مصاص الدماء ($V$): يُرى في خط الرؤية المباشر فقط ولا يظهر في المرايا.<br>• الزومبي ($Z$): يُرى في جميع الحالات على طول مسار الشعاع.</p>"
     },
-    magnets: {
-      titleEn: "🧲 Magnets (Polarity)", titleAr: "🧲 المغناطيسات (القطبية)",
-      domainEn: "Electromagnetism & Dipole Balance", domainAr: "الكهرومغناطيسية وتوازن الأقطاب",
-      descEn: "Place +/- magnetic dipoles satisfying pole tallies without orthogonal repulsion.",
-      descAr: "ضع ثنائيات الأقطاب (+ / −) لتحقيق أعداد الأقطاب دون تجاور قطبين متماثلين.",
-      leftAr: "➕ وضع مغناطيس (+/-)", rightAr: "✖️ تحديد كقطعة محايدة", middleAr: "مسح القطعة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> ثنائيات الأقطاب المغناطيسية وشرط التنافر المتعامد.</p><p>كل مستطيل إما أن يحتوي على مغناطيس بقطبين (+ و −) أو يبقى محايداً فارغاً.<br>• لا يجوز تجاور قطبين موجبين (+) أو قطبين سالبين (−) أفقياً أو رأسياً.<br>• يجب مطابقة أعداد الأقطاب + و − المكتوبة على حواف الصفوف والأعمدة.</p>"
+    "magnets": {
+        "titleEn": "🧲 Magnets (Polarity)",
+        "titleAr": "🧲 المغناطيسات (القطبية)",
+        "domainEn": "Dipole Physics & Gauss Constraint: $\\sum q_i = 0$, Orthogonal Repulsion",
+        "domainAr": "فيزياء ثنائيات الأقطاب وقيد غاوس: $\\sum q_i = 0$ والتنافر المتعامد",
+        "descEn": "Place dipoles $q_i \\in \\{+1, -1\\}$ satisfying row/col sums without like-pole contact $q_u q_v \\neq +1$.",
+        "descAr": "ضع ثنائيات الأقطاب $q_i \\in \\{+1, -1\\}$ لتحقيق شحنات الصفوف والأعمدة دون تلامس متماثل.",
+        "leftAr": "➕ وضع مغناطيس (+/-)",
+        "rightAr": "✖️ تحديد كقطعة محايدة",
+        "middleAr": "مسح القطعة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Magnetic Dipoles, Gauss Law & Orthogonal Repulsion Constraints.</p>\n<p>Assign charges $q \\in \\{+1, -1, 0\\}$ to dominoes such that every magnetic domino is a dipole:</p>\n<div class=\"katex-display\">$$\\sum_{c \\in \\text{domino}} q_c = 0, \\qquad \\forall (u, v) \\in E_{\\text{ortho}}: q_u \\cdot q_v \\neq +1, \\qquad \\sum_{j=1}^W \\mathbb{I}(q_{i,j} = \\pm 1) = N_i^\\pm$$</div>\n<p>• Like charges ($+$ with $+$ or $-$ with $-$) can never touch across horizontal or vertical borders.<br>• Border numbers give the exact count of $+$ and $-$ poles in each row and column.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> ثنائيات الأقطاب المغناطيسية وقانون غاوس والتنافر المتعامد.</p>\n<p>عيّن الشحنات $q \\in \\{+1, -1, 0\\}$ لقطع الدومينو بحيث يكون كل مغناطيس ثنائي القطب متعادلاً:</p>\n<div class=\"katex-display\">$$\\sum_{c \\in \\text{domino}} q_c = 0, \\qquad \\forall (u, v) \\in E_{\\text{ortho}}: q_u \\cdot q_v \\neq +1, \\qquad \\sum_{j=1}^W \\mathbb{I}(q_{i,j} = \\pm 1) = N_i^\\pm$$</div>\n<p>• يُمنع تلامس قطبين متماثلين ($+$ مع $+$ أو $-$ مع $-$) أفقياً أو رأسياً.<br>• الأرقام على الحواف تحدد عدد الأقطاب الموجبة والسالبة في كل صف وعمود.</p>"
     },
-    inertia: {
-      titleEn: "💎 Inertia (Kinematics)", titleAr: "💎 القصور الذاتي (إنيرشيا)",
-      domainEn: "Newtonian Frictionless Vectors", domainAr: "الحركة النيوتونية عديمة الاحتكاك",
-      descEn: "Navigate frictionless vector trajectories to collect all gems without hitting mines.",
-      descAr: "حرك الكرة على مسارات عديمة الاحتكاك لجمع كل الجواهر دون الاصطدام بالألغام.",
-      leftAr: "💎 دحرجة الكرة", rightAr: "دحرجة الكرة", middleAr: "دحرجة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> القانون الأول لنيوتن (القصور الذاتي) على الشبكات المتقطعة.</p><p>حرك الكرة في أي من الاتجاهات الثمانية؛ ستستمر في الانزلاق حتى تصطدم بجدار أو تتوقف على دائرة توقف منقطة. اجمع كل الجواهر وتجنب الألغام!</p>"
+    "inertia": {
+        "titleEn": "💎 Inertia (Kinematics)",
+        "titleAr": "💎 القصور الذاتي (إنيرشيا)",
+        "domainEn": "Frictionless Kinematics: $\\vec{v} = \\text{const}$, Collision Vectors $\\Delta\\vec{p}$",
+        "domainAr": "الحركة عديمة الاحتكاك: $\\vec{v} = \\text{const}$ ومتجهات التصادم $\\Delta\\vec{p}$",
+        "descEn": "Navigate frictionless trajectories $\\vec{x}(t+1) = \\vec{x}(t) + \\vec{v}$ to collect gems without mine impacts.",
+        "descAr": "حرك الكرة على مسارات نيوتونية عديمة الاحتكاك $\\vec{x}(t+1) = \\vec{x}(t) + \\vec{v}$ لجمع كل الجواهر.",
+        "leftAr": "💎 دحرجة الكرة",
+        "rightAr": "دحرجة الكرة",
+        "middleAr": "دحرجة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Newton's First Law of Motion (Inertia) on Discrete 8-Directional Lattices.</p>\n<p>Launch the ball along unit vectors $\\vec{v} \\in \\{-1, 0, 1\\}^2 \\setminus \\{\\mathbf{0}\\}$:</p>\n<div class=\"katex-display\">$$\\vec{x}(t+1) = \\vec{x}(t) + \\vec{v}, \\qquad \\vec{v} \\mapsto \\mathbf{0} \\iff \\vec{x}(t+1) \\in \\text{Walls} \\cup \\text{StopPoints}$$</div>\n<p>• Once set in motion, the ball slides endlessly until halted by a solid obstacle or stop ring.<br>• Collect every gemstone while strictly avoiding hazardous explosive mine coordinates.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> قانون نيوتن الأول (القصور الذاتي) على الشبكات المتقطعة ثمانية الاتجاهات.</p>\n<p>أطلق الكرة بمتجه سرعة $\\vec{v} \\in \\{-1, 0, 1\\}^2 \\setminus \\{\\mathbf{0}\\}$:</p>\n<div class=\"katex-display\">$$\\vec{x}(t+1) = \\vec{x}(t) + \\vec{v}, \\qquad \\vec{v} \\mapsto \\mathbf{0} \\iff \\vec{x}(t+1) \\in \\text{Walls} \\cup \\text{StopPoints}$$</div>\n<p>• تنزلق الكرة بسرعة ثابتة دون توقف حتى تصطدم بجدار أو تستقر على حلقة توقف.<br>• اجمع جميع الجواهر وتجنب تماماً الاصطدام بحقول الألغام المتفجرة.</p>"
     },
-    cube: {
-      titleEn: "🧊 Cube (3D Polyhedra)", titleAr: "🧊 المكعب المتدحرج (متعددات الوجوه)",
-      domainEn: "3D Rotation Groups & Net Topology", domainAr: "زمر الدوران ثلاثية الأبعاد والفضاء",
-      descEn: "Roll a 3D polyhedron across a plane to map every grid face onto the solid.",
-      descAr: "دحرج المجسم ثلاثي الأبعاد على الشبكة لجمع جميع المربعات الملونة على أوجهه.",
-      leftAr: "🧊 دحرجة المجسم", rightAr: "دحرجة المجسم", middleAr: "دحرجة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> زمر دوران المجسمات الأفلاطونية وإسقاط الأوجه.</p><p>استخدم الأسهم أو النقر لدحرجة المكعب (أو المجسم) فوق المربعات الزرقاء لتنتقل إلى أوجهه حتى تتلون جميع أوجه المجسم في آن واحد.</p>"
+    "cube": {
+        "titleEn": "🧊 Cube (3D Polyhedra)",
+        "titleAr": "🧊 المكعب المتدحرج (متعددات الوجوه)",
+        "domainEn": "3D Polyhedral Rotation Groups: $SO(3)$ Symmetries, Euler $\\chi = V - E + F = 2$",
+        "domainAr": "زمر دوران المجسمات: تماثلات $SO(3)$ وصيغة أويلر $\\chi = V - E + F = 2$",
+        "descEn": "Roll a polyhedron over planar grid faces using 3D rotation group operations $R \\in \\mathcal{O}_h$.",
+        "descAr": "دحرج متعدد الوجوه على الشبكة المستوية باستخدام زمرة الدوران الفراغية $R \\in \\mathcal{O}_h$.",
+        "leftAr": "🧊 دحرجة المجسم",
+        "rightAr": "دحرجة المجسم",
+        "middleAr": "دحرجة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Octahedral Rotation Group $\\mathcal{O} \\cong S_4$ & Surface Face Embeddings.</p>\n<p>Roll the 3D solid across the 2D plane to pick up and transfer colored face markers:</p>\n<div class=\"katex-display\">$$\\chi = V - E + F = 2, \\qquad \\mathbf{R} \\in \\mathcal{O} \\subset SO(3), \\quad |\\mathcal{O}| = 24 \\text{ rotational symmetries}$$</div>\n<p>• Rolling over a colored grid tile transfers color to the contacting polyhedron face.<br>• Paint all faces of the solid simultaneously to complete the polyhedral map.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> زمرة دوران المكعب $\\mathcal{O} \\cong S_4$ وإسقاطات شبكات المجسمات المستوية.</p>\n<p>دحرج المجسم ثلاثي الأبعاد على الشبكة المستوية لنقل العلامات الملونة إلى أوجهه:</p>\n<div class=\"katex-display\">$$\\chi = V - E + F = 2, \\qquad \\mathbf{R} \\in \\mathcal{O} \\subset SO(3), \\quad |\\mathcal{O}| = 24 \\text{ Symmetries}$$</div>\n<p>• الدحرجة فوق مربع ملون تنقل اللون إلى وجه المجسم الملامس للشبكة.<br>• لوّن جميع أوجه المجسم في نفس الوقت لإتمام الحل بنجاح.</p>"
     },
-    galaxies: {
-      titleEn: "🌌 Galaxies (Symmetry)", titleAr: "🌌 المجرات (التماثل الدوراني)",
-      domainEn: "180° Rotational Point Symmetry", domainAr: "التماثل النقطي الدوراني 180°",
-      descEn: "Partition the grid into 180-degree rotationally symmetric polyomino regions.",
-      descAr: "قسّم الشبكة إلى مناطق متماثلة دورانياً بزاوية 180 درجة حول مراكز المجرات.",
-      leftAr: "🌌 رسم / إزالة حد", rightAr: "ربط بمركز مجرة", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التماثل الدوراني الثنائي ($C_2$) وتجزئة المستوى.</p><p>قسّم الشبكة عبر رسم الحدود بحيث تحتوي كل منطقة (مجرة) على دائرة مركزية واحدة فقط، وتكون متماثلة تماماً عند تدويرها 180 درجة حول ذلك المركز.</p>"
+    "galaxies": {
+        "titleEn": "🌌 Galaxies (Symmetry)",
+        "titleAr": "🌌 المجرات (التماثل الدوراني)",
+        "domainEn": "Point Symmetry Groups: $C_2$ Inversion $(2x_0 - x, 2y_0 - y)$, Tessellation",
+        "domainAr": "زمر التماثل النقطي: تماثل $C_2$ بالانعكاس $(2x_0 - x, 2y_0 - y)$ والتبليط",
+        "descEn": "Tessellate the grid into regions with $180^\\circ$ rotational point symmetry around galactic cores.",
+        "descAr": "قسّم الشبكة إلى مجرات متماثلة دورانياً بزاوية $180^\\circ$ حول مراكز المجرات النقطية.",
+        "leftAr": "🌌 رسم / إزالة حد",
+        "rightAr": "ربط بمركز مجرة",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Cyclic Group $C_2$ (Central Inversion) & Planar Dissection.</p>\n<p>Partition the grid into connected regions $R_k$, each possessing a unique central point $(x_k, y_k)$:</p>\n<div class=\"katex-display\">$$\\forall (x, y) \\in R_k \\iff (2x_k - x, 2y_k - y) \\in R_k, \\qquad \\bigcup_{k=1}^m R_k = \\text{Grid}, \\quad R_i \\cap R_j = \\emptyset$$</div>\n<p>• Every region must encompass exactly one galactic core dot.<br>• Every cell in a galaxy must map onto another cell of the same galaxy under $180^\\circ$ rotation.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الزمرة الدائرية $C_2$ (التماثل النقطي الدوراني) وتجزئة المستوى.</p>\n<p>قسّم الشبكة إلى مناطق مترابطة $R_k$ بحيث تمتلك كل منطقة مركزاً نقطياً فريداً $(x_k, y_k)$:</p>\n<div class=\"katex-display\">$$\\forall (x, y) \\in R_k \\iff (2x_k - x, 2y_k - y) \\in R_k, \\qquad \\bigcup_{k=1}^m R_k = \\text{Grid}, \\quad R_i \\cap R_j = \\emptyset$$</div>\n<p>• يجب أن تحتوي كل منطقة على نقطة مركزية واحدة فقط.<br>• كل خلية في المنطقة يجب أن تطابق خلية أخرى في نفس المنطقة عند تدويرها $180^\\circ$ حول المركز.</p>"
     },
-    untangle: {
-      titleEn: "🕸️ Untangle (Planar Graphs)", titleAr: "🕸️ فك التشابك (البيانات المستوية)",
-      domainEn: "Kuratowski's Theorem & Planarity", domainAr: "مبرهنة كوراتوفسكي والبيانات المستوية",
-      descEn: "Reposition graph vertices in Euclidean space until zero edge intersections remain.",
-      descAr: "اسحب رؤوس الشبكة وأعد ترتيبها في المستوى حتى لا يتقاطع أي خطين معاً.",
-      leftAr: "🕸️ سحب الرأس", rightAr: "سحب الرأس", middleAr: "سحب",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التضمين المستوي للبيانات (Planar Graph Embedding).</p><p>اسحب النقاط (الرؤوس) إلى مواقع جديدة بحيث لا يتقاطع أي ضلعين مستقيمين مع بعضهما البعض.</p>"
+    "untangle": {
+        "titleEn": "🕸️ Untangle (Planar Graphs)",
+        "titleAr": "🕸️ فك التشابك (البيانات المستوية)",
+        "domainEn": "Planar Graph Embeddings: Kuratowski's Theorem, Crossings $\\operatorname{cr}(G) = 0$",
+        "domainAr": "تضمين البيانات المستوية: مبرهنة كوراتوفسكي والتقاطعات $\\operatorname{cr}(G) = 0$",
+        "descEn": "Reposition vertices in $\\mathbb{R}^2$ until edge crossings vanish: $\\operatorname{cr}(G) = 0$.",
+        "descAr": "أعد توزيع الرؤوس في المستوى $\\mathbb{R}^2$ حتى تتلاشى جميع تقاطعات الأضلاع تماماً: $\\operatorname{cr}(G) = 0$.",
+        "leftAr": "🕸️ سحب الرأس",
+        "rightAr": "سحب الرأس",
+        "middleAr": "سحب",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Kuratowski's & Wagner's Theorems on Planar Graph Realization.</p>\n<p>Find an isomorphic straight-line embedding of a planar graph $G = (V, E)$ in $\\mathbb{R}^2$:</p>\n<div class=\"katex-display\">$$\\operatorname{cr}(G) = \\sum_{\\{e_1, e_2\\} \\subset E} \\mathbb{I}(e_1 \\cap e_2 \\neq \\emptyset) = 0, \\qquad K_5, K_{3,3} \\not\\le_m G$$</div>\n<p>• Drag vertices across the canvas until no two straight-line edges intersect.<br>• Planar graphs satisfy Euler's formula: $|V| - |E| + |F| = 1 + c(G)$.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مبرهنتا كوراتوفسكي وفاغنر في التضمين الخطي للبيانات المستوية.</p>\n<p>أعد ترتيب إحداثيات رؤوس البيان $G = (V, E)$ في المستوى $\\mathbb{R}^2$ لتفادي أي تقاطع:</p>\n<div class=\"katex-display\">$$\\operatorname{cr}(G) = \\sum_{\\{e_1, e_2\\} \\subset E} \\mathbb{I}(e_1 \\cap e_2 \\neq \\emptyset) = 0, \\qquad K_5, K_{3,3} \\not\\le_m G$$</div>\n<p>• اسحب الرؤوس على اللوحة اللمسية حتى تصبح جميع الأضلاع خالية من أي تقاطع مشترك.<br>• تحقق البيانات المستوية صيغة أويلر الشهيرة: $|V| - |E| + |F| = 1 + c(G)$.</p>"
     },
-    map: {
-      titleEn: "🗺️ Map (Four-Color Theorem)", titleAr: "🗺️ تلوين الخريطة (مبرهنة الألوان الأربعة)",
-      domainEn: "Four-Color Theorem & Dual Graphs", domainAr: "مبرهنة الألوان الأربعة وتلوين البيانات",
-      descEn: "Color planar regions using at most four colors so no adjacent regions share a color.",
-      descAr: "لوّن أقاليم الخريطة بأربعة ألوان فقط بحيث لا يتجاور إقليمان بنفس اللون.",
-      leftAr: "🎨 سحب اللون للإقليم", rightAr: "✏️ علامة تنقيط", middleAr: "مسح اللون",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> مبرهنة الألوان الأربعة لتلوين البيانات المستوية.</p><p>لوّن جميع مناطق الخريطة باستخدام الألوان الأربعة بحيث لا تشترك منطقتان متجاورتان عبر حد مشترك في نفس اللون. اسحب اللون من منطقة ملونة إلى منطقة فارغة لتلوينها.</p>"
+    "map": {
+        "titleEn": "🗺️ Map (Four-Color Theorem)",
+        "titleAr": "🗺️ تلوين الخريطة (مبرهنة الألوان الأربعة)",
+        "domainEn": "Four-Color Theorem: Planar Chromatic Number $\\chi(G) \\le 4$, Dual Graphs",
+        "domainAr": "مبرهنة الألوان الأربعة: العدد اللوني المستوي $\\chi(G) \\le 4$ والبيان المزدوج",
+        "descEn": "Color contiguous territories such that adjacent regions share distinct colors $c(u) \\neq c(v)$.",
+        "descAr": "لوّن أقاليم الخريطة بأربعة ألوان فقط بحيث يختلف لون أي إقليمين متجاورين $c(u) \\neq c(v)$.",
+        "leftAr": "🎨 سحب اللون للإقليم",
+        "rightAr": "✏️ علامة تنقيط",
+        "middleAr": "مسح اللون",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Appel-Haken Four-Color Theorem & Dual Graph Vertex Coloring.</p>\n<p>Color every face of a planar map using at most four distinct colors:</p>\n<div class=\"katex-display\">$$\\chi(G^*) \\le 4, \\qquad \\forall (u, v) \\in E(G^*): c(u) \\neq c(v), \\quad c(v) \\in \\{1, 2, 3, 4\\}$$</div>\n<p>• Regions sharing a positive-length common boundary must receive different colors.<br>• Regions meeting solely at a single isolated corner point may share the same color.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مبرهنة الألوان الأربعة (أبل وهاكن) وتلوين رؤوس البيان المزدوج.</p>\n<p>لوّن أقاليم الخريطة المستوية باستخدام أربعة ألوان كحد أقصى:</p>\n<div class=\"katex-display\">$$\\chi(G^*) \\le 4, \\qquad \\forall (u, v) \\in E(G^*): c(u) \\neq c(v), \\quad c(v) \\in \\{1, 2, 3, 4\\}$$</div>\n<p>• لا يجوز أن يشترك إقليمان متجاوران بحد مشترك في نفس اللون.<br>• الأقاليم التي تلتقي عند نقطة زاوية واحدة فقط يمكن أن تحمل نفس اللون.</p>"
     },
-    pearl: {
-      titleEn: "⚪ Pearl (Masyu)", titleAr: "⚪ اللؤلؤ (ماسيو)",
-      domainEn: "Hamiltonian Cycles & Curvature Rules", domainAr: "الدورات الهاملتونية وقواعد الانحناء",
-      descEn: "Draw a closed loop obeying geometric turn constraints through black and white pearls.",
-      descAr: "ارسم مساراً مغلقاً يمر بجميع اللآلئ البيضاء والسوداء وفق شروط الاستقامة والانعطاف.",
-      leftAr: "⚪ رسم مسار الحلقة", rightAr: "✖️ علامة استبعاد", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المسارات المغلقة المقيدة بالانحناء المحلي.</p><p>ارسم حلقة مغلقة واحدة تمر عبر جميع اللآلئ:<br>• في اللؤلؤة البيضاء: يجب أن يمر المسار مستقيماً عبرها، وينعطف مباشرة في إحدى الخليتين المجاورتين.<br>• في اللؤلؤة السوداء: يجب أن ينعطف المسار بزاوية قائمة داخلها، ويمتد مستقيماً لمربعين على الأقل في كلا الاتجاهين.</p>"
+    "pearl": {
+        "titleEn": "⚪ Pearl (Masyu)",
+        "titleAr": "⚪ اللؤلؤ (ماسيو)",
+        "domainEn": "Hamiltonian Loops & Local Curvature: $\\kappa \\in \\{0^\\circ, 90^\\circ\\}$ Geodesics",
+        "domainAr": "الحلقات الهاملتونية والانحناء الموضعي: $\\kappa \\in \\{0^\\circ, 90^\\circ\\}$ والمسارات",
+        "descEn": "Draw a closed loop obeying turning curvature constraints at white and black pearls.",
+        "descAr": "ارسم مساراً مغلقاً يحقق شروط الانحناء الموضعي للزوايا عند اللآلئ البيضاء والسوداء.",
+        "leftAr": "⚪ رسم مسار الحلقة",
+        "rightAr": "✖️ علامة استبعاد",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Hamiltonian Cycles with Discrete Curvature $\\kappa$ Constraints.</p>\n<p>Construct a single, continuous, non-intersecting closed grid loop traversing all pearl nodes:</p>\n<div class=\"katex-display\">$$\\text{White: } \\kappa_0 = 0^\\circ \\land (\\kappa_{-1} = 90^\\circ \\lor \\kappa_{+1} = 90^\\circ), \\qquad \\text{Black: } \\kappa_0 = 90^\\circ \\land \\text{straight segments } \\ge 2$$</div>\n<p>• White pearls: loop travels straight through the pearl, and must turn in the immediately adjacent cell.<br>• Black pearls: loop must turn $90^\\circ$ inside the pearl, and extend straight for at least 2 cells in both directions.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الدورات الهاملتونية المقيدة بالانحناء المتقطع $\\kappa$.</p>\n<p>ارسم مساراً مغلقاً بسيطاً واحداً متصلاً يمر بجميع اللآلئ في الشبكة:</p>\n<div class=\"katex-display\">$$\\text{White: } \\kappa_0 = 0^\\circ \\land (\\kappa_{-1} = 90^\\circ \\lor \\kappa_{+1} = 90^\\circ), \\qquad \\text{Black: } \\kappa_0 = 90^\\circ \\land \\text{Straight Segments } \\ge 2$$</div>\n<p>• اللؤلؤة البيضاء: يمر الStraight Segmentsاً عبرها، وينعطف بزاوية قائمة في الخلية السابقة أو اللاحقة مباشرة.<br>• اللؤلؤة السوداء: ينعطف المسار $90^\\circ$ داخلها، ويمتد مستقيماً لمربعين على الأقل في كلا الاتجاهين.</p>"
     },
-    tracks: {
-      titleEn: "🛤️ Tracks (Railway Paths)", titleAr: "🛤️ مسار القطار (تراكس)",
-      domainEn: "Hamiltonian Paths & Tomography", domainAr: "المسارات المتصلة وإسقاط الصفوف",
-      descEn: "Reconstruct a continuous railway path from orthogonal row and column projection counts.",
-      descAr: "أكمل مسار سكة الحديد من نقطة A إلى B بالاعتماد على أعداد القطع في كل صف وعمود.",
-      leftAr: "🛤️ مد السكة", rightAr: "✖️ استبعاد الخلية", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> إعادة بناء المسار المتصل من مجاميع الإسقاطات المتعامدة.</p><p>ارسم مسار سكة حديد متصل بدون تقاطع من A إلى B بحيث يطابق عدد مربعات السكة في كل صف وعمود الأرقام المكتوبة على الحواف.</p>"
+    "tracks": {
+        "titleEn": "🛤️ Tracks (Railway Paths)",
+        "titleAr": "🛤️ مسار القطار (تراكس)",
+        "domainEn": "Hamiltonian Paths & Discrete Tomography: Orthogonal Projections $P_x, P_y$",
+        "domainAr": "المسارات الهاملتونية والتصوير المقطعي: الإسقاطات المتعامدة $P_x, P_y$",
+        "descEn": "Reconstruct a railway path $A \\rightsquigarrow B$ matching row/column projection tallies.",
+        "descAr": "أكمل مسار سكة الحديد المتصل $A \\rightsquigarrow B$ بالاعتماد على مجاميع الإسقاطات المتعامدة.",
+        "leftAr": "🛤️ مد السكة",
+        "rightAr": "✖️ استبعاد الخلية",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Self-Avoiding Hamiltonian Paths & Orthogonal Tomographic Projections.</p>\n<p>Lay down railway tracks forming a continuous path from terminal $A$ to terminal $B$:</p>\n<div class=\"katex-display\">$$\\sum_{j=1}^W \\mathbb{I}(\\text{track at } (i, j)) = R_i, \\qquad \\sum_{i=1}^H \\mathbb{I}(\\text{track at } (i, j)) = C_j, \\qquad \\operatorname{path}(A \\rightsquigarrow B)$$</div>\n<p>• Tracks cannot branch, terminate prematurely, or create disconnected loops.<br>• Row and column numbers dictate the exact track segment counts.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المسارات المتصلة غير المتقاطعة والتصوير المقطعي المتعامد.</p>\n<p>مد مسار سكة حديد متصل دون انقطاع من المحطة $A$ إلى المحطة $B$:</p>\n<div class=\"katex-display\">$$\\sum_{j=1}^W \\mathbb{I}(\\text{track at } (i, j)) = R_i, \\qquad \\sum_{i=1}^H \\mathbb{I}(\\text{track at } (i, j)) = C_j, \\qquad \\operatorname{path}(A \\rightsquigarrow B)$$</div>\n<p>• لا يجوز تفرع السكة أو تكوين حلقات مغلقة منفصلة.<br>• يطابق عدد قطع السكة في كل صف وعمود الأرقام المعطاة على حواف الشبكة.</p>"
     },
-    signpost: {
-      titleEn: "🧭 Signpost (Vector Chains)", titleAr: "🧭 أسهم الطريق (ساين بوست)",
-      domainEn: "Directed Graphs & Hamiltonian Paths", domainAr: "البيانات الموجهة والمسارات الهاملتونية",
-      descEn: "Link directed vector arrows into a complete Hamiltonian sequence from 1 to N².",
-      descAr: "اربط المربعات في سلسلة متصلة من 1 إلى N² باتباع اتجاهات الأسهم المرسومة.",
-      leftAr: "🔗 سحب للربط", rightAr: "✂️ فك الربط", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المسار الهاملتوني في بيان موجه بالمتجهات.</p><p>اربط جميع المربعات بترتيب متسلسل من 1 إلى النهاية، بحيث يقع كل مربع تالٍ في الاتجاه الذي يشير إليه سهم المربع السابق. اسحب من مربع إلى آخر للربط بينهما.</p>"
+    "signpost": {
+        "titleEn": "🧭 Signpost (Vector Chains)",
+        "titleAr": "🧭 أسهم الطريق (ساين بوست)",
+        "domainEn": "Directed Hamiltonian Paths: Vector Tour $(v_1 \\to v_2 \\to \\dots \\to v_{N^2})$",
+        "domainAr": "المسارات الهاملتونية الموجهة: السلسلة المتجهة $(v_1 \\to v_2 \\to \\dots \\to v_{N^2})$",
+        "descEn": "Connect arrows into a sequence $1 \\le k \\le N^2$ where $v_{k+1} - v_k = \\lambda \\vec{d}(v_k)$.",
+        "descAr": "اربط المربعات في سلسلة متجهة كاملة من $1$ إلى $N^2$ باتباع اتجاهات الأشعة $v_{k+1} - v_k = \\lambda \\vec{d}(v_k)$.",
+        "leftAr": "🔗 سحب للربط",
+        "rightAr": "✂️ فك الربط",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Directed Hamiltonian Paths on Ray-Constrained Graphs.</p>\n<p>Construct a sequence visiting every square once from $1$ to $N^2$ along directed ray vectors:</p>\n<div class=\"katex-display\">$$v_{k+1} - v_k = \\lambda \\vec{d}(v_k) \\quad (\\lambda \\in \\mathbb{Z}^+), \\qquad \\{v_1, \\dots, v_{N^2}\\} = V$$</div>\n<p>• Each numbered square points along one of 8 compass headings toward its successor.<br>• Step distance $\\lambda$ can span any number of open squares in the indicated direction.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المسارات الهاملتونية الموجهة المقيدة بأشعة الاتجاهات.</p>\n<p>اربط جميع المربعات في سلسلة متصلة تزور كل مربع مرة واحدة من $1$ إلى $N^2$:</p>\n<div class=\"katex-display\">$$v_{k+1} - v_k = \\lambda \\vec{d}(v_k) \\quad (\\lambda \\in \\mathbb{Z}^+), \\qquad \\{v_1, \\dots, v_{N^2}\\} = V$$</div>\n<p>• يشير السهم في كل مربع إلى أحد الاتجاهات الثمانية نحو المربع التالي له في الترتيب.<br>• يمكن للمسافة $\\lambda$ أن تقطع أي عدد من المربعات على طول الخط الموجه.</p>"
     },
-    netslide: {
-      titleEn: "🔄 Netslide (Toroidal Net)", titleAr: "🔄 الشبكة المنزلقة (نت سلايد)",
-      domainEn: "Toroidal Permutations & Spanning Trees", domainAr: "التباديل الحلقية والأشجار الممتدة",
-      descEn: "Slide rows and columns cyclically to assemble a fully connected network tree.",
-      descAr: "أزح الصفوف والأعمدة دورياً لتجميع شبكة كهربائية متصلة بالكامل.",
-      leftAr: "🔄 إزاحة صف / عمود", rightAr: "🔒 قفل القطعة", middleAr: "قفل",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التباديل الدورية على الشبكة وتوصيل الأشجار الممتدة.</p><p>انقر على أسهم الحواف لإزاحة صف أو عمود كامل حتى تتصل جميع قطع الشبكة بالمصدر المركزي.</p>"
+    "netslide": {
+        "titleEn": "🔄 Netslide (Toroidal Net)",
+        "titleAr": "🔄 الشبكة المنزلقة (نت سلايد)",
+        "domainEn": "Toroidal Group Actions: Cyclic Shifts $\\mathbb{Z}_W \\times \\mathbb{Z}_H \\times S_n$",
+        "domainAr": "أفعال الزمر الحلقية: الإزاحات الدورية $\\mathbb{Z}_W \\times \\mathbb{Z}_H \\times S_n$",
+        "descEn": "Apply cyclic row/column permutations on the 2-torus $\\mathbb{T}^2$ to connect the tree.",
+        "descAr": "طبق التباديل الدورية للصفوف والأعمدة على السطح الحلقي $\\mathbb{T}^2$ لتوصيل الشجرة.",
+        "leftAr": "🔄 إزاحة صف / عمود",
+        "rightAr": "🔒 قفل القطعة",
+        "middleAr": "قفل",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Toroidal Permutation Groups & Spanning Tree Synthesis.</p>\n<p>Shift rows and columns cyclically across torus $\\mathbb{T}^2 = \\mathbb{R}^2 / \\mathbb{Z}^2$ to form a connected tree:</p>\n<div class=\"katex-display\">$$\\sigma_{x}(x, y) = ((x + \\delta) \\bmod W, y), \\qquad c(T) = 1, \\quad |E| = |V| - 1$$</div>\n<p>• Wrapping rows and columns allows infinite cyclical sliding.<br>• Connect all peripheral nodes back to the center without loops or disconnected branches.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> زمر التباديل الحلقية على السطح الحلقي $\\mathbb{T}^2$ وبناء الأشجار الممتدة.</p>\n<p>أزح الصفوف والأعمدة دورياً على السطح الحلقي لتوصيل الشبكة بالكامل:</p>\n<div class=\"katex-display\">$$\\sigma_{x}(x, y) = ((x + \\delta) \\bmod W, y), \\qquad c(T) = 1, \\quad |E| = |V| - 1$$</div>\n<p>• خروج القطعة من أحد الأطراف يعيدها فوراً من الطرف المقابل.<br>• الهدف هو تشكيل شجرة متصلة واحدة تربط جميع القطع بالمصدر المركزي.</p>"
     },
-    pattern: {
-      titleEn: "🏁 Pattern (Nonogram)", titleAr: "🏁 النقش المنطقي (نونوغرام)",
-      domainEn: "Discrete Tomography & Run-Length Logic", domainAr: "التصوير المقطعي المتقطع وأطوال الكتل",
-      descEn: "Reconstruct binary pixel matrices from orthogonal run-length projection sequences.",
-      descAr: "استنتج الصورة الثنائية بتظليل الخلايا وفق أطوال الكتل المتتالية في كل صف وعمود.",
-      leftAr: "⬛ تظليل بالأسود", rightAr: "⬜ تعليم كفارغ (أبيض)", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التصوير المقطعي المتقطع (Discrete Tomography).</p><p>الأرقام على جانب كل صف وأعلى كل عمود تحدد أطوال الكتل السوداء المتتالية وترتيبها، مع وجود مربع أبيض واحد على الأقل يفصل بين كل كتلتين.</p>"
+    "pattern": {
+        "titleEn": "🏁 Pattern (Nonogram)",
+        "titleAr": "🏁 النقش المنطقي (نونوغرام)",
+        "domainEn": "Discrete Tomography: Binary Reconstruction from Projections $\\sum x_{ij} = k$",
+        "domainAr": "التصوير المقطعي المتقطع: الاستنتاج الثنائي من الإسقاطات $\\sum x_{ij} = k$",
+        "descEn": "Reconstruct binary pixel matrices $\\mathbf{x} \\in \\{0, 1\\}^{H \\times W}$ from run-length clues.",
+        "descAr": "استنتج مصفوفة البكسل الثنائية $\\mathbf{x} \\in \\{0, 1\\}^{H \\times W}$ من متتاليات أطوال الكتل المتتالية.",
+        "leftAr": "⬛ تظليل بالأسود",
+        "rightAr": "⬜ تعليم كفارغ (أبيض)",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Discrete Tomography & Binary Run-Length Decoding.</p>\n<p>Reconstruct binary matrix $\\mathbf{x} \\in \\{0, 1\\}^{H \\times W}$ from 1D projection sequences:</p>\n<div class=\"katex-display\">$$\\operatorname{runs}(\\mathbf{x}_{i,*}) = (r_{i,1}, \\dots, r_{i,k}), \\qquad \\sum r_{i,m} + (k - 1) \\le W$$</div>\n<p>• Sequences specify the exact lengths and order of contiguous black cell runs.<br>• Consecutive runs must be separated by at least one white cell.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> التصوير المقطعي المتقطع وفك شفرة أطوال الكتل الثنائية المتتالية.</p>\n<p>استنتج المصفوفة الثنائية $\\mathbf{x} \\in \\{0, 1\\}^{H \\times W}$ من متتاليات الإسقاطات الأفقية والرأسية:</p>\n<div class=\"katex-display\">$$\\operatorname{runs}(\\mathbf{x}_{i,*}) = (r_{i,1}, \\dots, r_{i,k}), \\qquad \\sum r_{i,m} + (k - 1) \\le W$$</div>\n<p>• تحدد الأرقام أطوال الكتل السوداء المتتالية وترتيب ظهورها بدقة.<br>• يجب أن يفصل مربع أبيض واحد على الأقل بين كل كتلتين سوداوين متتاليتين.</p>"
     },
-    mines: {
-      titleEn: "💣 Mines (Zero-Guess Logic)", titleAr: "💣 الألغام المنطقية (بدون تخمين)",
-      domainEn: "Boolean Constraint Satisfaction", domainAr: "إرضاء القيود البوليانية والاستنتاج الصارم",
-      descEn: "Clear the minefield using guaranteed pure logical deduction with zero guessing.",
-      descAr: "اكشف جميع الخلايا الآمنة وحدد مواقع الألغام بالاستنتاج المنطقي الخالص دون أي تخمين.",
-      leftAr: "⛏️ كشف الخلية", rightAr: "🚩 وضع علم لغم", middleAr: "كشف المجاور",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الاستنتاج البولياني الحتمي (مولد خالٍ تماماً من الحاجة للتخمين).</p><p>يمثل الرقم في كل خلية مكشوفة عدد الألغام في الخلايا الثماني المجاورة لها. استخدم وضع العلم 🚩 لتحديد الألغام المؤكدة.</p>"
+    "mines": {
+        "titleEn": "💣 Mines (Zero-Guess Logic)",
+        "titleAr": "💣 الألغام المنطقية (بدون تخمين)",
+        "domainEn": "Boolean Satisfiability (SAT): Exact Clue Neighborhoods $\\sum_{k=1}^8 x_k = c$",
+        "domainAr": "إرضاء القيود البوليانية: معادلات الجوار المباشر $\\sum_{k=1}^8 x_k = c$",
+        "descEn": "Clear mines using deterministic Boolean deduction $\\sum_{u \\in N_8(v)} x_u = c_v$ with zero guessing.",
+        "descAr": "اكشف خلايا الألغام بالاستنتاج البولياني الحتمي $\\sum_{u \\in N_8(v)} x_u = c_v$ دون أي تخمين.",
+        "leftAr": "⛏️ كشف الخلية",
+        "rightAr": "🚩 وضع علم لغم",
+        "middleAr": "كشف المجاور",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Boolean Constraint Satisfaction & Linear Systems over Moore Neighborhoods.</p>\n<p>Identify mine locations $x_u \\in \\{0, 1\\}$ satisfying 8-neighborhood linear equations:</p>\n<div class=\"katex-display\">$$\\sum_{u \\in N_8(v)} x_u = c_v, \\qquad \\operatorname{Pr}(\\text{Guessing Required}) = 0$$</div>\n<p>• The board generator mathematically guarantees a unique, pure-deduction solution path.<br>• Flag confirmed mines and safely expose all clear squares.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> إرضاء القيود البوليانية وأنظمة المعادلات على جوار مور ثماني الاتجاهات.</p>\n<p>حدد مواقع الألغام $x_u \\in \\{0, 1\\}$ بحل أنظمة المعادلات الخطية للجوار المباشر:</p>\n<div class=\"katex-display\">$$\\sum_{u \\in N_8(v)} x_u = c_v, \\qquad \\operatorname{Pr}(\\text{Guessing}) = 0$$</div>\n<p>• يضمن المولد الرياضي للغز وجود مسار استنتاجي حتمي خالٍ تماماً من التخمين.<br>• ضع علماً 🚩 على الألغام المؤكدة واكشف المربعات الآمنة باطمئنان.</p>"
     },
-    dominosa: {
-      titleEn: "🁣 Dominosa (Domino Tiling)", titleAr: "🁣 الدومينو (تبليط الدومينو)",
-      domainEn: "Combinatorial Tiling & Bijections", domainAr: "التبليط التوافقي والتقابل الثنائي",
-      descEn: "Tile the number grid so every unordered domino pair [a, b] appears exactly once.",
-      descAr: "غطِّ شبكة الأرقام بقطع الدومينو بحيث يظهر كل زوج أرقام مرة واحدة فقط دون تكرار.",
-      leftAr: "🁣 وضع قطعة دومينو", rightAr: "حاجز فاصل بين خليتين", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التبليط الثنائي للمجموعات التوافقية.</p><p>اربط كل رقمين متجاورين بقطعة دومينو بحيث تتكون المجموعة الكاملة لقطع الدومينو دون تكرار أي زوج أرقام.</p>"
+    "dominosa": {
+        "titleEn": "🁣 Dominosa (Domino Tiling)",
+        "titleAr": "🁣 الدومينو (تبليط الدومينو)",
+        "domainEn": "Domino Tiling & Bijections: Unordered Pairs $\\{\\{a, b\\} \\mid 0 \\le a \\le b \\le N\\}$",
+        "domainAr": "تبليط الدومينو والتقابل: الأزواج غير المرتبة $\\{\\{a, b\\} \\mid 0 \\le a \\le b \\le N\\}$",
+        "descEn": "Partition numbers into a bijective set of dominoes $\\frac{(N+1)(N+2)}{2}$ without duplicate pairs.",
+        "descAr": "قسّم شبكة الأرقام إلى مجموعة تقابلية كاملة من الدومينو $\\frac{(N+1)(N+2)}{2}$ دون أي تكرار.",
+        "leftAr": "🁣 وضع قطعة دومينو",
+        "rightAr": "حاجز فاصل بين خليتين",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Combinatorial Pair Partitions & Bijective Domino Tilings.</p>\n<p>Group adjacent cells into dominoes such that every unordered pair appears exactly once:</p>\n<div class=\"katex-display\">$$\\mathcal{D} = \\{\\{a, b\\} \\mid 0 \\le a \\le b \\le N\\}, \\qquad |\\mathcal{D}| = \\frac{(N+1)(N+2)}{2}, \\quad \\text{Bijective Covering}$$</div>\n<p>• Every numbered square must belong to exactly one $1 \\times 2$ domino.<br>• No two dominoes may contain the same pair of values.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> تجزئة الأزواج التوافقية والتبليط التقابلي الكامل لأحجار الدومينو.</p>\n<p>اربط كل خليتين متجاورتين بقطعة دومينو بحيث تظهر جميع الأزواج غير المرتبة مرة واحدة فقط:</p>\n<div class=\"katex-display\">$$\\mathcal{D} = \\{\\{a, b\\} \\mid 0 \\le a \\le b \\le N\\}, \\qquad |\\mathcal{D}| = \\frac{(N+1)(N+2)}{2}, \\quad \\text{Bijective Covering}$$</div>\n<p>• يجب أن تنتمي كل خلية مرقمة إلى قطعة دومينو واحدة فقط بأبعاد $1 \\times 2$.<br>• يُمنع تكرار أي زوج أرقام في قطعتي دومينو مختلفتين.</p>"
     },
-    rect: {
-      titleEn: "▭ Rectangles (Shikaku)", titleAr: "▭ المستطيلات (شيكاكو)",
-      domainEn: "Area Factorization & Dissection", domainAr: "تحليل المساحات وتجزئة الشبكة",
-      descEn: "Partition the grid into non-overlapping rectangles matching internal area clues.",
-      descAr: "قسّم الشبكة إلى مستطيلات غير متداخلة بحيث يضم كل مستطيل رقماً واحداً يساوي مساحته.",
-      leftAr: "📐 سحب لرسم مستطيل", rightAr: "مسح الحدود", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التحليل إلى عوامل (العرض × الارتفاع) وتجزئة المساحات.</p><p>اسحب لتحديد مستطيلات تغطي الشبكة بالكامل بحيث يحتوي كل مستطيل على رقم واحد فقط يساوي عدد المربعات بداخله.</p>"
+    "rect": {
+        "titleEn": "▭ Rectangles (Shikaku)",
+        "titleAr": "▭ المستطيلات (شيكاكو)",
+        "domainEn": "Area Factorization & Dissection: $A = w \\times h$, Non-Overlapping Partitions",
+        "domainAr": "التحليل إلى عوامل وتجزئة المساحات: $A = w \\times h$ وتجزئة المستوى",
+        "descEn": "Dissect the grid into rectangles where $\\operatorname{Area}(R_k) = w_k \\times h_k = c_k$.",
+        "descAr": "قسّم الشبكة إلى مستطيلات غير متداخلة تحقق مساحة كل منها $\\operatorname{Area}(R_k) = w_k \\times h_k = c_k$.",
+        "leftAr": "📐 سحب لرسم مستطيل",
+        "rightAr": "مسح الحدود",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Integer Factorization Pairs $(w, h)$ & Grid Tessellation.</p>\n<p>Partition the entire grid into non-overlapping rectangles matching clue areas:</p>\n<div class=\"katex-display\">$$\\operatorname{Area}(R_k) = w_k \\times h_k = c_k, \\qquad \\bigcup_{k=1}^m R_k = \\text{Grid}, \\quad R_i \\cap R_j = \\emptyset$$</div>\n<p>• Each rectangle must encompass exactly one numbered cell corresponding to its area $c_k$.<br>• All grid squares must be covered with no overlaps.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> أزواج التحليل إلى عوامل $(w, h)$ وتبليط الشبكة المستوية بالمستطيلات.</p>\n<p>قسّم الشبكة بالكامل إلى مستطيلات غير متداخلة تطابق مساحة كل منها الرقم المكتوب بداخلها:</p>\n<div class=\"katex-display\">$$\\operatorname{Area}(R_k) = w_k \\times h_k = c_k, \\qquad \\bigcup_{k=1}^m R_k = \\text{Grid}, \\quad R_i \\cap R_j = \\emptyset$$</div>\n<p>• يجب أن يضم كل مستطيل رقماً واحداً فقط يساوي مساحته الإجمالية $c_k$.<br>• يجب تغطية جميع مربعات الشبكة دون أي فراغ أو تداخل.</p>"
     },
-    palisade: {
-      titleEn: "🧱 Palisade (Five Cells)", titleAr: "🧱 الأسوار (تقسيم المناطق)",
-      domainEn: "Polyomino Partitioning & Boundary Clues", domainAr: "تجزئة متعددات المربعات والحدود",
-      descEn: "Divide the board into equal-sized polyomino regions using interior border counts.",
-      descAr: "قسّم اللوحة إلى مناطق متساوية المساحة بالاعتماد على عدد الحدود المرسومة حول كل رقم.",
-      leftAr: "🧱 رسم حد فاصل", rightAr: "✖️ منع الحد", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> تجزئة البوليومينو المتساوي الحجم وقيود المحيط.</p><p>ارسم حدوداً لتقسيم الشبكة إلى مناطق مترابطة متساوية المساحة، بحيث يساوي الرقم داخل أي خلية عدد أضلاعها الأربعة التي تمثل حدوداً فاصلة.</p>"
+    "palisade": {
+        "titleEn": "🧱 Palisade (Five Cells)",
+        "titleAr": "🧱 الأسوار (تقسيم المناطق)",
+        "domainEn": "Polyomino Boundary Metrics: Perimeter Clues $\\partial R$, Equal Area $|R| = k$",
+        "domainAr": "مقاييس حدود البوليومينو: قيود المحيط $\\partial R$ وتساوي المساحات $|R| = k$",
+        "descEn": "Partition into equal-area polyominoes $|R_k| = K$ matching boundary counts $|\\partial c \\cap \\partial R|$.",
+        "descAr": "قسّم الشبكة إلى مناطق متساوية المساحة $|R_k| = K$ تطابق عدد أضلاع الحدود المحيطة $|\\partial c \\cap \\partial R|$.",
+        "leftAr": "🧱 رسم حد فاصل",
+        "rightAr": "✖️ منع الحد",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Equi-Area Polyomino Partitions & Perimeter Boundary Operators.</p>\n<p>Draw interior borders partitioning the grid into equal-area connected polyominoes:</p>\n<div class=\"katex-display\">$$|R_m| = K \\quad (\\forall m), \\qquad |\\partial(\\text{cell}) \\cap \\partial R| = c_{\\text{cell}}$$</div>\n<p>• Clue numbers specify how many of a cell's 4 edges serve as borders between different regions.<br>• Every resulting region must possess identical area $K$ (typically $K = 5$).</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> تجزئة بوليومينو متساوية المساحة ومؤثرات الحدود المحيطية.</p>\n<p>ارسم حدوداً فاصلة لتقسيم الشبكة إلى مناطق متصلة متساوية المساحة تماماً:</p>\n<div class=\"katex-display\">$$|R_m| = K \\quad (\\forall m), \\qquad |\\partial(\\text{cell}) \\cap \\partial R| = c_{\\text{cell}}$$</div>\n<p>• يحدد الرقم داخل الخلية عدد أضلاعها الأربعة التي تمثل حدوداً فاصلة بين منطقتين مختلفتين.<br>• يجب أن تمتلك كل منطقة ناتجة نفس المساحة $K$ (عادة $K = 5$).</p>"
     },
-    filling: {
-      titleEn: "🧩 Filling (Fillomino)", titleAr: "🧩 ملء المناطق (فيلومينو)",
-      domainEn: "Connected Component Area Logic", domainAr: "منطق مساحات المكونات المتصلة",
-      descEn: "Fill cells with numbers so each connected polyomino of N has area exactly N.",
-      descAr: "املأ المربعات بالأرقام بحيث تشكل كل مجموعة متصلة من الرقم N منطقة مساحتها N بالضبط.",
-      leftAr: "تحديد / سحب الخلية", rightAr: "مسح الخلية", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المكونات المتصلة وتطابق القيمة مع المساحة.</p><p>اكتب رقماً في كل مربع بحيث تتكون مناطق متصلة من الأرقام المتماثلة، ويكون عدد المربعات في كل منطقة مساوياً للرقم المكتوب بداخلها.</p>"
+    "filling": {
+        "titleEn": "🧩 Filling (Fillomino)",
+        "titleAr": "🧩 ملء المناطق (فيلومينو)",
+        "domainEn": "Connected Polyomino Partitions: Monochromatic Area $|C_v| = \\operatorname{val}(v)$",
+        "domainAr": "تجزئة المكونات المتصلة: مساحة المنطقة $|C_v| = \\operatorname{val}(v)$",
+        "descEn": "Fill cells with numbers such that connected components have area $|C_v| = \\operatorname{val}(v)$.",
+        "descAr": "املأ الخلايا بأرقام بحيث تشكل كل مجموعة متصلة منطقة مساحتها مساوية لقيمتها $|C_v| = \\operatorname{val}(v)$.",
+        "leftAr": "تحديد / سحب الخلية",
+        "rightAr": "مسح الخلية",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Connected Component Cardinality & Adjacency Constraints.</p>\n<p>Label cells with positive integers such that every connected component of value $k$ has area $k$:</p>\n<div class=\"katex-display\">$$\\forall v \\in V: |C_v| = \\operatorname{val}(v), \\qquad \\forall C_a \\sim C_b \\implies \\operatorname{val}(C_a) \\neq \\operatorname{val}(C_b)$$</div>\n<p>• Two components of the same size/number can never share an orthogonal edge.<br>• Unlabeled cells may form new components not initially given on the board.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> سعة المكونات المتصلة وشروط تجاور المناطق في البيانات الشبكية.</p>\n<p>اكتب أعداداً صحيحة موجبة بحيث تشكل كل مجموعة متصلة من الرقم $k$ منطقة مساحتها $k$ بالضبط:</p>\n<div class=\"katex-display\">$$\\forall v \\in V: |C_v| = \\operatorname{val}(v), \\qquad \\forall C_a \\sim C_b \\implies \\operatorname{val}(C_a) \\neq \\operatorname{val}(C_b)$$</div>\n<p>• لا يجوز لمنطقتين تحملان نفس الرقم أن تتجاورا عبر ضلع مشترك.<br>• يمكن للخلايا الفارغة أن تشكل مناطق جديدة بأحجام غير معطاة مسبقاً في اللغز.</p>"
     },
-    range: {
-      titleEn: "🔭 Range (Kuromasu)", titleAr: "🔭 مدى الرؤية (كوروماسو)",
-      domainEn: "Orthogonal Visibility Bounds", domainAr: "حدود الرؤية المتعامدة والاتصال",
-      descEn: "Place black blocker cells to bound orthogonal white-cell visibility counts.",
-      descAr: "ضع خلايا سوداء لضبط مدى المربعات البيضاء المرئية أفقياً ورأسياً من كل رقم.",
-      leftAr: "⬛ تظليل بالأسود", rightAr: "⬜ نقطة (خلية بيضاء)", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> قيود مدى الرؤية المتعامدة واتصال الشبكة.</p><p>يمثل كل رقم مجموع المربعات البيضاء المرئية منه في الاتجاهات الأربعة (بما في ذلك مربع الرقم نفسه) حتى يصطدم بمربع أسود أو حافة اللوحة.<br>• لا تتجاور خليتان سوداوان، ويجب أن تظل الخلايا البيضاء متصلة.</p>"
+    "range": {
+        "titleEn": "🔭 Range (Kuromasu)",
+        "titleAr": "🔭 مدى الرؤية (كوروماسو)",
+        "domainEn": "Orthogonal Visibility Rays: $V(x, y) = 1 + \\sum d_{\\text{dir}} = k$, Connectivity",
+        "domainAr": "أشعة الرؤية المتعامدة: $V(x, y) = 1 + \\sum d_{\\text{dir}} = k$ والاتصال",
+        "descEn": "Place black blockers so visibility rays match clue values $V(i, j) = k_{i,j}$ and white cells remain connected.",
+        "descAr": "ضع خلايا سوداء لضبط أشعة الرؤية $V(i, j) = k_{i,j}$ مع بقاء الخلايا البيضاء متصلة طوبولوجياً.",
+        "leftAr": "⬛ تظليل بالأسود",
+        "rightAr": "⬜ نقطة (خلية بيضاء)",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Orthogonal Visibility Functions & Connected Manifolds.</p>\n<p>Shade blocker cells black ($B$) to constrain the horizontal and vertical sightlines of clues:</p>\n<div class=\"katex-display\">$$V(i, j) = 1 + \\sum_{\\vec{d} \\in \\{\\uparrow, \\downarrow, \\leftarrow, \\rightarrow\\}} \\operatorname{ray}(i, j, \\vec{d}) = k_{i,j}, \\quad B \\cap N_4(B) = \\emptyset, \\quad c(W) = 1$$</div>\n<p>• Black squares cannot touch orthogonally.<br>• All remaining white squares must form a single connected component.<br>• Clue numbers count all visible white cells in the 4 directions (including the clue cell itself).</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> دوال الرؤية المتعامدة والاتصال الطوبولوجي للخلايا المفتوحة.</p>\n<p>ظلل بعض الخلايا بالأسود ($B$) لضبط مدى الرؤية الأفقي والرأسي لكل رقم معطى:</p>\n<div class=\"katex-display\">$$V(i, j) = 1 + \\sum_{\\vec{d} \\in \\{\\uparrow, \\downarrow, \\leftarrow, \\rightarrow\\}} \\operatorname{ray}(i, j, \\vec{d}) = k_{i,j}, \\quad B \\cap N_4(B) = \\emptyset, \\quad c(W) = 1$$</div>\n<p>• لا يجوز تجاور خليتين سوداوين أفقياً أو رأسياً.<br>• يجب أن تظل جميع الخلايا البيضاء متصلة في مكون طوبولوجي واحد.<br>• يمثل كل رقم مجموع الخلايا البيضاء المرئية منه في الاتجاهات الأربعة مضافاً إليها خلية الرقم نفسه.</p>"
     },
-    tents: {
-      titleEn: "⛺ Tents (Matching)", titleAr: "⛺ الخيام والأشجار (المطابقة الثنائية)",
-      domainEn: "Bipartite Matching & Hall's Theorem", domainAr: "المطابقة الثنائية ومبرهنة هول",
-      descEn: "Pair every tree with an adjacent tent without any two tents touching.",
-      descAr: "اربط كل شجرة بخيمة مجاورة لها مع مطابقة أعداد الصفوف والأعمدة دون تلامس الخيام.",
-      leftAr: "⛺ نصب خيمة", rightAr: "🌿 تعليم كعشب فارغ", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المطابقة التامة في البيانات الثنائية (Bipartite Matching).</p><p>ضع خيمة بجوار كل شجرة أفقياً أو رأسياً (خيمة واحدة لكل شجرة).<br>• لا يجوز أن تتلامس خيمتان حتى قطرياً.<br>• الأرقام خارج الشبكة تحدد عدد الخيام في كل صف وعمود.</p>"
+    "tents": {
+        "titleEn": "⛺ Tents (Matching)",
+        "titleAr": "⛺ الخيام والأشجار (المطابقة الثنائية)",
+        "domainEn": "Bipartite Matching & Hall's Marriage Condition: $|N(S)| \\ge |S|$",
+        "domainAr": "المطابقة في البيانات الثنائية وشرط هول: $|N(S)| \\ge |S|$",
+        "descEn": "Find a perfect bipartite matching between trees and tents with infinity-metric distance $\\operatorname{dist}_\\infty(t_1, t_2) > 1$.",
+        "descAr": "أوجد مطابقة تامة في البيان الثنائي بين الأشجار والخيام مع بقاء المسافة $\\operatorname{dist}_\\infty(t_1, t_2) > 1$.",
+        "leftAr": "⛺ نصب خيمة",
+        "rightAr": "🌿 تعليم كعشب فارغ",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Perfect Bipartite Matchings & Hall's Marriage Theorem.</p>\n<p>Pair each tree $T$ with an orthogonally adjacent tent $t$ under an injective bijection:</p>\n<div class=\"katex-display\">$$\\mathcal{M}: \\text{Trees} \\longleftrightarrow \\text{Tents}, \\quad |\\mathcal{M}| = |\\text{Trees}|, \\quad \\forall t_1 \\neq t_2: \\operatorname{dist}_\\infty(t_1, t_2) > 1$$</div>\n<p>• Tents must never touch each other, even diagonally ($\\|t_1 - t_2\\|_\\infty > 1$).<br>• Row and column numbers dictate the exact tent counts along each line.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> المطابقة التامة في البيانات ثنائية التجزئة ومبرهنة هول للزواج.</p>\n<p>اربط كل شجرة بخيمة مجاورة لها أفقياً أو رأسياً عبر تقابل أحادي تام:</p>\n<div class=\"katex-display\">$$\\mathcal{M}: \\text{Trees} \\longleftrightarrow \\text{Tents}, \\quad |\\mathcal{M}| = |\\text{Trees}|, \\quad \\forall t_1 \\neq t_2: \\operatorname{dist}_\\infty(t_1, t_2) > 1$$</div>\n<p>• لا يجوز أن تتلامس خيمتان على الإطلاق حتى بالزوايا القطرية ($\\|t_1 - t_2\\|_\\infty > 1$).<br>• تطابق أعداد الخيام في كل صف وعمود الأرقام المسجلة على حواف الشبكة.</p>"
     },
-    mosaic: {
-      titleEn: "🔳 Mosaic (3×3 Kernel)", titleAr: "🔳 الفسيفساء (مصفوفة 3×3)",
-      domainEn: "2D Cellular Convolution Logic", domainAr: "منطق الجوار المحلي (3×3)",
-      descEn: "Reconstruct a binary grid where each clue counts black cells in its 3×3 neighborhood.",
-      descAr: "ظلل الخلايا بحيث يساوي كل رقم عدد المربعات السوداء في منطقته 3×3 (بما فيها الخلية نفسها).",
-      leftAr: "⬛ تظليل بالأسود", rightAr: "⬜ تعليم كأبيض", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الالتفاف الثنائي (2D Convolution) على جوار مور $3\\times 3$.</p><p>كل رقم يحدد عدد الخلايا السوداء في المربع $3\\times 3$ المحيط به (بما في ذلك الخلية التي تحتوي على الرقم نفسه).</p>"
+    "mosaic": {
+        "titleEn": "🔳 Mosaic (3×3 Kernel)",
+        "titleAr": "🔳 الفسيفساء (مصفوفة 3×3)",
+        "domainEn": "2D Discrete Convolution: Kernel Neighborhood $\\sum_{u=-1}^1 \\sum_{v=-1}^1 x_{i+u, j+v} = c$",
+        "domainAr": "الالتفاف المتقطع ثنائي الأبعاد: مصفوفة الجوار $\\sum_{u=-1}^1 \\sum_{v=-1}^1 x_{i+u, j+v} = c$",
+        "descEn": "Reconstruct binary image $X$ from discrete 2D box convolution clues $(K * X)_{i,j} = c_{i,j}$.",
+        "descAr": "استنتج الصورة الثنائية $X$ من مؤثر الالتفاف ثنائي الأبعاد في جوار المربعات $(K * X)_{i,j} = c_{i,j}$.",
+        "leftAr": "⬛ تظليل بالأسود",
+        "rightAr": "⬜ تعليم كأبيض",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> 2D Discrete Convolution with Uniform $3 \\times 3$ Box Filters.</p>\n<p>Determine binary cell values $X_{i,j} \\in \\{0, 1\\}$ satisfying local kernel convolution equations:</p>\n<div class=\"katex-display\">$$(K * X)_{i, j} = \\sum_{u=-1}^1 \\sum_{v=-1}^1 X_{i+u, j+v} = c_{i, j}, \\qquad X_{i,j} \\in \\{0, 1\\}$$</div>\n<p>• Each clue specifies the exact count of black cells within its $3 \\times 3$ sub-grid (including itself).<br>• Cells along grid boundaries convolute over truncated $2 \\times 3$ or $2 \\times 2$ neighborhoods.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الالتفاف المتقطع ثنائي الأبعاد باستخدام مرشح الجوار الصندوقي $3 \\times 3$.</p>\n<p>حدد قيم الخلايا الثنائية $X_{i,j} \\in \\{0, 1\\}$ لتحقيق معادلات التفاف الجوار الموضعي:</p>\n<div class=\"katex-display\">$$(K * X)_{i, j} = \\sum_{u=-1}^1 \\sum_{v=-1}^1 X_{i+u, j+v} = c_{i, j}, \\qquad X_{i,j} \\in \\{0, 1\\}$$</div>\n<p>• يحدد كل رقم عدد الخلايا السوداء داخل المربع $3 \\times 3$ المحيط به (بما فيها خلية الرقم نفسه).<br>• تُحسب خلايا حواف وزوايا الشبكة على جوار مقتطع بحجم $2 \\times 3$ أو $2 \\times 2$.</p>"
     },
-    unruly: {
-      titleEn: "⚖️ Unruly (Binairo)", titleAr: "⚖️ التوازن الثنائي (بينيرو)",
-      domainEn: "Binary Parity & Run-Length Constraints", domainAr: "التكافؤ الثنائي وتوازن الصفوف",
-      descEn: "Balance black and white squares in every row and column with no three-in-a-row.",
-      descAr: "وازن بين المربعات السوداء والبيضاء في كل صف وعمود دون تكرار ثلاثة ألوان متتالية.",
-      leftAr: "⬛ تلوين بالأسود", rightAr: "⬜ تلوين بالأبيض", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التوازن الثنائي ومنع التكرار الثلاثي المتتالي.</p><p>لوّن كل خلية بالأسود أو الأبيض بحيث:<br>• لا توجد 3 خلايا متجاورة بنفس اللون أفقياً أو رأسياً.<br>• يتساوى عدد الخلايا السوداء والبيضاء في كل صف وفي كل عمود.</p>"
+    "unruly": {
+        "titleEn": "⚖️ Unruly (Binairo)",
+        "titleAr": "⚖️ التوازن الثنائي (بينيرو)",
+        "domainEn": "Binary Parity & Run-Length Constraints: $\\sum x_i = \\frac{N}{2}$, No $3$-Runs",
+        "domainAr": "التكافؤ الثنائي وتوازن الصفوف: $\\sum x_i = \\frac{N}{2}$ ومنع التتابع الثلاثي",
+        "descEn": "Fill binary grid such that rows and columns balance $\\sum x_i = \\frac{N}{2}$ with no consecutive triples.",
+        "descAr": "لوّن الشبكة الثنائية لتحقيق توازن متساوي $\\sum x_i = \\frac{N}{2}$ مع منع تكرار ثلاثة ألوان متتالية.",
+        "leftAr": "⬛ تلوين بالأسود",
+        "rightAr": "⬜ تلوين بالأبيض",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Binary Hamming Weight Balance & Run-Length Elimination.</p>\n<p>Color every grid square black or white ($x_{i,j} \\in \\{0, 1\\}$) satisfying equal weights and no run of 3:</p>\n<div class=\"katex-display\">$$\\sum_{j=1}^N x_{i,j} = \\frac{N}{2}, \\quad \\sum_{i=1}^N x_{i,j} = \\frac{N}{2}, \\quad x_{i,j} = x_{i,j+1} = x_{i,j+2} \\implies \\text{Forbidden}$$</div>\n<p>• No three consecutive squares in any row or column may share the same color.<br>• Each row and column must contain an equal number of black and white squares.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> توازن وزن هامر الثنائي ومنع التتابع الثلاثي للمتتاليات.</p>\n<p>لوّن كل مربع بالأسود أو الأبيض ($x_{i,j} \\in \\{0, 1\\}$) لتحقيق التوازن التام ومنع التتابع الثلاثي:</p>\n<div class=\"katex-display\">$$\\sum_{j=1}^N x_{i,j} = \\frac{N}{2}, \\quad \\sum_{i=1}^N x_{i,j} = \\frac{N}{2}, \\quad x_{i,j} = x_{i,j+1} = x_{i,j+2} \\implies \\text{Forbidden}$$</div>\n<p>• يُمنع وجود ثلاثة مربعات متتالية من نفس اللون في أي صف أو عمود.<br>• يجب أن يتساوى عدد المربعات السوداء والبيضاء في كل صف وفي كل عمود.</p>"
     },
-    flip: {
-      titleEn: "💡 Flip (Lights Out / GF(2))", titleAr: "💡 قلب الإضاءة (جبر GF(2))",
-      domainEn: "Linear Algebra over GF(2)", domainAr: "الجبر الخطي على الحقل الثنائي GF(2)",
-      descEn: "Invert coupled matrix neighborhoods over the binary field GF(2) to unify the board.",
-      descAr: "اقلب حالة الخلايا المترابطة وفق الجبر الثنائي GF(2) حتى تصبح جميع المربعات مضاءة.",
-      leftAr: "💡 قلب مجموعة الخلايا", rightAr: "قلب الخلايا", middleAr: "قلب",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> أنظمة المعادلات الخطية على الحقل الثنائي $\\mathbb{F}_2$.</p><p>النقر على أي مربع يقلب لونه ولون المربعات المرتبطة به وفق المخطط المرسوم بداخله. الهدف هو جعل الشبكة كلها بيضاء موحدة.</p>"
+    "flip": {
+        "titleEn": "💡 Flip (Lights Out / GF(2))",
+        "titleAr": "💡 قلب الإضاءة (جبر GF(2))",
+        "domainEn": "Linear Algebra over $\\mathbb{F}_2$: $A\\mathbf{x} = \\mathbf{b} \\pmod 2$, Matrix Kernel",
+        "domainAr": "الجبر الخطي على الحقل الثنائي $\\mathbb{F}_2$: $A\\mathbf{x} = \\mathbf{b} \\pmod 2$",
+        "descEn": "Solve system of linear equations $A\\mathbf{s} \\equiv \\mathbf{1} + \\mathbf{s}_0 \\pmod 2$ to unify all cell states.",
+        "descAr": "حل نظام المعادلات الخطية على الحقل الثنائي $A\\mathbf{s} \\equiv \\mathbf{1} + \\mathbf{s}_0 \\pmod 2$ لتوحيد الشبكة.",
+        "leftAr": "💡 قلب مجموعة الخلايا",
+        "rightAr": "قلب الخلايا",
+        "middleAr": "قلب",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Linear Algebra over Galois Field $\\mathbb{F}_2$ & Adjacency Matrix Inversion.</p>\n<p>Toggle binary cell vectors $\\mathbf{s} \\in \\mathbb{F}_2^n$ to bring all squares to a uniform state:</p>\n<div class=\"katex-display\">$$A \\mathbf{s} \\equiv \\mathbf{1} + \\mathbf{s}_0 \\pmod 2, \\qquad A_{u,v} = \\mathbb{I}(u = v \\lor u \\sim v)$$</div>\n<p>• Clicking a square inverts its own state and that of its coupled neighbors according to the pattern shown.<br>• Reach the target all-light configuration with optimal moves.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الجبر الخطي على حقل غالوا الثنائي $\\mathbb{F}_2$ ومعكوس مصفوفة المجاورة.</p>\n<p>اقلب متجهات الخلايا الثنائية $\\mathbf{s} \\in \\mathbb{F}_2^n$ للوصول بالشبكة كلها إلى حالة موحدة:</p>\n<div class=\"katex-display\">$$A \\mathbf{s} \\equiv \\mathbf{1} + \\mathbf{s}_0 \\pmod 2, \\qquad A_{u,v} = \\mathbb{I}(u = v \\lor u \\sim v)$$</div>\n<p>• يؤدي النقر على أي مربع إلى قلب حالته وحالة الخلايا المقترنة به وفق المخطط الداخلي له.<br>• الهدف هو جعل جميع المربعات بيضاء موحدة بأقل عدد من الخطوات.</p>"
     },
-    guess: {
-      titleEn: "🔐 Guess (Mastermind)", titleAr: "🔐 استنتاج الشفرة (ماسترمايند)",
-      domainEn: "Information Theory & Entropy Reduction", domainAr: "نظرية المعلومات وتقليص الاحتمالات",
-      descEn: "Crack the secret color permutation by minimizing Shannon entropy per query.",
-      descAr: "اكشف شفرة الألوان السرية بأقل عدد من المحاولات عبر تحليل دبابيس التطابق.",
-      leftAr: "🎨 وضع لون", rightAr: "🔒 تثبيت اللون", middleAr: "مسح",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> نظرية المعلومات وتقليص فضاء الاحتمالات.</p><p>اختر صفاً من الألوان واضغط إرسال:<br>• الدبوس الأسود يعني لوناً صحيحاً في المكان الصحيح.<br>• الدبوس الأبيض يعني لوناً صحيحاً في المكان الخاطئ.</p>"
+    "guess": {
+        "titleEn": "🔐 Guess (Mastermind)",
+        "titleAr": "🔐 استنتاج الشفرة (ماسترمايند)",
+        "domainEn": "Information Theory: Shannon Entropy $H(X) = -\\sum p(x)\\log_2 p(x)$ Minimization",
+        "domainAr": "نظرية المعلومات: تقليص إنتروبيا شانون $H(X) = -\\sum p(x)\\log_2 p(x)$",
+        "descEn": "Crack the hidden color sequence by maximizing information gain $I(X; Y) = H(X) - H(X|Y)$ per query.",
+        "descAr": "فك شفرة الألوان السرية بتعظيم كسب المعلومات $I(X; Y) = H(X) - H(X|Y)$ في كل محاولة استنتاج.",
+        "leftAr": "🎨 وضع لون",
+        "rightAr": "🔒 تثبيت اللون",
+        "middleAr": "مسح",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Information Theory, Shannon Entropy & Combinatorial Guessing Strategies.</p>\n<p>Deduce a secret ordered tuple $\\mathbf{c} \\in \\mathcal{C}^k$ by evaluating feedback clues:</p>\n<div class=\"katex-display\">$$\\text{Query } \\mathbf{q}: \\quad B = \\sum_{i=1}^k \\mathbb{I}(q_i = c_i), \\quad B + W = \\sum_{col} \\min(c_{col}^q, c_{col}^c)$$</div>\n<p>• Black pegs indicate correct color in the exact correct position.<br>• White pegs indicate correct color in an incorrect position.<br>• Maximize entropy reduction per guess to deduce the code in minimum steps.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> نظرية المعلومات وإنتروبيا شانون والاستراتيجيات التوافقية لتقليص الاحتمالات.</p>\n<p>استنتج المتتالية السرية $\\mathbf{c} \\in \\mathcal{C}^k$ من خلال مؤشرات التطابق المرتجعة:</p>\n<div class=\"katex-display\">$$\\text{Query } \\mathbf{q}: \\quad B = \\sum_{i=1}^k \\mathbb{I}(q_i = c_i), \\quad B + W = \\sum_{col} \\min(c_{col}^q, c_{col}^c)$$</div>\n<p>• الدبوس الأسود يعني لوناً صحيحاً في الموقع الصحيح تماماً.<br>• الدبوس الأبيض يعني لوناً صحيحاً لكن في موقع خاطئ.<br>• وظف مبدأ تعظيم المعلومات لتقليص فضاء الاحتمالات بأقل عدد من التخمينات.</p>"
     },
-    flood: {
-      titleEn: "🌊 Flood (Percolation)", titleAr: "🌊 الفيضان اللوني (الترشيح البياني)",
-      domainEn: "Graph Percolation & Greedy Search", domainAr: "الترشيح البياني وأقصر مسار لوني",
-      descEn: "Unify the entire grid into a single color component within the minimum step bound.",
-      descAr: "وحّد الشبكة بأكملها إلى لون واحد خلال الحد الأقصى المسموح به من الخطوات.",
-      leftAr: "🎨 غمر باللون المختار", rightAr: "غمر لوني", middleAr: "غمر",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> توسيع المكونات المتصلة والترشيح على الشبكات.</p><p>انقر على أي لون لتغيير لون منطقة الزاوية العليا اليسرى وضم جميع الخلايا المجاورة التي تحمل نفس اللون، حتى تتوحد اللوحة بلون واحد قبل انتهاء العدد المسموح من الحركات.</p>"
+    "flood": {
+        "titleEn": "🌊 Flood (Percolation)",
+        "titleAr": "🌊 الفيضان اللوني (الترشيح البياني)",
+        "domainEn": "Graph Percolation & Connected Components: Diameter $\\operatorname{diam}(G)$, Greedy BFS",
+        "domainAr": "الترشيح البياني والمكونات المتصلة: قطر البيان $\\operatorname{diam}(G)$ وأقصر مسار",
+        "descEn": "Flood connected components to unify the entire grid into one monochromatic cluster within step budget $M$.",
+        "descAr": "وحّد مكونات الشبكة المتصلة في كتلة لونية موحدة قبل استنفاد عدد الحركات الأقصى $M$.",
+        "leftAr": "🎨 غمر باللون المختار",
+        "rightAr": "غمر لوني",
+        "middleAr": "غمر",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Grid Percolation & Breadth-First Expansion of Connected Components.</p>\n<p>Expand the connected monochromatic component $C_t$ containing $(0, 0)$ via successive recoloring:</p>\n<div class=\"katex-display\">$$C_{t+1} = C_t \\cup \\left\\{v \\in V \\,\\middle|\\, \\operatorname{color}(v) = c_{\\text{new}} \\land \\operatorname{dist}(v, C_t) = 1\\right\\}, \\qquad |C_T| = |V|$$</div>\n<p>• Clicking a color transforms the origin component and absorbs all matching adjacent cells.<br>• Unify the entire board into a single uniform color within the allocated move bound.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الترشيح على الشبكات وتوسيع المكونات المترابطة بالبحث في اتساع البيان (BFS).</p>\n<p>وسّع المكون المتصل اللوني $C_t$ الذي يضم الخلية العلوية $(0, 0)$ باختيار الألوان المتتالية:</p>\n<div class=\"katex-display\">$$C_{t+1} = C_t \\cup \\left\\{v \\in V \\,\\middle|\\, \\operatorname{color}(v) = c_{\\text{new}} \\land \\operatorname{dist}(v, C_t) = 1\\right\\}, \\qquad |C_T| = |V|$$</div>\n<p>• يؤدي اختيار لون جديد إلى صبغ الكتلة المترابطة وضم جميع الخلايا المجاورة التي تحمل ذلك اللون.<br>• وحّد اللوحة كلها في لون واحد قبل انتهاء عدد الحركات المحدد.</p>"
     },
-    fifteen: {
-      titleEn: "🔢 Fifteen (Sliding Parity)", titleAr: "🔢 لغز الـ 15 (التباديل الزوجية)",
-      domainEn: "Alternating Group A₁₅ & Parity", domainAr: "الزمرة المتناوبة والتكافؤ التبديلي",
-      descEn: "Order the sliding permutation matrix using even permutation cycles.",
-      descAr: "رتب الأرقام تصاعدياً من 1 إلى 15 عبر تحريك القطع نحو الفراغ.",
-      leftAr: "🔢 تحريك القطعة", rightAr: "تحريك القطعة", middleAr: "تحريك",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> الزمرة المتناوبة $A_{15}$ وتكافؤ التباديل.</p><p>انقر على أي قطعة في نفس صف أو عمود المربع الفارغ لإزاحتها، حتى تترتب الأرقام بالتسلسل من 1 إلى 15.</p>"
+    "fifteen": {
+        "titleEn": "🔢 Fifteen (Sliding Parity)",
+        "titleAr": "🔢 لغز الـ 15 (التباديل الزوجية)",
+        "domainEn": "Permutation Parity & Alternating Group: $\\operatorname{sgn}(\\sigma) = +1 \\in A_{15}$",
+        "domainAr": "تكافؤ التباديل والزمرة المتناوبة: $\\operatorname{sgn}(\\sigma) = +1 \\in A_{15}$",
+        "descEn": "Sort permutation $\\sigma \\in S_{16}$ into identity order using parity-preserving tile slides.",
+        "descAr": "رتب التبديلة $\\sigma \\in S_{16}$ تصاعدياً عبر إزاحات الفراغ المحافظة على التكافؤ التبديلي الزوجي.",
+        "leftAr": "🔢 تحريك القطعة",
+        "rightAr": "تحريك القطعة",
+        "middleAr": "تحريك",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Permutation Inversion Parity & The Alternating Group $A_{15}$.</p>\n<p>Slide numbered tiles into the empty space to arrange numbers $1, \\dots, 15$ sequentially:</p>\n<div class=\"katex-display\">$$N(\\sigma) + \\operatorname{row}(\\text{blank}) \\equiv \\text{constant} \\pmod 2 \\implies \\sigma \\in A_{15}$$</div>\n<p>• Only permutations with even total parity are solvable from a given configuration.<br>• Slide tiles orthogonally into the adjacent vacant spot until natural ascending order is restored.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> تكافؤ معكوسات التباديل والزمرة المتناوبة $A_{15}$.</p>\n<p>أزح القطع المرقمة نحو المربع الفارغ لترتيب الأرقام بالتسلسل من $1$ إلى $15$:</p>\n<div class=\"katex-display\">$$N(\\sigma) + \\operatorname{row}(\\text{blank}) \\equiv \\text{const} \\pmod 2 \\implies \\sigma \\in A_{15}$$</div>\n<p>• التباديل الزوجية فقط هي القابلة للحل رياضياً للوصول إلى مصفوفة الهوية.<br>• انقر على أي قطعة مجاورة للفراغ لتحريكها حتى يستقر الترتيب التصاعدي الطبيعي.</p>"
     },
-    sixteen: {
-      titleEn: "🔄 Sixteen (Toroidal Shift)", titleAr: "🔄 الإزاحة الحلقية (الـ 16)",
-      domainEn: "Cyclic Permutations & Commutators", domainAr: "التباديل الدورية والمبدلات الجبرية",
-      descEn: "Restore matrix order using cyclic row and column permutations without a blank space.",
-      descAr: "رتب مصفوفة الأرقام عبر الإزاحة الدورية للصفوف والأعمدة دون وجود مربع فارغ.",
-      leftAr: "🔄 إزاحة الصف / العمود", rightAr: "إزاحة عكسية", middleAr: "إزاحة",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> المبدلات الجبرية $[A, B] = ABA^{-1}B^{-1}$ في زمر التباديل.</p><p>انقر على أسهم الحواف لإزاحة صف أو عمود كامل بشكل دائري حتى تعود الأرقام إلى ترتيبها الصحيح.</p>"
+    "sixteen": {
+        "titleEn": "🔄 Sixteen (Toroidal Shift)",
+        "titleAr": "🔄 الإزاحة الحلقية (الـ 16)",
+        "domainEn": "Cyclic Permutations & Commutators: $[g, h] = ghg^{-1}h^{-1} \\in S_{16}$",
+        "domainAr": "التباديل الدورية والمبدلات: $[g, h] = ghg^{-1}h^{-1} \\in S_{16}$",
+        "descEn": "Sort the $4 \\times 4$ permutation matrix using cyclic row and column shift commutators.",
+        "descAr": "رتب مصفوفة التباديل $4 \\times 4$ تصاعدياً باستخدام مبدلات الإزاحة الدورية للصفوف والأعمدة.",
+        "leftAr": "🔄 إزاحة الصف / العمود",
+        "rightAr": "إزاحة عكسية",
+        "middleAr": "إزاحة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Group Commutators $[A, B] = ABA^{-1}B^{-1}$ in Symmetric Group $S_{16}$.</p>\n<p>Restore the $4 \\times 4$ numerical matrix order through toroidal cyclic permutations:</p>\n<div class=\"katex-display\">$$\\tau_{\\text{row}} = (1\\ 2\\ 3\\ 4), \\quad \\tau_{\\text{col}} = (1\\ 5\\ 9\\ 13), \\quad [A, B] = ABA^{-1}B^{-1} \\in A_{16}$$</div>\n<p>• Unlike Fifteen, there is no blank space; every row and column wraps cyclically around the torus.<br>• Combine commutators of row and column shifts to achieve 3-cycles and solve the configuration.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مبدلات الزمر $[A, B] = ABA^{-1}B^{-1}$ في زمرة التباديل المتناظرة $S_{16}$.</p>\n<p>أعد ترتيب مصفوفة الأرقام $4 \\times 4$ من خلال التباديل الدورية الحلقية:</p>\n<div class=\"katex-display\">$$\\tau_{\\text{row}} = (1\\ 2\\ 3\\ 4), \\quad \\tau_{\\text{col}} = (1\\ 5\\ 9\\ 13), \\quad [A, B] = ABA^{-1}B^{-1} \\in A_{16}$$</div>\n<p>• لا يوجد مربع فارغ؛ كل صف وعمود يلتف بشكل دائري متصل حول السطح الحلقي.<br>• ادمج مبدلات الإزاحات الأفقية والرأسية لتوليد دورات ثلاثية وحل اللغز بالكامل.</p>"
     },
-    twiddle: {
-      titleEn: "🌀 Twiddle (Block Rotations)", titleAr: "🌀 تدوير الكتل (تويدل)",
-      domainEn: "Rotation Groups & Matrix Sorting", domainAr: "زمر الدوران وترتيب المصفوفات",
-      descEn: "Sort a numerical matrix by rotating overlapping k×k sub-matrices.",
-      descAr: "رتب مصفوفة الأرقام تصاعدياً عبر تدوير المربعات الفرعية المتداخلة.",
-      leftAr: "↺ تدوير الكتلة لليسار", rightAr: "↻ تدوير الكتلة لليمين", middleAr: "تدوير",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> زمر التباديل المتولدة من دورانات المصفوفات الفرعية.</p><p>انقر لتدوير كتلة مربعة من الأرقام عكس عقارب الساعة (أو مع عقارب الساعة بالنقر الأيمن) حتى تترتب الأرقام تصاعدياً.</p>"
+    "twiddle": {
+        "titleEn": "🌀 Twiddle (Block Rotations)",
+        "titleAr": "🌀 تدوير الكتل (تويدل)",
+        "domainEn": "Sub-matrix Rotation Groups: Generators $\\langle r_1, \\dots, r_m \\rangle \\le S_n$",
+        "domainAr": "زمر دوران المصفوفات الفرعية: المولدات $\\langle r_1, \\dots, r_m \\rangle \\le S_n$",
+        "descEn": "Sort numbers by applying localized $k \\times k$ cyclic block rotations $\\sigma_{\\text{rot}} = (a\\ b\\ d\\ c)$.",
+        "descAr": "رتب مصفوفة الأرقام بتطبيق دورانات الكتل المربعة الفرعية $\\sigma_{\\text{rot}} = (a\\ b\\ d\\ c)$.",
+        "leftAr": "↺ تدوير الكتلة لليسار",
+        "rightAr": "↻ تدوير الكتلة لليمين",
+        "middleAr": "تدوير",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Permutation Subgroups Generated by Overlapping $2 \\times 2$ Rotations.</p>\n<p>Sort an $N \\times N$ grid into ascending sequence using local cyclic 4-cycle operations:</p>\n<div class=\"katex-display\">$$r_{i,j} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\mapsto \\begin{pmatrix} c & a \\\\ d & b \\end{pmatrix} = (a\\ b\\ d\\ c) \\in S_n$$</div>\n<p>• Rotate overlapping square blocks clockwise or counter-clockwise.<br>• Synthesize targeted transposition commutators to place every number in its correct home.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> الزمر الجزئية للتباديل المتولدة من دورانات الكتل المربعة المتداخلة $2 \\times 2$.</p>\n<p>رتب شبكة الأرقام تصاعدياً بتطبيق دورانات دائرية رباعية موضعية:</p>\n<div class=\"katex-display\">$$r_{i,j} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\mapsto \\begin{pmatrix} c & a \\\\ d & b \\end{pmatrix} = (a\\ b\\ d\\ c) \\in S_n$$</div>\n<p>• قم بتدوير المربعات الفرعية المتداخلة مع عقارب الساعة أو عكسها.<br>• وظف مبدلات التبديل الموضعي لنقل كل رقم إلى موضعه التصاعدي الصحيح.</p>"
     },
-    pegs: {
-      titleEn: "📍 Pegs (Peg Solitaire)", titleAr: "📍 سوليتير الأوتاد (بيغز)",
-      domainEn: "Resource Invariants & Backtracking", domainAr: "اللامتغيرات الرياضية والتراجع",
-      descEn: "Jump pegs orthogonally to reduce the board to a single remaining peg.",
-      descAr: "اقفز بالأوتاد فوق بعضها أفقياً أو رأسياً لإزالتها حتى يتبقى وتد واحد فقط.",
-      leftAr: "📍 سحب الوتد للقفز", rightAr: "تحديد الوتد", middleAr: "قفز",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> دوال الباغودا (Pagoda Invariants) وحساب التكافؤ.</p><p>اسحب أي وتد للقفز فوق وتد مجاور إلى حفرة فارغة خلفه مباشرة، مما يزيل الوتد المقفوز فوقه. الهدف هو إبقاء وتد واحد فقط على اللوحة!</p>"
+    "pegs": {
+        "titleEn": "📍 Pegs (Peg Solitaire)",
+        "titleAr": "📍 سوليتير الأوتاد (بيغز)",
+        "domainEn": "Pagoda Resource Invariants: Monovariant Functions $\\Phi(t+1) \\le \\Phi(t)$",
+        "domainAr": "لامتغيرات باجودا وحساب الموارد: الدوال الرتيبة $\\Phi(t+1) \\le \\Phi(t)$",
+        "descEn": "Reduce board pegs via orthogonal leapfrog eliminations until exactly $|P| = 1$ remains.",
+        "descAr": "اقفز بالأوتاد فوق بعضها لإزالتها حتى يتبقى وتد واحد فقط في مركز اللوحة $|P| = 1$.",
+        "leftAr": "📍 سحب الوتد للقفز",
+        "rightAr": "تحديد الوتد",
+        "middleAr": "قفز",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Pagoda Monovariant Invariants & State Transition Graphs.</p>\n<p>Eliminate pegs via orthogonal jumps $(p_1, p_2) \\to p_3$ into empty holes until a single peg survives:</p>\n<div class=\"katex-display\">$$\\Phi(\\text{board}) = \\sum_{p \\in \\text{Pegs}} w(p), \\qquad \\Delta\\Phi = w(p_3) - w(p_1) - w(p_2) \\le 0, \\quad |P_{\\text{final}}| = 1$$</div>\n<p>• Every valid jump removes the jumped-over peg.<br>• Carefully preserve Pagoda invariants to ensure the final solitary peg lands in the center hole.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> دوال باجودا الرتيبة (Pagoda Functions) واللامتغيرات الرياضية في ألعاب القفز.</p>\n<p>اقفز بالأوتاد أفقياً ورأسياً لإزالة الوتد المقفوز فوقه حتى يتبقى وتد أخير واحد فقط:</p>\n<div class=\"katex-display\">$$\\Phi(\\text{board}) = \\sum_{p \\in \\text{Pegs}} w(p), \\qquad \\Delta\\Phi = w(p_3) - w(p_1) - w(p_2) \\le 0, \\quad |P_{\\text{final}}| = 1$$</div>\n<p>• كل قفزة نظامية تزيل الوتد الأوسط المقفوز فوقه.<br>• حافظ على توازن دالة باجودا لضمان استقرار الوتد الأخير في الفجوة المركزية للوحة.</p>"
     },
-    samegame: {
-      titleEn: "🧱 Same Game (Cluster Clear)", titleAr: "🧱 تصفية المجموعات (سيم جيم)",
-      domainEn: "Connected Components & Optimization", domainAr: "المكونات المتصلة وتعظيم النقاط",
-      descEn: "Clear monochromatic connected components to maximize quadratic cluster scoring.",
-      descAr: "احذف المجموعات اللونية المتصلة لتفريغ الشبكة وتحقيق أعلى مجموع تربيعي للنقاط.",
-      leftAr: "🧱 تحديد / حذف المجموعة", rightAr: "تحديد المجموعة", middleAr: "حذف",
-      rulesAr: "<p><strong>المفهوم الرياضي:</strong> التحسين التوافقي ودالة النقاط التربيعية $(n-2)^2$.</p><p>انقر على أي كتلة مكونة من مربعين متجاورين أو أكثر من نفس اللون لإزالتها، فتهبط الكتل العلوية وتندمج الأعمدة.</p>"
+    "samegame": {
+        "titleEn": "🧱 Same Game (Cluster Clear)",
+        "titleAr": "🧱 تصفية المجموعات (سيم جيم)",
+        "domainEn": "Combinatorial Optimization: Quadratic Scoring function $S = \\sum (n_i - 2)^2$",
+        "domainAr": "التحسين التوافقي: دالة النقاط التربيعية $S = \\sum (n_i - 2)^2$",
+        "descEn": "Clear monochromatic components $n \\ge 2$ to maximize total quadratic score $S = \\sum (n_k - 2)^2$.",
+        "descAr": "احذف المجموعات اللونية المتصلة لتعظيم دالة النقاط التربيعية $S = \\sum (n_k - 2)^2$.",
+        "leftAr": "🧱 تحديد / حذف المجموعة",
+        "rightAr": "تحديد المجموعة",
+        "middleAr": "حذف",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Dynamic Programming & Combinatorial Convex Optimization.</p>\n<p>Remove connected monochromatic clusters of size $n \\ge 2$ to maximize quadratic score yield:</p>\n<div class=\"katex-display\">$$\\operatorname{Score} = \\sum_{k} (n_k - 2)^2 + \\mathbb{I}(\\text{Full Board Cleared}) \\cdot 1000$$</div>\n<p>• Removing a cluster causes higher blocks to drop under gravity and merges empty vertical columns.<br>• Form larger clusters before clearing to exploit quadratic growth.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> البرمجة الديناميكية والتحسين المحدب التوافقي لدوال المكافأة التربيعية.</p>\n<p>احذف المجموعات المتصلة من نفس اللون بحجم $n \\ge 2$ لتحقيق أعلى عائد من النقاط:</p>\n<div class=\"katex-display\">$$\\operatorname{Score} = \\sum_{k} (n_k - 2)^2 + \\mathbb{I}(\\text{Full Board Cleared}) \\cdot 1000$$</div>\n<p>• حذف أي كتلة يؤدي لسقوط الكتل العلوية بتأثير الجاذبية واندماج الأعمدة الفارغة.<br>• اجمع كتلاً لونية أضخم قبل حذفها للاستفادة من النمو التربيعي السريع للنقاط.</p>"
     }
-  };
+};
   window.__EDUGATES_PUZZLE_I18N__ = PUZZLE_I18N;
+
+  // ==========================================================================
+  // KATEX MATHEMATICAL TYPOGRAPHY ENGINE (Zero CDN, Offline PWA, LTR/RTL Safe)
+  // ==========================================================================
+  function renderEdugatesMath(container) {
+    var root = container || document.body;
+    if (!root) return;
+    if (typeof window.renderMathInElement === "function" && typeof window.katex !== "undefined") {
+      try {
+        window.renderMathInElement(root, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false,
+          errorColor: "#f43f5e"
+        });
+      } catch (err) {
+        console.warn("Edugates KaTeX Auto-Render notice:", err);
+      }
+    }
+  }
+  window.renderEdugatesMath = renderEdugatesMath;
 
   // Bypass Canvas2D shadowBlur in Low-CPU mode
   if (typeof CanvasRenderingContext2D !== "undefined") {
@@ -2561,8 +2791,8 @@
             : '';
           titleEl.innerHTML = (isAr() ? pDict.titleAr : pDict.titleEn) + featBadge;
         }
-        if (descEl) descEl.textContent = isAr() ? pDict.descAr : pDict.descEn;
-        if (domEl) domEl.textContent = isAr() ? pDict.domainAr : pDict.domainEn;
+        if (descEl) descEl.innerHTML = isAr() ? pDict.descAr : pDict.descEn;
+        if (domEl) domEl.innerHTML = isAr() ? pDict.domainAr : pDict.domainEn;
         if (ctaEl) ctaEl.textContent = isAr() ? "ابدأ المختبر ←" : "Launch Lab →";
       }
     }
@@ -2618,37 +2848,37 @@
     return [
       {
         icon: "🌟",
-        title: isAr() ? "البديهية الأولى" : "First Axiom",
+        title: isAr() ? "البديهية الأولى ($A_0$)" : "First Axiom ($A_0$)",
         desc: isAr() ? "أكمل أول مختبر ألغاز لفريق الرياضيات والعلوم." : "Complete your first Math-Science puzzle workbench.",
         unlocked: summary.solvedPuzzlesCount >= 1
       },
       {
         icon: "⚡",
-        title: isAr() ? "تكتيكي السرعة" : "Speed Tactician",
-        desc: isAr() ? "حل أي مختبر في أقل من 60 ثانية." : "Solve any workbench in under 60 seconds.",
+        title: isAr() ? "تكتيكي السرعة ($t < 60\\text{s}$)" : "Speed Tactician ($t < 60\\text{s}$)",
+        desc: isAr() ? "حل أي مختبر في زمن $t < 60$ ثانية." : "Solve any workbench in under 60 seconds.",
         unlocked: hasFastSolve
       },
       {
         icon: "🌉",
-        title: isAr() ? "عالم نظرية البيانات" : "Graph Theorist",
-        desc: isAr() ? "أتقن 3 مختبرات أو أكثر في نظرية البيانات والطوبولوجيا." : "Master 3+ Graph Theory & Topology workbenches.",
+        title: isAr() ? "عالم نظرية البيانات ($G=(V,E)$)" : "Graph Theorist ($G=(V,E)$)",
+        desc: isAr() ? "أتقن 3 مختبرات أو أكثر في نظرية البيانات والاتصال المستوي." : "Master 3+ Graph Theory & Topology workbenches.",
         unlocked: countSolvedInList(["bridges","slant","net","loopy","untangle","map","pearl","tracks","signpost","netslide"]) >= 3
       },
       {
         icon: "🔢",
-        title: isAr() ? "بارع الجبر والمربعات" : "Algebra Virtuoso",
-        desc: isAr() ? "أتقن 3 مختبرات أو أكثر في المربعات اللاتينية والجبر المجرد." : "Master 3+ Latin Squares & Abstract Algebra labs.",
+        title: isAr() ? "بارع الجبر والمربعات ($L \\in S_N$)" : "Algebra Virtuoso ($L \\in S_N$)",
+        desc: isAr() ? "أتقن 3 مختبرات أو أكثر في المربعات اللاتينية وبديهيات الزمر." : "Master 3+ Latin Squares & Abstract Algebra labs.",
         unlocked: countSolvedInList(["towers","solo","keen","unequal","group","singles"]) >= 3
       },
       {
         icon: "🔬",
-        title: isAr() ? "فيزيائي البصريات والكم" : "Quantum Physicist",
+        title: isAr() ? "فيزيائي البصريات والكم ($\\vec{v}, \\mathbf{R}$)" : "Quantum Physicist ($\\vec{v}, \\mathbf{R}$)",
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في البصريات والقطبية والهندسة الفراغية." : "Master 3+ Ray Optics, Polarity & 3D Geometry labs.",
         unlocked: countSolvedInList(["lightup","blackbox","undead","magnets","inertia","cube","galaxies"]) >= 3
       },
       {
         icon: "🧮",
-        title: isAr() ? "خبير التوافقيات" : "Combinatorialist",
+        title: isAr() ? "خبير التوافقيات ($\\binom{N}{k}$)" : "Combinatorialist ($\\binom{N}{k}$)",
         desc: isAr() ? "أتقن 5 مختبرات أو أكثر في التوافقيات والاستنتاج الشبكي." : "Master 5+ Combinatorics & Grid Deduction labs.",
         unlocked: countSolvedInList(["pattern","mines","dominosa","rect","palisade","filling","range","tents","mosaic","unruly"]) >= 5
       },
@@ -2660,7 +2890,7 @@
       },
       {
         icon: "👑",
-        title: isAr() ? "الأستاذ الأعظم للأولمبياد" : "Olympiad Grandmaster",
+        title: isAr() ? "الأستاذ الأعظم للأولمبياد ($\\sum \\text{Stars} \\ge 30$)" : "Olympiad Grandmaster ($\\sum \\text{Stars} \\ge 30$)", 
         desc: isAr() ? "اجمع 30 نجمة إتقان أو أكثر عبر المختبرات." : "Earn 30+ total Mastery Stars across the lab.",
         unlocked: summary.totalStars >= 30
       }
@@ -2748,6 +2978,7 @@
         '</div>' +
       '</div>';
 
+    renderEdugatesMath(backdrop);
     backdrop.classList.add("open");
   };
 
@@ -3146,6 +3377,8 @@
         }
         if (isAr() && pDict.rulesAr) {
           rulesBox.innerHTML = pDict.rulesAr;
+        } else if (!isAr() && pDict.rulesEn) {
+          rulesBox.innerHTML = pDict.rulesEn;
         } else {
           rulesBox.innerHTML = rulesBox.getAttribute("data-orig-en");
         }
@@ -3182,6 +3415,9 @@
     if (trophyModal && trophyModal.classList.contains("open")) {
       window.openTrophyRoomModal();
     }
+
+    // Render all KaTeX mathematical typography across active view
+    renderEdugatesMath(document.body);
   }
   window.applyEdugatesLanguage = applyEdugatesLanguage;
 

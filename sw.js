@@ -2,13 +2,16 @@
  * Edugates International School — Math-Science Team
  * Offline Smartboard Service Worker (v3.0 — Network-First HTML/JS/CSS + Cache-First WASM/Assets)
  */
-const CACHE_NAME = 'edugates-math-science-smartboard-v4';
+const CACHE_NAME = 'edugates-math-science-smartboard-v5';
 
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './css/katex.min.css',
   './css/edugates-smartboard.css',
+  './js/katex.min.js',
+  './js/auto-render.min.js',
   './js/edugates-smartboard.js',
   './assets/eis-logo.jpg',
   './assets/logo.png',
@@ -46,7 +49,7 @@ self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') return;
 
   var url = event.request.url || '';
-  var isHeavyBinary = url.indexOf('.wasm') !== -1 || url.indexOf('/assets/') !== -1;
+  var isHeavyBinary = url.indexOf('.wasm') !== -1 || url.indexOf('/assets/') !== -1 || url.indexOf('/fonts/') !== -1 || url.indexOf('.woff') !== -1 || url.indexOf('.ttf') !== -1;
 
   if (isHeavyBinary) {
     // Cache-First for immutable WASM binaries & images
