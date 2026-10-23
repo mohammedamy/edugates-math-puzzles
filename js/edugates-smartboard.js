@@ -849,7 +849,7 @@
 
     var rankTitle = isAr() ? "مبتدئ المنطق" : "Logic Initiate";
     var nextThreshold = 5;
-    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابات التعليم الأعظم" : "Edugates Grandmaster"; nextThreshold = 123; }
+    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابة المعرفة الأعظم" : "Edugates Grandmaster"; nextThreshold = 123; }
     else if (totalStars >= 50) { rankTitle = isAr() ? "زميل أولمبياد STEM" : "STEM Olympiad Fellow"; nextThreshold = 90; }
     else if (totalStars >= 20) { rankTitle = isAr() ? "مهندس البديهيات" : "Axiom Architect"; nextThreshold = 50; }
     else if (totalStars >= 5) { rankTitle = isAr() ? "مستكشف البيانات" : "Graph Explorer"; nextThreshold = 20; }
@@ -1955,7 +1955,7 @@
     banner.innerHTML =
       '<div class="sb-victory-stars">' + starsStr + '</div>' +
       '<div class="sb-victory-title">' + (isAr() ? '🎉 استنتاج رياضي رائع!' : '🎉 Excellent Deduction!') + '</div>' +
-      '<div style="font-size:0.86rem;color:var(--text-muted)">' + (isAr() ? 'اكتمل مختبر فريق الرياضيات والعلوم — مدارس بوابات التعليم العالمية' : 'Edugates Math-Science Team Workbench Completed') + '</div>' +
+      '<div style="font-size:0.86rem;color:var(--text-muted)">' + (isAr() ? 'اكتمل مختبر فريق الرياضيات والعلوم — مدرسة بوابة المعرفة العالمية' : 'Edugates Math-Science Team Workbench Completed') + '</div>' +
       '<div class="sb-victory-stats">' +
         '<div class="sb-vstat"><div class="sb-vstat-label">' + (isAr() ? '⏱️ زمن الحل' : '⏱️ Solve Time') + '</div><div class="sb-vstat-val">' + formatTime(timerSeconds) + recBadge + '</div></div>' +
         '<div class="sb-vstat"><div class="sb-vstat-label">' + (isAr() ? '🎯 إجمالي الحركات' : '🎯 Total Moves') + '</div><div class="sb-vstat-val">' + moveCount + '</div></div>' +
@@ -3011,7 +3011,7 @@
     // 1. Topbar School & Team Branding
     var schoolNameEl = document.querySelector(".eis-school-name");
     if (schoolNameEl) {
-      schoolNameEl.textContent = isAr() ? "مدارس بوابات التعليم العالمية" : "Edugates International School";
+      schoolNameEl.textContent = isAr() ? "مدرسة بوابة المعرفة العالمية" : "Edugates International School";
     }
     var teamNameEl = document.querySelector(".eis-team-name");
     if (teamNameEl) {
@@ -3070,7 +3070,7 @@
       var tealPill = document.querySelector(".hub-hero-badges .hub-pill-teal");
       if (goldPill) {
         goldPill.textContent = isAr()
-          ? "مدارس بوابات التعليم العالمية • فريق الرياضيات والعلوم"
+          ? "مدرسة بوابة المعرفة العالمية • فريق الرياضيات والعلوم"
           : "Edugates International School • Math-Science Team";
       }
       if (tealPill) {
@@ -3151,7 +3151,7 @@
       var footerEl = document.querySelector(".eis-footer");
       if (footerEl) {
         footerEl.innerHTML = isAr()
-          ? "<strong>مدارس بوابات التعليم العالمية — فريق الرياضيات والعلوم</strong> • بوابة المنطق والرياضيات المتقطعة للسبورة الذكية • مصممة لشاشات الفصول التفاعلية"
+          ? "<strong>مدرسة بوابة المعرفة العالمية — فريق الرياضيات والعلوم</strong> • بوابة المنطق والرياضيات المتقطعة للسبورة الذكية • مصممة لشاشات الفصول التفاعلية"
           : "<strong>Edugates International School — Math-Science Team</strong> • Smartboard Logic &amp; Discrete Mathematics Portal • Optimized for Low-Processor Classroom Interactive Displays";
       }
 
@@ -3198,7 +3198,7 @@
 
     // 3. In-Game Puzzle Workspace Localization
     if (puzzleId && pDict) {
-      document.title = (isAr() ? pDict.titleAr : pDict.titleEn) + " | " + (isAr() ? "مدارس بوابات التعليم العالمية" : "Edugates International School Math-Science Team");
+      document.title = (isAr() ? pDict.titleAr : pDict.titleEn) + " | " + (isAr() ? "مدرسة بوابة المعرفة العالمية" : "Edugates International School Math-Science Team");
 
       var homeLink = document.querySelector(".eis-topbar a[href='index.html'].eis-btn");
       if (homeLink) homeLink.textContent = isAr() ? "🏠 الرئيسية" : "🏠 Hub";

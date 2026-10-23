@@ -1,11 +1,11 @@
-# Edugates International School — Math-Science Team
+# Edugates International School (مدرسة بوابة المعرفة العالمية) — Math-Science Team
 ## Interactive Smartboard Math & Logic Puzzle Lab
 
 <p align="center">
   <img src="assets/eis-logo.jpg" alt="Edugates International School Logo" width="120" />
 </p>
 
-Welcome to the **Edugates International School — Math-Science Team** Interactive Puzzle Lab! This repository contains **41 mathematical, geometric, graph-theory, and deductive logic puzzles** compiled to high-efficiency WebAssembly and specifically engineered to run **smoothly in web browsers on low-processor classroom Smartboards**.
+Welcome to the **Edugates International School (مدرسة بوابة المعرفة العالمية) — Math-Science Team** Interactive Puzzle Lab! This repository contains **41 mathematical, geometric, graph-theory, and deductive logic puzzles** compiled to high-efficiency WebAssembly and specifically engineered to run **smoothly in web browsers on low-processor classroom Smartboards**.
 
 ---
 
