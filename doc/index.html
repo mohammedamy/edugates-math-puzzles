@@ -179,6 +179,17 @@
       color: #ffffff;
     }
     hr { border: 0; border-top: 1px solid #293e66; margin: 28px 0 16px; }
+    html[dir="rtl"] body {
+      direction: rtl;
+      text-align: right;
+      font-family: "Cairo", "Tajawal", "IBM Plex Sans Arabic", "Geeza Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .edugates-doc-btn.lang-btn {
+      background: rgba(42, 191, 191, 0.16);
+      border-color: #2ABFBF;
+      color: #38bdf8 !important;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -188,21 +199,22 @@
       <img src="../assets/eis-logo.jpg" alt="Edugates International School">
       <img src="../assets/logo.png" alt="Math-Science Team">
       <div>
-        <div class="edugates-doc-school">Edugates International School</div>
-        <div class="edugates-doc-dept">Math-Science Team &bull; Official Teacher &amp; Student Reference Manual</div>
+        <div class="edugates-doc-school" id="docSchoolName">Edugates International School</div>
+        <div class="edugates-doc-dept" id="docDeptName">Math-Science Team &bull; Official Teacher &amp; Student Reference Manual</div>
       </div>
     </div>
     <div class="edugates-doc-actions">
-      <a class="edugates-doc-btn" href="intro.html">📘 Chapter 1: Introduction</a>
-      <a class="edugates-doc-btn" href="common.html">⚙️ Chapter 2: Common Features</a>
-      <a class="edugates-doc-btn primary" href="../index.html">&larr; Back to Smartboard Puzzle Hub</a>
+      <button type="button" class="edugates-doc-btn lang-btn" id="docLangBtn" onclick="toggleDocLang()">🌐 العربية</button>
+      <a class="edugates-doc-btn" id="docIntroBtn" href="intro.html">📘 Chapter 1: Introduction</a>
+      <a class="edugates-doc-btn" id="docCommonBtn" href="common.html">⚙️ Chapter 2: Common Features</a>
+      <a class="edugates-doc-btn primary" id="docBackBtn" href="../index.html">&larr; Back to Smartboard Puzzle Hub</a>
     </div>
   </div>
 
   <div class="doc-hero">
     <div>
-      <h1>📖 Complete Rules &amp; Mathematical Reference Guide</h1>
-      <p>Select any of the 41 mathematical workbenches below to read its complete rules, control reference, and generation parameters, or launch it directly on the Smartboard.</p>
+      <h1 id="docHeroTitle">📖 Complete Rules &amp; Mathematical Reference Guide</h1>
+      <p id="docHeroDesc">Select any of the 41 mathematical workbenches below to read its complete rules, control reference, and generation parameters, or launch it directly on the Smartboard.</p>
     </div>
     <input type="search" id="docSearch" class="doc-search" placeholder="🔍 Filter manual chapters..." oninput="filterDocs()">
   </div>
@@ -210,90 +222,135 @@
   <div class="doc-grid" id="docGrid"></div>
 
   <hr>
-  <p style="font-size:0.85rem;color:#94a3b8;text-align:center;">
+  <p id="docFooterText" style="font-size:0.85rem;color:#94a3b8;text-align:center;">
     <strong>Edugates International School &mdash; Math-Science Team</strong> &bull;
     Interactive Smartboard Edition (Adapted from Simon Tatham&rsquo;s Portable Puzzle Collection under <a href="licence.html#AA" style="color:#38bdf8">MIT Licence</a> &bull; <a href="docindex.html" style="color:#38bdf8">Full Alphabetical Index</a>)
   </p>
 
   <script>
+    var docLang = localStorage.getItem("edugates_math_lang") || "en";
+    if (window.location.search.indexOf("lang=ar") !== -1) {
+      docLang = "ar";
+      try { localStorage.setItem("edugates_math_lang", "ar"); } catch (e) {}
+    } else if (window.location.search.indexOf("lang=en") !== -1) {
+      docLang = "en";
+      try { localStorage.setItem("edugates_math_lang", "en"); } catch (e) {}
+    }
+
     var CHAPTERS = [
-      ["bridges", "Bridges (Hashi)", "Chapter 26 • Graph Theory"],
-      ["towers", "Towers (Skyscrapers)", "Chapter 31 • Latin Squares"],
-      ["lightup", "Light Up (Akari)", "Chapter 21 • Ray Optics"],
-      ["slant", "Slant (Gokigen)", "Chapter 20 • Acyclic Trees"],
-      ["net", "Net (Network)", "Chapter 3 • Spanning Trees"],
-      ["loopy", "Loopy (Slitherlink)", "Chapter 23 • Topology"],
-      ["solo", "Solo (Sudoku & Killer)", "Chapter 11 • Latin Squares"],
-      ["keen", "Keen (KenKen)", "Chapter 30 • Arithmetic Logic"],
-      ["unequal", "Unequal (Futoshiki)", "Chapter 27 • Inequalities"],
-      ["group", "Group (Cayley Tables)", "Abstract Algebra & Groups"],
-      ["singles", "Singles (Hitori)", "Chapter 32 • Set Uniqueness"],
-      ["blackbox", "Black Box (Laser Optics)", "Chapter 19 • Wave Reflection"],
-      ["undead", "Undead (Mirror Optics)", "Chapter 37 • Geometric Optics"],
-      ["magnets", "Magnets (Polarity)", "Chapter 33 • Dipole Balance"],
-      ["inertia", "Inertia (Kinematics)", "Chapter 24 • Vector Mechanics"],
-      ["cube", "Cube (3D Polyhedra)", "Chapter 4 • 3D Rotations"],
-      ["galaxies", "Galaxies (Symmetry)", "Chapter 28 • Point Symmetry"],
-      ["untangle", "Untangle (Planar Graphs)", "Chapter 18 • Planarity"],
-      ["map", "Map (Four-Color Theorem)", "Chapter 22 • Graph Coloring"],
-      ["pearl", "Pearl (Masyu)", "Chapter 36 • Hamiltonian Cycles"],
-      ["tracks", "Tracks (Railway Paths)", "Chapter 40 • Tomography"],
-      ["signpost", "Signpost (Vector Chains)", "Chapter 34 • Directed Graphs"],
-      ["netslide", "Netslide (Toroidal Net)", "Chapter 9 • Toroidal Shifts"],
-      ["pattern", "Pattern (Nonogram)", "Chapter 10 • Binary Tomography"],
-      ["mines", "Mines (Zero-Guess Logic)", "Chapter 12 • Boolean Logic"],
-      ["dominosa", "Dominosa (Domino Tiling)", "Chapter 17 • Combinatorics"],
-      ["rect", "Rectangles (Shikaku)", "Chapter 8 • Area Dissection"],
-      ["palisade", "Palisade (Five Cells)", "Chapter 41 • Polyominoes"],
-      ["filling", "Filling (Fillomino)", "Chapter 29 • Connected Areas"],
-      ["range", "Range (Kuromasu)", "Chapter 35 • Visibility Bounds"],
-      ["tents", "Tents (Matching)", "Chapter 25 • Bipartite Matching"],
-      ["mosaic", "Mosaic (3×3 Kernel)", "Chapter 42 • 2D Convolution"],
-      ["unruly", "Unruly (Binairo)", "Chapter 38 • Parity Balance"],
-      ["flip", "Flip (Lights Out / GF(2))", "Chapter 14 • Matrix Logic"],
-      ["guess", "Guess (Mastermind)", "Chapter 15 • Information Theory"],
-      ["flood", "Flood (Percolation)", "Chapter 39 • Graph Percolation"],
-      ["fifteen", "Fifteen (Sliding Parity)", "Chapter 5 • Alternating Group"],
-      ["sixteen", "Sixteen (Toroidal Shift)", "Chapter 6 • Cyclic Shifts"],
-      ["twiddle", "Twiddle (Block Rotations)", "Chapter 7 • Matrix Sorting"],
-      ["pegs", "Pegs (Peg Solitaire)", "Chapter 16 • Invariants"],
-      ["samegame", "Same Game (Cluster Clear)", "Chapter 13 • Optimization"]
+      ["bridges", "Bridges (Hashi)", "Chapter 26 • Graph Theory", "الجسور (هاشي)", "الفصل 26 • نظرية البيانات"],
+      ["towers", "Towers (Skyscrapers)", "Chapter 31 • Latin Squares", "الأبراج (ناطحات السحاب)", "الفصل 31 • المربعات اللاتينية"],
+      ["lightup", "Light Up (Akari)", "Chapter 21 • Ray Optics", "الإضاءة (أكاري)", "الفصل 21 • البصريات الهندسية"],
+      ["slant", "Slant (Gokigen)", "Chapter 20 • Acyclic Trees", "الخطوط المائلة (غوكيغن)", "الفصل 20 • الأشجار اللا دورية"],
+      ["net", "Net (Network)", "Chapter 3 • Spanning Trees", "الشبكة الكهربائية (نت)", "الفصل 3 • الأشجار الممتدة"],
+      ["loopy", "Loopy (Slitherlink)", "Chapter 23 • Topology", "المسار المغلق (سليذرلينك)", "الفصل 23 • الطوبولوجيا"],
+      ["solo", "Solo (Sudoku & Killer)", "Chapter 11 • Latin Squares", "سولو (سودوكو وكيلر)", "الفصل 11 • المربعات اللاتينية"],
+      ["keen", "Keen (KenKen)", "Chapter 30 • Arithmetic Logic", "كين (مربعات الحساب)", "الفصل 30 • المنطق الحسابي"],
+      ["unequal", "Unequal (Futoshiki)", "Chapter 27 • Inequalities", "المتباينات (فوتوشيكي)", "الفصل 27 • المتباينات والترتيب"],
+      ["group", "Group (Cayley Tables)", "Abstract Algebra & Groups", "الزمر الرياضية (جداول كايلي)", "الجبر المجرد ونظرية الزمر"],
+      ["singles", "Singles (Hitori)", "Chapter 32 • Set Uniqueness", "المفردات (هيتوري)", "الفصل 32 • تفرد العناصر"],
+      ["blackbox", "Black Box (Laser Optics)", "Chapter 19 • Wave Reflection", "الصندوق الأسود (الليزر)", "الفصل 19 • انعكاس الأشعة"],
+      ["undead", "Undead (Mirror Optics)", "Chapter 37 • Geometric Optics", "المرايا المنطقية (أنديد)", "الفصل 37 • البصريات الهندسية"],
+      ["magnets", "Magnets (Polarity)", "Chapter 33 • Dipole Balance", "المغناطيسات (القطبية)", "الفصل 33 • توازن الأقطاب"],
+      ["inertia", "Inertia (Kinematics)", "Chapter 24 • Vector Mechanics", "القصور الذاتي (إنيرشيا)", "الفصل 24 • ميكانيكا المتجهات"],
+      ["cube", "Cube (3D Polyhedra)", "Chapter 4 • 3D Rotations", "المكعب المتدحرج (متعددات الوجوه)", "الفصل 4 • الدورانات الفراغية"],
+      ["galaxies", "Galaxies (Symmetry)", "Chapter 28 • Point Symmetry", "المجرات (التماثل الدوراني)", "الفصل 28 • التماثل النقطي"],
+      ["untangle", "Untangle (Planar Graphs)", "Chapter 18 • Planarity", "فك التشابك (البيانات المستوية)", "الفصل 18 • البيانات المستوية"],
+      ["map", "Map (Four-Color Theorem)", "Chapter 22 • Graph Coloring", "تلوين الخريطة (الألوان الأربعة)", "الفصل 22 • تلوين البيانات"],
+      ["pearl", "Pearl (Masyu)", "Chapter 36 • Hamiltonian Cycles", "اللؤلؤ (ماسيو)", "الفصل 36 • الدورات الهاملتونية"],
+      ["tracks", "Tracks (Railway Paths)", "Chapter 40 • Tomography", "مسار القطار (تراكس)", "الفصل 40 • المسارات المتصلة"],
+      ["signpost", "Signpost (Vector Chains)", "Chapter 34 • Directed Graphs", "أسهم الطريق (ساين بوست)", "الفصل 34 • البيانات الموجهة"],
+      ["netslide", "Netslide (Toroidal Net)", "Chapter 9 • Toroidal Shifts", "الشبكة المنزلقة (نت سلايد)", "الفصل 9 • الإزاحات الحلقية"],
+      ["pattern", "Pattern (Nonogram)", "Chapter 10 • Binary Tomography", "النقش المنطقي (نونوغرام)", "الفصل 10 • التصوير المقطعي الثنائي"],
+      ["mines", "Mines (Zero-Guess Logic)", "Chapter 12 • Boolean Logic", "الألغام المنطقية (بدون تخمين)", "الفصل 12 • المنطق البولياني"],
+      ["dominosa", "Dominosa (Domino Tiling)", "Chapter 17 • Combinatorics", "الدومينو (تبليط الدومينو)", "الفصل 17 • التوافقيات"],
+      ["rect", "Rectangles (Shikaku)", "Chapter 8 • Area Dissection", "المستطيلات (شيكاكو)", "الفصل 8 • تجزئة المساحات"],
+      ["palisade", "Palisade (Five Cells)", "Chapter 41 • Polyominoes", "الأسوار (تقسيم المناطق)", "الفصل 41 • متعددات المربعات"],
+      ["filling", "Filling (Fillomino)", "Chapter 29 • Connected Areas", "ملء المناطق (فيلومينو)", "الفصل 29 • المساحات المتصلة"],
+      ["range", "Range (Kuromasu)", "Chapter 35 • Visibility Bounds", "مدى الرؤية (كوروماسو)", "الفصل 35 • حدود الرؤية المتعامدة"],
+      ["tents", "Tents (Matching)", "Chapter 25 • Bipartite Matching", "الخيام والأشجار", "الفصل 25 • المطابقة الثنائية"],
+      ["mosaic", "Mosaic (3×3 Kernel)", "Chapter 42 • 2D Convolution", "الفسيفساء (مصفوفة 3×3)", "الفصل 42 • الجوار المحلي"],
+      ["unruly", "Unruly (Binairo)", "Chapter 38 • Parity Balance", "التوازن الثنائي (بينيرو)", "الفصل 38 • التكافؤ الثنائي"],
+      ["flip", "Flip (Lights Out / GF(2))", "Chapter 14 • Matrix Logic", "قلب الإضاءة (جبر GF(2))", "الفصل 14 • جبر المصفوفات"],
+      ["guess", "Guess (Mastermind)", "Chapter 15 • Information Theory", "استنتاج الشفرة (ماسترمايند)", "الفصل 15 • نظرية المعلومات"],
+      ["flood", "Flood (Percolation)", "Chapter 39 • Graph Percolation", "الفيضان اللوني", "الفصل 39 • الترشيح البياني"],
+      ["fifteen", "Fifteen (Sliding Parity)", "Chapter 5 • Alternating Group", "لغز الـ 15 (التباديل الزوجية)", "الفصل 5 • الزمرة المتناوبة"],
+      ["sixteen", "Sixteen (Toroidal Shift)", "Chapter 6 • Cyclic Shifts", "الإزاحة الحلقية (الـ 16)", "الفصل 6 • التباديل الدورية"],
+      ["twiddle", "Twiddle (Block Rotations)", "Chapter 7 • Matrix Sorting", "تدوير الكتل (تويدل)", "الفصل 7 • ترتيب المصفوفات"],
+      ["pegs", "Pegs (Peg Solitaire)", "Chapter 16 • Invariants", "سوليتير الأوتاد (بيغز)", "الفصل 16 • اللامتغيرات الرياضية"],
+      ["samegame", "Same Game (Cluster Clear)", "Chapter 13 • Optimization", "تصفية المجموعات (سيم جيم)", "الفصل 13 • التحسين التوافقي"]
     ];
 
-    var grid = document.getElementById("docGrid");
-    for (var i = 0; i < CHAPTERS.length; i++) {
-      var c = CHAPTERS[i];
-      var id = c[0];
-      var title = c[1];
-      var chap = c[2];
-      var docHref = (id === "group" ? "index.html" : (id + ".html"));
-      var playHref = "../" + (id === "loopy" ? "slither.html" : (id + ".html"));
-      var card = document.createElement("div");
-      card.className = "doc-card";
-      card.setAttribute("data-search", (title + " " + chap + " " + id).toLowerCase());
-      card.innerHTML =
-        '<div class="doc-card-head">' +
-          '<img src="../assets/puzzles/' + id + '.png" alt="' + title + '" loading="lazy">' +
-          '<div>' +
-            '<div class="doc-card-chap">' + chap + '</div>' +
-            '<div class="doc-card-title">' + title + '</div>' +
+    function renderDocHub() {
+      var isAr = (docLang === "ar");
+      document.documentElement.setAttribute("lang", docLang);
+      document.documentElement.setAttribute("dir", isAr ? "rtl" : "ltr");
+
+      document.getElementById("docSchoolName").textContent = isAr
+        ? "مدارس بوابات التعليم العالمية"
+        : "Edugates International School";
+      document.getElementById("docDeptName").textContent = isAr
+        ? "فريق الرياضيات والعلوم • الدليل المرجعي الرسمي للمعلم والطالب"
+        : "Math-Science Team • Official Teacher & Student Reference Manual";
+      document.getElementById("docLangBtn").textContent = isAr ? "🌐 English" : "🌐 العربية";
+      document.getElementById("docIntroBtn").textContent = isAr ? "📘 الفصل 1: المقدمة" : "📘 Chapter 1: Introduction";
+      document.getElementById("docCommonBtn").textContent = isAr ? "⚙️ الفصل 2: الخصائص المشتركة" : "⚙️ Chapter 2: Common Features";
+      document.getElementById("docBackBtn").textContent = isAr ? "→ العودة إلى بوابة السبورة الذكية" : "← Back to Smartboard Puzzle Hub";
+      document.getElementById("docHeroTitle").textContent = isAr
+        ? "📖 الدليل الشامل للقواعد والمفاهيم الرياضية"
+        : "📖 Complete Rules & Mathematical Reference Guide";
+      document.getElementById("docHeroDesc").textContent = isAr
+        ? "اختر أي مختبر من المختبرات الـ 41 أدناه لقراءة قواعده الكاملة ومرجع التحكم، أو ابدأ تشغيله مباشرة على السبورة الذكية."
+        : "Select any of the 41 mathematical workbenches below to read its complete rules, control reference, and generation parameters, or launch it directly on the Smartboard.";
+      document.getElementById("docSearch").placeholder = isAr
+        ? "🔍 ابحث في فصول الدليل..."
+        : "🔍 Filter manual chapters...";
+
+      var grid = document.getElementById("docGrid");
+      grid.innerHTML = "";
+      for (var i = 0; i < CHAPTERS.length; i++) {
+        var c = CHAPTERS[i];
+        var id = c[0];
+        var title = isAr ? c[3] : c[1];
+        var chap = isAr ? c[4] : c[2];
+        var docHref = (id === "group" ? "index.html" : (id + ".html"));
+        var playHref = "../" + (id === "loopy" ? "slither.html" : (id + ".html"));
+        var card = document.createElement("div");
+        card.className = "doc-card";
+        card.setAttribute("data-search", (c[1] + " " + c[2] + " " + c[3] + " " + c[4] + " " + id).toLowerCase());
+        card.innerHTML =
+          '<div class="doc-card-head">' +
+            '<img src="../assets/puzzles/' + id + '.png" alt="' + title + '" loading="lazy">' +
+            '<div>' +
+              '<div class="doc-card-chap">' + chap + '</div>' +
+              '<div class="doc-card-title">' + title + '</div>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-        '<div class="doc-card-links">' +
-          '<a class="btn-read" href="' + docHref + '">📖 Read Manual</a>' +
-          '<a class="btn-play" href="' + playHref + '">▶ Launch Lab</a>' +
-        '</div>';
-      grid.appendChild(card);
+          '<div class="doc-card-links">' +
+            '<a class="btn-read" href="' + docHref + '">' + (isAr ? '📖 قراءة الدليل' : '📖 Read Manual') + '</a>' +
+            '<a class="btn-play" href="' + playHref + '">' + (isAr ? '▶ ابدأ المختبر' : '▶ Launch Lab') + '</a>' +
+          '</div>';
+        grid.appendChild(card);
+      }
+      filterDocs();
+    }
+
+    function toggleDocLang() {
+      docLang = (docLang === "ar") ? "en" : "ar";
+      try { localStorage.setItem("edugates_math_lang", docLang); } catch (e) {}
+      renderDocHub();
     }
 
     function filterDocs() {
       var q = (document.getElementById("docSearch").value || "").trim().toLowerCase();
-      var cards = grid.querySelectorAll(".doc-card");
+      var cards = document.getElementById("docGrid").querySelectorAll(".doc-card");
       for (var i = 0; i < cards.length; i++) {
         var s = cards[i].getAttribute("data-search") || "";
         cards[i].style.display = (!q || s.indexOf(q) !== -1) ? "" : "none";
       }
     }
+
+    renderDocHub();
   </script>
 </body>
 </html>

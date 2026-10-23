@@ -65,11 +65,50 @@ html, body {
   min-height: 100vh;
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-family: "Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  line-height: 1.4;
+  font-family: "Inter", "Cairo", "Tajawal", "IBM Plex Sans Arabic", "Geeza Pro", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  line-height: 1.45;
   touch-action: manipulation;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   RTL (ARABIC) LAYOUT & GEOMETRIC CANVAS SAFEGUARDS
+   ========================================================================== */
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Keep canvas coordinate space, 8-way directional pad & numeric keypad LTR */
+html[dir="rtl"] .sb-canvas-viewport,
+html[dir="rtl"] #resizable,
+html[dir="rtl"] #puzzlecanvas,
+html[dir="rtl"] #annotation-canvas,
+html[dir="rtl"] .sb-dpad-grid,
+html[dir="rtl"] .sb-keypad-grid {
+  direction: ltr;
+}
+
+html[dir="rtl"] .sb-more-popover {
+  right: auto;
+  left: 0;
+}
+
+html[dir="rtl"] .sb-solve-confirm {
+  left: auto;
+  right: 12px;
+}
+
+.eis-btn-lang {
+  background-color: rgba(42, 191, 191, 0.16);
+  border-color: var(--brand-teal);
+  color: var(--brand-teal);
+  font-weight: 800;
+}
+html[data-theme="day"] .eis-btn-lang {
+  background-color: rgba(2, 132, 199, 0.12);
+  color: #0369a1;
 }
 
 button, select, input, a {
