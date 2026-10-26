@@ -713,22 +713,112 @@
         oscM.start(now);
         oscM.stop(now + 0.04);
       } else if (type === "victory") {
-        var notes = [523.25, 659.25, 783.99, 987.77, 1046.50];
-        for (var i = 0; i < notes.length; i++) {
-          (function (freq, delay) {
-            var o = ctx.createOscillator();
-            var g = ctx.createGain();
-            o.type = "triangle";
-            o.frequency.setValueAtTime(freq, now + delay);
-            g.gain.setValueAtTime(0.001, now + delay);
-            g.gain.linearRampToValueAtTime(0.14, now + delay + 0.02);
-            g.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.36);
-            o.connect(g);
-            g.connect(ctx.destination);
-            o.start(now + delay);
-            o.stop(now + delay + 0.38);
-          })(notes[i], i * 0.075);
+        // Triumphant Harmonious "Ta-Da!" Fanfare:
+        // 1. "Ta-" (Herald upbeat): 2 rapid staccato brass calls + ascending grace
+        // 2. "-DAAA!" (Triumphant grand resolution): Multi-octave C-Major chord in rich harmony
+        // with brass warmth (filtered saw), crystalline sparkle (sine/bell), and smooth reverberant decay.
+        var masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.85, now);
+        masterGain.connect(ctx.destination);
+
+        // Lowpass filter for warm acoustic brass resonance
+        var brassFilter = ctx.createBiquadFilter();
+        brassFilter.type = "lowpass";
+        brassFilter.Q.setValueAtTime(2.2, now);
+        brassFilter.frequency.setValueAtTime(2800, now);
+        brassFilter.frequency.exponentialRampToValueAtTime(4200, now + 0.28);
+        brassFilter.frequency.exponentialRampToValueAtTime(1050, now + 1.9);
+        brassFilter.connect(masterGain);
+
+        // Play a brass voice (warm sawtooth into filter)
+        function playBrass(freq, startTime, duration, peakGain, detuneCents) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(freq, startTime);
+          if (detuneCents) osc.detune.setValueAtTime(detuneCents, startTime);
+
+          gain.gain.setValueAtTime(0.0001, startTime);
+          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.016);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+          osc.connect(gain);
+          gain.connect(brassFilter);
+          osc.start(startTime);
+          osc.stop(startTime + duration + 0.03);
         }
+
+        // Play a crystalline bell/chime sparkle voice
+        function playChime(freq, startTime, duration, peakGain) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, startTime);
+
+          gain.gain.setValueAtTime(0.0001, startTime);
+          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.012);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start(startTime);
+          osc.stop(startTime + duration + 0.03);
+        }
+
+        // --- PART 1: The "Ta-" (Herald Upbeat Fanfare) ---
+        // Staccato herald 1: G4 (392Hz) + C5 (523.25Hz)
+        playBrass(392.00, now + 0.00, 0.085, 0.15, 0);
+        playBrass(523.25, now + 0.00, 0.085, 0.13, 3);
+        playChime(1046.50, now + 0.00, 0.09, 0.05);
+
+        // Staccato herald 2: E5 (659.25Hz) + G5 (783.99Hz)
+        playBrass(659.25, now + 0.095, 0.095, 0.16, -3);
+        playBrass(783.99, now + 0.095, 0.095, 0.14, 3);
+        playChime(1318.51, now + 0.095, 0.10, 0.05);
+
+        // Quick grace leap: B5 (987.77Hz)
+        playBrass(987.77, now + 0.19, 0.065, 0.12, 0);
+
+        // --- PART 2: The "-DAAA!" (Grand Harmonic Resolution) ---
+        var daTime = now + 0.25;
+        var chordDuration = 1.95;
+
+        // Sub & Foundation Bass (warm room presence on smartboard speakers)
+        var subOsc = ctx.createOscillator();
+        var subGain = ctx.createGain();
+        subOsc.type = "triangle";
+        subOsc.frequency.setValueAtTime(130.81, daTime); // C3
+        subGain.gain.setValueAtTime(0.0001, daTime);
+        subGain.gain.linearRampToValueAtTime(0.18, daTime + 0.025);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, daTime + 1.5);
+        subOsc.connect(subGain);
+        subGain.connect(masterGain);
+        subOsc.start(daTime);
+        subOsc.stop(daTime + 1.55);
+
+        // Rich Multi-Voice C-Major Chord in Full Harmony:
+        // C4 (Bass, 261.63Hz)
+        playBrass(261.63, daTime, chordDuration, 0.15, 0);
+        // G4 (Tenor 5th, 392.00Hz)
+        playBrass(392.00, daTime, chordDuration, 0.13, -3);
+        // C5 (Lead Root, 523.25Hz) — chorus detuned pair for lush orchestral spread
+        playBrass(523.25, daTime, chordDuration, 0.16, -4);
+        playBrass(523.25, daTime, chordDuration, 0.16, +4);
+        // E5 (Major 3rd, 659.25Hz) — defines triumphant major harmony!
+        playBrass(659.25, daTime, chordDuration, 0.16, -2);
+        playBrass(659.25, daTime, chordDuration, 0.16, +3);
+        // G5 (Upper 5th, 783.99Hz)
+        playBrass(783.99, daTime, chordDuration, 0.14, 0);
+
+        // High Golden Chime / Bell Sparkles ringing out over the brass:
+        // C6 (High Octave Bell, 1046.50Hz)
+        playChime(1046.50, daTime, 1.95, 0.10);
+        // E6 (High 3rd Shimmer, 1318.51Hz)
+        playChime(1318.51, daTime, 1.75, 0.08);
+        // G6 (High 5th Sparkle, 1567.98Hz)
+        playChime(1567.98, daTime, 1.45, 0.06);
+        // C7 (Celebratory Star Chime, 2093.00Hz)
+        playChime(2093.00, daTime, 1.15, 0.04);
       }
     } catch (e) {}
   }
@@ -1878,8 +1968,36 @@
     playSound("mode");
   };
 
-  // Lightweight 60 FPS Confetti Burst on Board Stage
+  // ==========================================================================
+  // 9. HIGH-ENERGY MULTI-CANNON CONFETTI, STAR SPARKLES & VISUAL CELEBRATION
+  // ==========================================================================
   var confettiAnimId = null;
+
+  function triggerVictoryCelebration() {
+    // 1. Trigger celebratory golden shockwave on puzzle frame and viewport
+    var resizable = document.getElementById("resizable");
+    if (resizable) {
+      resizable.classList.remove("victory-shockwave");
+      void resizable.offsetWidth; // force style re-calculation
+      resizable.classList.add("victory-shockwave");
+      setTimeout(function () {
+        if (resizable) resizable.classList.remove("victory-shockwave");
+      }, 3500);
+    }
+    var viewport = document.querySelector(".sb-canvas-viewport");
+    if (viewport) {
+      viewport.classList.remove("victory-glow");
+      void viewport.offsetWidth;
+      viewport.classList.add("victory-glow");
+      setTimeout(function () {
+        if (viewport) viewport.classList.remove("victory-glow");
+      }, 3500);
+    }
+
+    // 2. High-energy dual-cannon confetti, ribbons & golden star sparkles
+    triggerVictoryConfetti();
+  }
+
   function triggerVictoryConfetti() {
     var stage = document.querySelector(".sb-board-stage");
     if (!stage) return;
@@ -1889,51 +2007,136 @@
       cCanvas.id = "sb-confetti-canvas";
       stage.appendChild(cCanvas);
     }
-    var w = stage.clientWidth || 600;
-    var h = stage.clientHeight || 450;
+    var w = stage.clientWidth || 800;
+    var h = stage.clientHeight || 550;
     cCanvas.width = w;
     cCanvas.height = h;
     var ctx = cCanvas.getContext("2d");
-    var count = window.__EDUGATES_PERF_LITE__ ? 34 : 64;
-    var colors = ["#f59e0b", "#2ABFBF", "#38bdf8", "#10b981", "#fde047", "#f43f5e"];
+    if (!ctx) return;
+
+    var isLite = !!window.__EDUGATES_PERF_LITE__;
+    var colors = [
+      "#f59e0b", "#fbbf24", "#fde047", // Edugates Golds
+      "#10b981", "#34d399",             // Emeralds
+      "#38bdf8", "#0284c7",             // Sky Blues
+      "#a855f7", "#c084fc",             // Amethysts
+      "#f43f5e", "#fb7185"              // Crimson / Coral
+    ];
+
     var parts = [];
-    for (var i = 0; i < count; i++) {
-      parts.push({
-        x: w * 0.5 + (Math.random() - 0.5) * 80,
-        y: h * 0.45,
-        vx: (Math.random() - 0.5) * 11,
-        vy: -Math.random() * 10 - 3,
-        size: Math.random() * 6 + 5,
-        color: colors[i % colors.length],
-        rot: Math.random() * Math.PI,
-        vrot: (Math.random() - 0.5) * 0.2
-      });
+
+    // Helper: spawn particles from cannon origin
+    function spawnCannon(originX, originY, baseAngleDeg, spreadDeg, count, minSpeed, maxSpeed) {
+      for (var i = 0; i < count; i++) {
+        var angle = (baseAngleDeg + (Math.random() - 0.5) * spreadDeg) * (Math.PI / 180);
+        var speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+        var pType = Math.random() < 0.28 ? "star" : (Math.random() < 0.16 ? "circle" : "ribbon");
+        parts.push({
+          x: originX,
+          y: originY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: pType === "star" ? (Math.random() * 6 + 7) : (Math.random() * 7 + 6),
+          color: colors[Math.floor(Math.random() * colors.length)],
+          type: pType,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.24,
+          tilt: Math.random() * Math.PI,
+          vtilt: (Math.random() * 0.15 + 0.08),
+          sway: Math.random() * Math.PI * 2,
+          opacity: 1
+        });
+      }
     }
+
+    var cannonCount = isLite ? 22 : 44;
+    var centerCount = isLite ? 12 : 26;
+
+    // Cannon 1: Bottom-Left firing up & right (-55 deg)
+    spawnCannon(w * 0.08, h * 0.95, -55, 34, cannonCount, 13, 23);
+    // Cannon 2: Bottom-Right firing up & left (-125 deg)
+    spawnCannon(w * 0.92, h * 0.95, -125, 34, cannonCount, 13, 23);
+    // Cannon 3: Center fireworks starburst
+    spawnCannon(w * 0.5, h * 0.42, -90, 180, centerCount, 4, 14);
 
     if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
     var frames = 0;
+    var maxFrames = isLite ? 150 : 210;
+
+    function drawStar(c, cx, cy, spikes, outerRadius, innerRadius, fill) {
+      var rot = (Math.PI / 2) * 3;
+      var x = cx;
+      var y = cy;
+      var step = Math.PI / spikes;
+      c.beginPath();
+      c.moveTo(cx, cy - outerRadius);
+      for (var i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        c.lineTo(x, y);
+        rot += step;
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        c.lineTo(x, y);
+        rot += step;
+      }
+      c.lineTo(cx, cy - outerRadius);
+      c.closePath();
+      c.fillStyle = fill;
+      c.fill();
+    }
+
     function step() {
       frames++;
       ctx.clearRect(0, 0, w, h);
       var alive = false;
+      var fadeStart = maxFrames - 45;
+
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.28;
+        p.vy += 0.32; // gravity
+        p.vx *= 0.985; // air resistance
+        p.vy *= 0.985;
         p.rot += p.vrot;
-        if (p.y < h + 20) alive = true;
+        p.tilt += p.vtilt;
+        p.sway += 0.07;
+        p.x += Math.sin(p.sway) * 0.8;
+
+        if (frames > fadeStart) {
+          p.opacity = Math.max(0, (maxFrames - frames) / 45);
+        }
+
+        if (p.y < h + 30 && p.opacity > 0) alive = true;
+
         ctx.save();
+        ctx.globalAlpha = p.opacity;
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size * 0.5, -p.size * 0.35, p.size, p.size * 0.7);
+
+        if (p.type === "star") {
+          drawStar(ctx, 0, 0, 5, p.size, p.size * 0.45, p.color);
+        } else if (p.type === "circle") {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        } else {
+          // 3D flipping ribbon
+          var scaleX = Math.cos(p.tilt);
+          ctx.scale(scaleX, 1);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size * 0.5, -p.size * 0.28, p.size, p.size * 0.56);
+        }
         ctx.restore();
       }
-      if (alive && frames < 130) {
+
+      if (alive && frames < maxFrames) {
         confettiAnimId = requestAnimationFrame(step);
       } else {
         ctx.clearRect(0, 0, w, h);
+        confettiAnimId = null;
       }
     }
     confettiAnimId = requestAnimationFrame(step);
@@ -1943,17 +2146,25 @@
   function renderVictoryBannerContent(res) {
     var banner = document.getElementById("sb-victory-banner");
     if (!banner || !res) return;
-    var starsStr = "";
+
+    var starsHtml = '<div class="sb-vstar-row">';
     for (var i = 0; i < 3; i++) {
-      starsStr += (i < res.stars) ? "★" : "☆";
+      var isFilled = i < res.stars;
+      var starClass = "sb-vstar star-" + (i + 1) + (isFilled ? "" : " is-empty");
+      starsHtml += '<span class="' + starClass + '">' + (isFilled ? "★" : "☆") + '</span>';
     }
+    starsHtml += '</div>';
+
     var activeTeam = teamsState.teams[teamsState.activeIdx] || teamsState.teams[0];
     var dispTeam = getTeamDisplayName(activeTeam);
     var recBadge = res.isNewRecord
       ? (' <span style="color:#10b981;font-size:0.72rem">' + (isAr() ? '🔥 رقم قياسي!' : '🔥 RECORD!') + '</span>')
       : '';
+    var chipText = isAr() ? "🏆 إثبات رياضي مكتمل!" : "🏆 MATHEMATICAL PROOF COMPLETED!";
+
     banner.innerHTML =
-      '<div class="sb-victory-stars">' + starsStr + '</div>' +
+      '<div class="sb-victory-badge">' + chipText + '</div>' +
+      starsHtml +
       '<div class="sb-victory-title">' + (isAr() ? '🎉 استنتاج رياضي رائع!' : '🎉 Excellent Deduction!') + '</div>' +
       '<div style="font-size:0.86rem;color:var(--text-muted)">' + (isAr() ? 'اكتمل مختبر فريق الرياضيات والعلوم — مدرسة بوابة المعرفة العالمية' : 'Edugates Math-Science Team Workbench Completed') + '</div>' +
       '<div class="sb-victory-stats">' +
@@ -1979,7 +2190,7 @@
         lastVictoryResult = res;
         updateBestTimeBadge();
         playSound("victory");
-        triggerVictoryConfetti();
+        triggerVictoryCelebration();
         renderVictoryBannerContent(res);
         banner.classList.add("visible");
       }
@@ -2808,7 +3019,7 @@
     if (visibleCards.length === 0) visibleCards = Array.prototype.slice.call(cards);
     if (visibleCards.length === 0) return;
 
-    playSound("victory");
+    playSound("start");
     var chosen = visibleCards[Math.floor(Math.random() * visibleCards.length)];
     chosen.scrollIntoView({ behavior: "smooth", block: "center" });
     chosen.classList.add("spotlight-pulse");

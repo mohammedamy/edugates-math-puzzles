@@ -1638,6 +1638,62 @@ html[data-theme="day"] #resizable {
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 32px rgba(245, 158, 11, 0.45);
 }
 
+/* Board Frame Celebratory Shockwave */
+#resizable.victory-shockwave {
+  animation: victoryBezelShockwave 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes victoryBezelShockwave {
+  0% {
+    border-color: rgba(56, 189, 248, 0.32);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    transform: scale(1);
+  }
+  14% {
+    border-color: #fde047;
+    box-shadow:
+      0 20px 60px rgba(245, 158, 11, 0.7),
+      0 0 0 3px #fbbf24,
+      0 0 50px rgba(245, 158, 11, 0.85),
+      0 0 100px rgba(253, 224, 71, 0.45);
+    transform: scale(1.02);
+  }
+  35% {
+    border-color: #fbbf24;
+    box-shadow:
+      0 18px 50px rgba(245, 158, 11, 0.5),
+      0 0 0 2px #fbbf24,
+      0 0 35px rgba(245, 158, 11, 0.5);
+    transform: scale(1.008);
+  }
+  70% {
+    border-color: rgba(245, 158, 11, 0.45);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.65), 0 0 24px rgba(245, 158, 11, 0.25);
+    transform: scale(1);
+  }
+  100% {
+    border-color: rgba(56, 189, 248, 0.32);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 24px rgba(56, 189, 248, 0.12);
+    transform: scale(1);
+  }
+}
+
+.sb-canvas-viewport.victory-glow {
+  animation: victoryViewportGlow 2.5s ease-out forwards;
+}
+
+@keyframes victoryViewportGlow {
+  0% {
+    box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+  }
+  20% {
+    box-shadow: inset 0 3px 25px rgba(245, 158, 11, 0.45), inset 0 0 60px rgba(245, 158, 11, 0.25), 0 0 40px rgba(245, 158, 11, 0.2);
+  }
+  100% {
+    box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+  }
+}
+
 #puzzlecanvas {
   display: block;
   touch-action: none;
@@ -1782,36 +1838,98 @@ html[data-theme="day"] .sb-quick-pill {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(92%, 480px);
+  width: min(92%, 490px);
+  max-height: 94%;
   padding: 22px 24px;
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.22) 0%, transparent 70%),
-    linear-gradient(170deg, #142342 0%, #0d172c 100%);
-  border: 3px solid var(--brand-gold);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(245, 158, 11, 0.3);
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.28) 0%, transparent 70%),
+    #13223f;
+  border: 2.5px solid var(--brand-gold);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 158, 11, 0.4);
   color: var(--text-main);
-  z-index: 30;
+  z-index: 100;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 14px;
+  gap: 12px;
+}
+
+html[data-theme="day"] .sb-victory-banner {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.2) 0%, transparent 70%),
+    #ffffff;
+  border-color: #d97706;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25), 0 0 35px rgba(217, 119, 6, 0.2);
+}
+
+.sb-victory-banner::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 28px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, rgba(253, 224, 71, 0.12) 50%, transparent 75%);
+  z-index: -1;
+  pointer-events: none;
+  animation: victoryHaloPulse 2s ease-in-out infinite alternate;
 }
 
 .sb-victory-banner.visible {
   display: flex;
+  animation: victoryBannerPop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.sb-victory-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(253, 224, 71, 0.15) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.55);
+  color: #fbbf24;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sb-vstar-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 0;
+}
+
+.sb-vstar {
+  display: inline-block;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--brand-gold);
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
+  animation: vstarPop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sb-vstar.star-1 { animation-delay: 0.12s; }
+.sb-vstar.star-2 { animation-delay: 0.26s; }
+.sb-vstar.star-3 { animation-delay: 0.40s; }
+
+.sb-vstar.is-empty {
+  color: rgba(148, 163, 184, 0.35);
+  text-shadow: none;
 }
 
 .sb-victory-stars {
-  font-size: 2.3rem;
+  font-size: 2.5rem;
   color: var(--brand-gold);
-  letter-spacing: 6px;
+  letter-spacing: 8px;
   line-height: 1;
-  text-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+  text-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
 }
 
 .sb-victory-title {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 900;
   color: var(--text-main);
   letter-spacing: -0.01em;
@@ -1843,7 +1961,7 @@ html[data-theme="day"] .sb-quick-pill {
 }
 
 .sb-vstat-val {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 900;
   color: var(--brand-yellow);
   margin-top: 2px;
@@ -1857,6 +1975,41 @@ html[data-theme="day"] .sb-quick-pill {
   justify-content: center;
   width: 100%;
   margin-top: 4px;
+}
+
+@keyframes victoryBannerPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.72);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes victoryHaloPulse {
+  0% { transform: scale(0.96); opacity: 0.6; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes vstarPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.15) rotate(-35deg);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.28) rotate(6deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 /* ==========================================================================
