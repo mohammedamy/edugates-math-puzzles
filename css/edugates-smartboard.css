@@ -43,8 +43,8 @@
   --brand-danger: #f43f5e;
   
   /* Studio Tabletop Frame */
-  --canvas-frame: #38bdf8;
-  --canvas-mat: #16243d;
+  --canvas-frame: rgba(56, 189, 248, 0.32);
+  --canvas-mat: #121e33;
   
   /* Tactile Shadows & Glows */
   --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.38);
@@ -86,8 +86,8 @@ html[data-theme="day"] {
   --brand-purple: #7e22ce;
   --brand-purple-glow: rgba(126, 34, 206, 0.2);
   --brand-danger: #e11d48;
-  --canvas-frame: #0284c7;
-  --canvas-mat: #e2e8f0;
+  --canvas-frame: rgba(2, 132, 199, 0.35);
+  --canvas-mat: #e9eef5;
   --shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.08);
   --shadow-card: 0 4px 14px rgba(15, 23, 42, 0.06);
   --shadow-card-hover: 0 10px 24px rgba(15, 23, 42, 0.12);
@@ -1039,8 +1039,8 @@ html[data-theme="day"] .hub-diff-pill.active {
   margin: 0 auto;
   padding: 0 20px 36px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 16px;
 }
 
 .puzzle-card {
@@ -1049,17 +1049,17 @@ html[data-theme="day"] .hub-diff-pill.active {
   border: 1px solid rgba(56, 189, 248, 0.18);
   border-top: 4px solid var(--brand-teal);
   border-radius: var(--radius-md);
-  padding: 15px 16px;
+  padding: 16px;
   text-decoration: none;
   color: var(--text-main);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
-  min-height: 172px;
+  gap: 14px;
+  min-height: 182px;
   position: relative;
   box-shadow: var(--shadow-card);
-  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 html[data-theme="day"] .puzzle-card {
@@ -1095,18 +1095,45 @@ html[data-theme="day"] .puzzle-card {
 .puzzle-card-top {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 15px;
 }
 
 .puzzle-thumb {
-  width: 58px;
-  height: 58px;
-  border-radius: 12px;
+  width: 82px;
+  height: 82px;
+  min-width: 82px;
+  min-height: 82px;
+  border-radius: 18px;
   object-fit: cover;
-  border: 1.5px solid rgba(56, 189, 248, 0.25);
+  padding: 4px;
   background-color: #ffffff;
+  border: 2px solid rgba(56, 189, 248, 0.28);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.puzzle-card:hover .puzzle-thumb {
+  transform: scale(1.08) rotate(-1.5deg);
+  border-color: var(--brand-sky);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), 0 0 18px rgba(56, 189, 248, 0.35);
+}
+
+html[dir="rtl"] .puzzle-card:hover .puzzle-thumb {
+  transform: scale(1.08) rotate(1.5deg);
+}
+
+/* Category-Accented Logos */
+.puzzle-card[data-cat="graph"] .puzzle-thumb { border-color: rgba(42, 191, 191, 0.5); }
+.puzzle-card[data-cat="algebra"] .puzzle-thumb { border-color: rgba(245, 158, 11, 0.5); }
+.puzzle-card[data-cat="combinatorics"] .puzzle-thumb { border-color: rgba(56, 189, 248, 0.5); }
+.puzzle-card[data-cat="physics"] .puzzle-thumb { border-color: rgba(16, 185, 129, 0.5); }
+.puzzle-card[data-cat="algorithmic"] .puzzle-thumb { border-color: rgba(168, 85, 247, 0.5); }
+
+html[data-theme="day"] .puzzle-thumb {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 
 .puzzle-card-info {
@@ -1574,11 +1601,17 @@ html[data-theme="day"] .sb-board-stage {
   justify-content: center;
   position: relative;
   overflow: auto;
-  padding: 8px;
-  border-radius: var(--radius-md);
-  background-color: var(--bg-input);
-  border: 1.5px solid var(--border-color);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35);
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 50% 45%, #0f1c34 0%, #080f1e 100%);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="day"] .sb-canvas-viewport {
+  background: radial-gradient(circle at 50% 45%, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #cbd5e1;
+  box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.08);
 }
 
 /* Polished In-Game Tabletop Bezel around the Puzzle Canvas */
@@ -1586,17 +1619,23 @@ html[data-theme="day"] .sb-board-stage {
   position: relative;
   margin: auto;
   display: inline-block;
-  padding: 7px;
-  border-radius: 16px;
-  background-color: var(--canvas-mat);
-  border: 3px solid var(--canvas-frame);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(56, 189, 248, 0.2);
-  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+  padding: 10px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #182642 0%, #0d1627 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.32);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 24px rgba(56, 189, 248, 0.12);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html[data-theme="day"] #resizable {
+  background: linear-gradient(145deg, #ffffff 0%, #e9eef5 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.35);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8), 0 0 16px rgba(2, 132, 199, 0.1);
 }
 
 #resizable.move-pulse {
-  border-color: var(--brand-gold);
-  box-shadow: 0 10px 36px rgba(245, 158, 11, 0.4), 0 0 24px rgba(245, 158, 11, 0.3);
+  border-color: #fbbf24;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 32px rgba(245, 158, 11, 0.45);
 }
 
 #puzzlecanvas {
@@ -1607,9 +1646,9 @@ html[data-theme="day"] .sb-board-stage {
   font-family: "Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
   font-weight: 700;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: #d4dce8;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 #puzzlecanvas:focus {
@@ -1619,10 +1658,10 @@ html[data-theme="day"] .sb-board-stage {
 /* Teacher Whiteboard Annotation Canvas Overlay */
 #annotation-canvas {
   position: absolute;
-  top: 7px;
-  left: 7px;
-  width: calc(100% - 14px);
-  height: calc(100% - 14px);
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
   pointer-events: none;
   touch-action: none;
   z-index: 15;
