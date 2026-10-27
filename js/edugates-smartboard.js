@@ -829,7 +829,12 @@
     localStorage.setItem("edugates_sound_enabled", soundEnabled ? "true" : "false");
     var btn = document.getElementById("eis-sound-btn");
     if (btn) {
-      btn.textContent = soundEnabled ? (isAr() ? "🔊 الصوت" : "🔊 Sound") : (isAr() ? "🔇 صامت" : "🔇 Muted");
+      if (document.body.classList.contains("puzzle-page")) {
+        btn.textContent = soundEnabled ? "🔊" : "🔇";
+        btn.title = soundEnabled ? (isAr() ? "كتم الصوت" : "Mute Sound") : (isAr() ? "تشغيل الصوت" : "Enable Sound");
+      } else {
+        btn.textContent = soundEnabled ? (isAr() ? "🔊 الصوت" : "🔊 Sound") : (isAr() ? "🔇 صامت" : "🔇 Muted");
+      }
       btn.classList.toggle("is-active", soundEnabled);
     }
     if (soundEnabled) playSound("mode");
@@ -1822,8 +1827,8 @@
     var viewport = document.querySelector(".sb-canvas-viewport");
     if (!viewport || !window.Module || !window.Module._resize_puzzle) return;
     var dpr = window.__EDUGATES_DPR__ || window.devicePixelRatio || 1;
-    var availW = Math.max(220, (viewport.clientWidth - 80) * currentZoomScale);
-    var availH = Math.max(200, (viewport.clientHeight - 110) * currentZoomScale);
+    var availW = Math.max(220, (viewport.clientWidth - 50) * currentZoomScale);
+    var availH = Math.max(200, (viewport.clientHeight - 75) * currentZoomScale);
     try {
       window.Module._resize_puzzle((availW * dpr) | 0, (availH * dpr) | 0);
       syncAnnotationCanvasSize();
@@ -2353,9 +2358,16 @@
     playSound("mode");
     var btn = document.getElementById("eis-theme-btn");
     if (btn) {
-      btn.textContent = next === "day"
-        ? (isAr() ? "🌙 الوضع الداكن" : "🌙 Dark Board")
-        : (isAr() ? "☀️ الوضع الفاتح" : "☀️ Light Board");
+      if (document.body.classList.contains("puzzle-page")) {
+        btn.textContent = next === "day" ? "🌙" : "☀️";
+        btn.title = next === "day"
+          ? (isAr() ? "تفعيل الوضع الداكن" : "Dark Board Theme")
+          : (isAr() ? "تفعيل الوضع الفاتح" : "Light Board Theme");
+      } else {
+        btn.textContent = next === "day"
+          ? (isAr() ? "🌙 الوضع الداكن" : "🌙 Dark Board")
+          : (isAr() ? "☀️ الوضع الفاتح" : "☀️ Light Board");
+      }
     }
   };
 
@@ -2448,10 +2460,11 @@
     var homeLink = topbar ? topbar.querySelector("a[href='index.html'].eis-btn") : null;
     if (homeLink) {
       homeLink.textContent = isAr() ? "🏠 الرئيسية" : "🏠 Hub";
+      homeLink.title = isAr() ? "العودة إلى جميع الألغاز (41 مختبراً)" : "Back to All Puzzles";
     }
     var penToggleBtn = document.getElementById("sb-pen-toggle");
     if (penToggleBtn) {
-      penToggleBtn.textContent = isAr() ? "🖊️ القلم" : "🖊️ Pen";
+      penToggleBtn.textContent = isAr() ? "✏️ قلم" : "✏️ Pen";
     }
     if (homeLink && homeLink.parentNode && !document.getElementById("sb-quick-lab-select")) {
       var labSelect = document.createElement("select");
@@ -2470,38 +2483,164 @@
       soundBtn.type = "button";
       soundBtn.id = "eis-sound-btn";
       soundBtn.className = "eis-btn" + (soundEnabled ? " is-active" : "");
-      soundBtn.textContent = soundEnabled ? (isAr() ? "🔊 الصوت" : "🔊 Sound") : (isAr() ? "🔇 صامت" : "🔇 Muted");
-      soundBtn.title = "Toggle Smartboard Sound Effects";
+      soundBtn.textContent = soundEnabled ? "🔊" : "🔇";
+      soundBtn.title = soundEnabled ? (isAr() ? "كتم الصوت" : "Mute Sound") : (isAr() ? "تشغيل الصوت" : "Enable Sound");
       soundBtn.onclick = window.toggleEdugatesSound;
       topActions.insertBefore(soundBtn, topActions.firstChild);
     }
     ensureLangToggleBtn();
 
     var timerPill = document.querySelector(".sb-timer-pill");
-    if (timerPill && timerPill.parentNode) {
-      if (!document.getElementById("sb-moves-display")) {
+    var hudContainer = timerPill ? timerPill.parentNode : null;
+    if (hudContainer) {
+      hudContainer.className = "sb-hud-bar";
+      hudContainer.removeAttribute("style");
+
+      var movesDisplay = document.getElementById("sb-moves-display");
+      if (!movesDisplay) {
         var movesPill = document.createElement("div");
         movesPill.className = "sb-moves-pill";
-        movesPill.innerHTML = '<span id="sb-moves-label">' + (isAr() ? '🎯 الحركات:' : '🎯 Moves:') + '</span><span id="sb-moves-display">0</span>';
-        timerPill.parentNode.appendChild(movesPill);
+        movesPill.innerHTML = '<span id="sb-moves-label">🎯</span> <span id="sb-moves-display">0</span>';
+        hudContainer.appendChild(movesPill);
+      } else {
+        var movesLabel = document.getElementById("sb-moves-label");
+        if (movesLabel) movesLabel.textContent = "🎯";
+        var firstSpan = movesDisplay.previousElementSibling;
+        if (firstSpan && firstSpan.id !== "sb-moves-display") firstSpan.textContent = "🎯";
       }
-      if (!document.getElementById("sb-best-display")) {
+
+      var bestDisplay = document.getElementById("sb-best-display");
+      if (!bestDisplay) {
         var bestPill = document.createElement("div");
         bestPill.className = "sb-best-pill";
         bestPill.title = "Personal / Class Best Solve Time";
-        bestPill.innerHTML = '<span id="sb-best-label">' + (isAr() ? '🏆 الأفضل:' : '🏆 Best:') + '</span><span id="sb-best-display">—</span>';
-        timerPill.parentNode.appendChild(bestPill);
+        bestPill.innerHTML = '<span id="sb-best-label">🏆</span> <span id="sb-best-display">—</span>';
+        hudContainer.appendChild(bestPill);
+      } else {
+        var bestLabel = document.getElementById("sb-best-label");
+        if (bestLabel) bestLabel.textContent = "🏆";
+        var bFirstSpan = bestDisplay.previousElementSibling;
+        if (bFirstSpan && bFirstSpan.id !== "sb-best-display") bFirstSpan.textContent = "🏆";
       }
     }
     updateBestTimeBadge();
 
-    // 2. Consolidate Secondary Action Bar Buttons into '🛠️ More Tools' Popover
+    // 2. Consolidate into a Single Ultra-Compact Command Topbar
     var actionBar = document.querySelector(".sb-actionbar");
-    if (actionBar && !document.getElementById("sb-more-wrap")) {
-      var zoomGroup = actionBar.lastElementChild;
+    if (actionBar && topbar && !topbar.classList.contains("sb-unified-topbar")) {
+      topbar.classList.add("sb-unified-topbar");
 
-      // Inject Palette Switcher if missing
-      if (!document.getElementById("sb-palette-bar")) {
+      // Left cluster
+      var leftNav = topbar.firstElementChild;
+      if (leftNav) {
+        leftNav.classList.add("sb-header-cluster", "sb-cluster-nav");
+      }
+
+      // Middle cluster for game action buttons + preset + HUD
+      var centerCluster = document.createElement("div");
+      centerCluster.className = "sb-header-cluster sb-cluster-actions";
+
+      // Move Primary Action Buttons (#new, #restart, #undo, #redo, #solve)
+      var primaryGroup = actionBar.querySelector(".sb-action-group:first-child");
+      if (primaryGroup) {
+        primaryGroup.className = "sb-btn-group";
+        var newB = primaryGroup.querySelector("#new");
+        if (newB) {
+          newB.textContent = isAr() ? "🆕 جديد" : "🆕 New";
+          newB.title = isAr() ? "لعبة جديدة" : "New Game";
+        }
+        centerCluster.appendChild(primaryGroup);
+      }
+
+      // Move Preset Dropdown
+      var presetSelect = document.getElementById("sb-preset-select");
+      if (presetSelect) {
+        var presetWrap = document.createElement("div");
+        presetWrap.className = "sb-preset-wrap";
+        presetWrap.appendChild(presetSelect);
+        centerCluster.appendChild(presetWrap);
+      }
+
+      // Move HUD Bar (Timer + Moves + Best)
+      if (hudContainer) {
+        centerCluster.appendChild(hudContainer);
+      }
+
+      // Insert Center Cluster after Left Nav Group
+      if (leftNav) {
+        topbar.insertBefore(centerCluster, leftNav.nextSibling);
+      } else {
+        topbar.appendChild(centerCluster);
+      }
+
+      // Right Cluster: Tools & Toggles
+      if (topActions) {
+        topActions.classList.add("sb-header-cluster", "sb-cluster-tools");
+
+        // Add Fit button to topActions if not already present
+        if (!document.getElementById("sb-fit-btn")) {
+          var fitBtn = document.createElement("button");
+          fitBtn.type = "button";
+          fitBtn.id = "sb-fit-btn";
+          fitBtn.className = "eis-btn eis-btn-compact";
+          fitBtn.textContent = isAr() ? "🎯 ملائمة" : "🎯 Fit";
+          fitBtn.title = "Auto-Fit Board to Screen";
+          fitBtn.onclick = function () { window.zoomBoard(0); };
+          topActions.insertBefore(fitBtn, penToggleBtn || topActions.firstChild);
+        }
+
+        var themeBtn = document.getElementById("eis-theme-btn");
+        if (themeBtn) {
+          var isDay = document.documentElement.getAttribute("data-theme") === "day";
+          themeBtn.textContent = isDay ? "🌙" : "☀️";
+          themeBtn.title = isDay
+            ? (isAr() ? "تفعيل الوضع الداكن" : "Dark Board Theme")
+            : (isAr() ? "تفعيل الوضع الفاتح" : "Light Board Theme");
+        }
+
+        var fsBtn = topActions.querySelector("button[onclick*='toggleSmartboardFullscreen']");
+        if (fsBtn) {
+          fsBtn.textContent = "⛶";
+          fsBtn.title = isAr() ? "ملء الشاشة للسبورة الذكية" : "Toggle Fullscreen";
+        }
+      }
+
+      // Build 🛠️ More Tools Popover for Secondary Controls
+      var moreWrap = document.getElementById("sb-more-wrap");
+      if (!moreWrap && topActions) {
+        moreWrap = document.createElement("div");
+        moreWrap.id = "sb-more-wrap";
+        moreWrap.className = "sb-more-wrap";
+
+        var moreBtn = document.createElement("button");
+        moreBtn.type = "button";
+        moreBtn.id = "sb-more-btn";
+        moreBtn.className = "eis-btn eis-btn-compact";
+        moreBtn.textContent = isAr() ? "🛠️ أدوات" : "🛠️ Tools";
+        moreBtn.title = "Game ID, Seed, Save/Load, Board Styles & Teams";
+
+        var popover = document.createElement("div");
+        popover.id = "sb-more-popover";
+        popover.className = "sb-more-popover";
+
+        moreBtn.onclick = function (ev) {
+          ev.stopPropagation();
+          popover.classList.toggle("open");
+          playSound("mode");
+        };
+
+        document.addEventListener("click", function (ev) {
+          if (!moreWrap.contains(ev.target)) {
+            popover.classList.remove("open");
+          }
+        });
+
+        // 1. Board Palette Switcher inside popover
+        var palHeader = document.createElement("div");
+        palHeader.className = "sb-popover-section-title";
+        palHeader.textContent = isAr() ? "مظهر اللوحة:" : "Board Style:";
+        popover.appendChild(palHeader);
+
         var palBar = document.createElement("div");
         palBar.id = "sb-palette-bar";
         palBar.className = "sb-palette-bar";
@@ -2521,11 +2660,14 @@
             palBar.appendChild(b);
           })(styles[sIdx]);
         }
-        if (zoomGroup) zoomGroup.insertBefore(palBar, zoomGroup.firstChild);
-      }
+        popover.appendChild(palBar);
 
-      // Inject Team Scoreboard Toggle & Dock Swap Button
-      if (zoomGroup) {
+        // 2. Team Scoreboard Toggle & Dock Swap Button inside popover
+        var toolsRow = document.createElement("div");
+        toolsRow.style.display = "flex";
+        toolsRow.style.gap = "6px";
+        toolsRow.style.margin = "8px 0";
+
         var teamToggle = document.createElement("button");
         teamToggle.type = "button";
         teamToggle.id = "sb-team-toggle-btn";
@@ -2533,7 +2675,7 @@
         teamToggle.textContent = isAr() ? "🏆 الفرق" : "🏆 Teams";
         teamToggle.title = "Toggle Classroom 4-Team Scoreboard";
         teamToggle.onclick = window.toggleClassroomTeamBar;
-        zoomGroup.appendChild(teamToggle);
+        toolsRow.appendChild(teamToggle);
 
         var dockSwap = document.createElement("button");
         dockSwap.type = "button";
@@ -2544,45 +2686,12 @@
           : (isAr() ? "⬅️ اللوحة يساراً" : "⬅️ Dock Left");
         dockSwap.title = "Move Control Dock to Left or Right Side of Smartboard";
         dockSwap.onclick = window.toggleDockSide;
-        zoomGroup.appendChild(dockSwap);
+        toolsRow.appendChild(dockSwap);
 
-        // Build 🛠️ More Tools Popover
-        var moreWrap = document.createElement("div");
-        moreWrap.id = "sb-more-wrap";
-        moreWrap.className = "sb-more-wrap";
+        popover.appendChild(toolsRow);
 
-        var moreBtn = document.createElement("button");
-        moreBtn.type = "button";
-        moreBtn.id = "sb-more-btn";
-        moreBtn.className = "eis-btn";
-        moreBtn.textContent = isAr() ? "🛠️ أدوات ▾" : "🛠️ Tools ▾";
-        moreBtn.title = "Game ID, Seed, Save/Load, Low-CPU & Permalinks";
-
-        var popover = document.createElement("div");
-        popover.id = "sb-more-popover";
-        popover.className = "sb-more-popover";
-
-        moreBtn.onclick = function (ev) {
-          ev.stopPropagation();
-          popover.classList.toggle("open");
-          playSound("mode");
-        };
-
-        document.addEventListener("click", function (ev) {
-          if (!moreWrap.contains(ev.target)) {
-            popover.classList.remove("open");
-          }
-        });
-
-        // Shorten the preset label so the actionbar stays on a single row
-        var presetLabel = document.querySelector("label[for='sb-preset-select']");
-        if (presetLabel) {
-          presetLabel.textContent = "📐";
-          presetLabel.title = isAr() ? "حجم الشبكة ومستوى الصعوبة" : "Size / Difficulty Preset";
-        }
-
-        // Move secondary buttons + Manual link into popover so topbars fit on 1 row
-        var manualLink = topActions ? topActions.querySelector("a[href^='doc/']") : null;
+        // 3. Move secondary buttons + Manual link into popover
+        var manualLink = topActions.querySelector("a[href^='doc/']");
         if (manualLink) {
           manualLink.id = "sb-manual-popover-link";
           manualLink.textContent = isAr() ? "📖 دليل اللغز الكامل" : "📖 Full Puzzle Manual";
@@ -2615,12 +2724,12 @@
 
         moreWrap.appendChild(moreBtn);
         moreWrap.appendChild(popover);
-        zoomGroup.appendChild(moreWrap);
+        topActions.insertBefore(moreWrap, topActions.lastElementChild || null);
       }
 
-      // 3. Safe Solve Confirmation Guard
+      // 4. Safe Solve Confirmation Guard attached to document body
       var solveBtn = document.getElementById("solve");
-      if (solveBtn) {
+      if (solveBtn && !document.getElementById("sb-solve-confirm")) {
         var confirmBox = document.createElement("div");
         confirmBox.id = "sb-solve-confirm";
         confirmBox.className = "sb-solve-confirm";
@@ -2634,7 +2743,7 @@
           '<button type="button" id="sb-confirm-solve-no" class="eis-btn" style="padding:5px 12px;min-height:32px">' +
             (isAr() ? 'إلغاء' : 'Cancel') +
           '</button>';
-        actionBar.appendChild(confirmBox);
+        document.body.appendChild(confirmBox);
 
         var allowImmediateSolve = false;
         solveBtn.addEventListener("click", function (ev) {
@@ -2665,6 +2774,9 @@
           };
         }
       }
+
+      // 5. Hide old secondary actionbar completely
+      actionBar.style.display = "none";
     }
 
     // 4. Inject Classroom Team Scoreboard Strip right after .sb-actionbar
@@ -3275,7 +3387,12 @@
     }
     var soundBtn = document.getElementById("eis-sound-btn");
     if (soundBtn) {
-      soundBtn.textContent = soundEnabled ? (isAr() ? "🔊 الصوت" : "🔊 Sound") : (isAr() ? "🔇 صامت" : "🔇 Muted");
+      if (document.body.classList.contains("puzzle-page")) {
+        soundBtn.textContent = soundEnabled ? "🔊" : "🔇";
+        soundBtn.title = soundEnabled ? (isAr() ? "كتم الصوت" : "Mute Sound") : (isAr() ? "تشغيل الصوت" : "Enable Sound");
+      } else {
+        soundBtn.textContent = soundEnabled ? (isAr() ? "🔊 الصوت" : "🔊 Sound") : (isAr() ? "🔇 صامت" : "🔇 Muted");
+      }
     }
     var turboBtn = document.getElementById("eis-turbo-btn");
     if (turboBtn) {
@@ -3286,9 +3403,16 @@
     var themeBtn = document.getElementById("eis-theme-btn");
     if (themeBtn) {
       var isDay = document.documentElement.getAttribute("data-theme") === "day";
-      themeBtn.textContent = isDay
-        ? (isAr() ? "🌙 الوضع الداكن" : "🌙 Dark Board")
-        : (isAr() ? "☀️ الوضع الفاتح" : "☀️ Light Board");
+      if (document.body.classList.contains("puzzle-page")) {
+        themeBtn.textContent = isDay ? "🌙" : "☀️";
+        themeBtn.title = isDay
+          ? (isAr() ? "تفعيل الوضع الداكن" : "Dark Board Theme")
+          : (isAr() ? "تفعيل الوضع الفاتح" : "Light Board Theme");
+      } else {
+        themeBtn.textContent = isDay
+          ? (isAr() ? "🌙 الوضع الداكن" : "🌙 Dark Board")
+          : (isAr() ? "☀️ الوضع الفاتح" : "☀️ Light Board");
+      }
     }
     var hubManualLink = document.querySelector(".eis-topbar-actions a[href='doc/index.html']");
     if (hubManualLink) {
@@ -3296,7 +3420,12 @@
     }
     var fsBtn = document.querySelector("button[onclick*='toggleSmartboardFullscreen']");
     if (fsBtn) {
-      fsBtn.textContent = isAr() ? "⛶ ملء الشاشة" : "⛶ Fullscreen";
+      if (document.body.classList.contains("puzzle-page")) {
+        fsBtn.textContent = "⛶";
+        fsBtn.title = isAr() ? "ملء الشاشة للسبورة الذكية" : "Toggle Fullscreen";
+      } else {
+        fsBtn.textContent = isAr() ? "⛶ ملء الشاشة" : "⛶ Fullscreen";
+      }
     }
 
     // 2. Portal Hub (index.html) Localization
@@ -3443,26 +3572,26 @@
       if (labSelect) populateQuickLabSwitcher(labSelect, puzzleId);
 
       var movesLbl = document.querySelector(".sb-moves-pill span:first-child");
-      if (movesLbl) movesLbl.textContent = isAr() ? "🎯 الحركات:" : "🎯 Moves:";
+      if (movesLbl) movesLbl.textContent = "🎯";
       var bestLbl = document.querySelector(".sb-best-pill span:first-child");
-      if (bestLbl) bestLbl.textContent = isAr() ? "🏆 الأفضل:" : "🏆 Best:";
+      if (bestLbl) bestLbl.textContent = "🏆";
       var penBtn = document.getElementById("sb-pen-toggle");
-      if (penBtn) penBtn.textContent = isAr() ? "🖊️ القلم" : "🖊️ Pen";
+      if (penBtn) penBtn.textContent = isAr() ? "✏️ قلم" : "✏️ Pen";
 
       // Secondary Actionbar Buttons
       var actMap = {
-        "new": { en: "🆕 New Game", ar: "🆕 لعبة جديدة" },
-        "restart": { en: "🔄 Restart", ar: "🔄 إعادة البدء" },
+        "new": { en: "🆕 New", ar: "🆕 جديد" },
+        "restart": { en: "🔄 Restart", ar: "🔄 إعادة" },
         "undo": { en: "↩️ Undo", ar: "↩️ تراجع" },
-        "redo": { en: "↪️ Redo", ar: "↪️ إعادة" },
-        "solve": { en: "💡 Solve", ar: "💡 الحل" },
+        "redo": { en: "↪️ Redo", ar: "↪️ تقديم" },
+        "solve": { en: "💡 Solve", ar: "💡 حل" },
         "specific": { en: "🎯 Enter Game ID", ar: "🎯 إدخال رقم اللغز (ID)" },
         "random": { en: "🎲 Enter Random Seed", ar: "🎲 إدخال بذرة عشوائية (Seed)" },
         "prefs": { en: "⚙️ Puzzle Preferences", ar: "⚙️ إعدادات اللغز" },
         "save": { en: "💾 Download Save File", ar: "💾 حفظ التقدم في ملف" },
         "load": { en: "📂 Upload Save File", ar: "📂 تحميل ملف محفوظ" },
         "sb-team-toggle-btn": { en: "🏆 Teams", ar: "🏆 الفرق" },
-        "sb-more-btn": { en: "🛠️ Tools ▾", ar: "🛠️ أدوات ▾" },
+        "sb-more-btn": { en: "🛠️ Tools", ar: "🛠️ أدوات" },
         "sb-manual-popover-link": { en: "📖 Full Puzzle Manual", ar: "📖 دليل اللغز الكامل" }
       };
       var actKeys = Object.keys(actMap);

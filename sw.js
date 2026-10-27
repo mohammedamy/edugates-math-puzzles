@@ -2,7 +2,7 @@
  * Edugates International School — Math-Science Team
  * Offline Smartboard Service Worker (v3.5 — Network-First HTML/JS/CSS + Cache-First WASM/Assets)
  */
-const CACHE_NAME = 'edugates-math-science-smartboard-v11';
+const CACHE_NAME = 'edugates-math-science-smartboard-v12';
 
 const CORE_ASSETS = [
   './',
