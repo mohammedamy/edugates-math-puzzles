@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; }
+  .icon-box { width: 256px; height: 256px; position: relative; overflow: hidden; background: #fff; }
+  canvas { display: block; width: 256px; height: 256px; }
+</style>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+  var param = new URLSearchParams(window.location.search).get("icon");
+  if (param) {
+    document.querySelectorAll(".icon-box").forEach(function(b) { b.style.display = "none"; });
+    var target = document.getElementById("c_" + param);
+    if (target) {
+      target.parentElement.style.display = "block";
+      target.parentElement.style.position = "fixed";
+      target.parentElement.style.top = "0";
+      target.parentElement.style.left = "0";
+      target.parentElement.style.margin = "0";
+      document.body.style.padding = "0";
+      document.body.style.background = "#fff";
+    }
+  }
+});
+</script>
+</head>
+<body>
+
+<div class="icon-box"><canvas id="c_flood" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_samegame" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_cube" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_fifteen" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_sixteen" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_flip" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_rect" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_palisade" width="256" height="256"></canvas></div>
+<div class="icon-box"><canvas id="c_filling" width="256" height="256"></canvas></div>
+
+<script>
+// Rounded rectangle helper
+function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
+}
+
+// -------------------------------------------------------------
+// 1. FLOOD-IT (Liquid Flood Wave from Origin)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_flood");
+  var ctx = c.getContext("2d");
+  
+  // Background card base
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  // Grid of cells
+  var cols = 5, rows = 5;
+  var cellSize = 44;
+  var ox = 18, oy = 18;
+  
+  var palette = ["#f59e0b", "#10b981", "#8b5cf6", "#ef4444", "#f43f5e"];
+  // Deterministic colorful seed
+  var grid = [
+    [0, 0, 1, 2, 3],
+    [0, 0, 0, 1, 4],
+    [0, 0, 3, 2, 1],
+    [2, 3, 4, 1, 0],
+    [1, 4, 2, 0, 3]
+  ];
+  
+  for (var r = 0; r < rows; r++) {
+    for (var col = 0; col < cols; col++) {
+      var x = ox + col * cellSize;
+      var y = oy + r * cellSize;
+      var isFlooded = (r + col <= 3 && grid[r][col] === 0);
+      
+      ctx.fillStyle = isFlooded ? "#00c4df" : palette[grid[r][col]];
+      roundRect(ctx, x + 2, y + 2, cellSize - 4, cellSize - 4, 8, true, false);
+    }
+  }
+  
+  // Flooded boundary fluid wave glow
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = "#ffffff";
+  ctx.shadowColor = "rgba(0, 196, 223, 0.8)";
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.arc(ox + 4, oy + 4, 115, 0, Math.PI * 0.5);
+  ctx.stroke();
+  ctx.restore();
+
+  // Origin flood droplet
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.arc(ox + 22, oy + 22, 16, 0, Math.PI * 2);
+  ctx.fill();
+  
+  var g = ctx.createRadialGradient(ox + 20, oy + 18, 2, ox + 22, oy + 22, 14);
+  g.addColorStop(0, "#38bdf8");
+  g.addColorStop(1, "#0284c7");
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(ox + 22, oy + 22, 13, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Highlight reflection on droplet
+  ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+  ctx.beginPath();
+  ctx.arc(ox + 18, oy + 18, 4, 0, Math.PI * 2);
+  ctx.fill();
+})();
+
+// -------------------------------------------------------------
+// 2. SAMEGAME (Tactile Bubble Gems / Connected Cluster Pop)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_samegame");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  // Draw bubble gem
+  function drawGem(cx, cy, r, c1, c2) {
+    var grad = ctx.createRadialGradient(cx - r*0.35, cy - r*0.35, r*0.1, cx, cy, r);
+    grad.addColorStop(0, c1);
+    grad.addColorStop(1, c2);
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Gloss highlight
+    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+    ctx.beginPath();
+    ctx.ellipse(cx - r*0.28, cy - r*0.3, r*0.4, r*0.22, -Math.PI*0.25, 0, Math.PI*2);
+    ctx.fill();
+  }
+  
+  var gemR = 21;
+  // Connected cluster 1: Ruby Red (clearing!)
+  var redCluster = [[42, 170], [42, 214], [86, 214]];
+  redCluster.forEach(function(p) { drawGem(p[0], p[1], gemR, "#fca5a5", "#dc2626"); });
+
+  // Connected cluster 2: Emerald Green
+  var greenCluster = [[86, 126], [86, 170], [130, 170], [130, 214]];
+  greenCluster.forEach(function(p) { drawGem(p[0], p[1], gemR, "#86efac", "#059669"); });
+
+  // Connected cluster 3: Sapphire Blue
+  var blueCluster = [[174, 126], [174, 170], [218, 170], [218, 214], [174, 214]];
+  blueCluster.forEach(function(p) { drawGem(p[0], p[1], gemR, "#93c5fd", "#2563eb"); });
+
+  // Connected cluster 4: Golden Amber
+  var goldCluster = [[42, 82], [86, 82], [130, 82]];
+  goldCluster.forEach(function(p) { drawGem(p[0], p[1], gemR, "#fde68a", "#d97706"); });
+
+  // POP / CLEAR SPARKLE EFFECT in upper right
+  ctx.save();
+  ctx.strokeStyle = "#f59e0b";
+  ctx.lineWidth = 4;
+  var sx = 180, sy = 68;
+  for (var i = 0; i < 8; i++) {
+    var ang = (i * Math.PI) / 4;
+    ctx.beginPath();
+    ctx.moveTo(sx + Math.cos(ang) * 12, sy + Math.sin(ang) * 12);
+    ctx.lineTo(sx + Math.cos(ang) * 32, sy + Math.sin(ang) * 32);
+    ctx.stroke();
+  }
+  // Star at center of pop
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.arc(sx, sy, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+})();
+
+// -------------------------------------------------------------
+// 3. CUBE (3D Isometric Rolling Polyhedra)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_cube");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  // Isometric floor tiles
+  function isoPoint(gx, gy, gz) {
+    var ox = 128, oy = 145;
+    var x = ox + (gx - gy) * 36;
+    var y = oy + (gx + gy) * 18 - gz * 44;
+    return { x: x, y: y };
+  }
+  
+  function drawIsoTile(gx, gy, fill, stroke) {
+    var p0 = isoPoint(gx, gy, 0);
+    var p1 = isoPoint(gx + 1, gy, 0);
+    var p2 = isoPoint(gx + 1, gy + 1, 0);
+    var p3 = isoPoint(gx, gy + 1, 0);
+    ctx.beginPath();
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineTo(p3.x, p3.y);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    ctx.strokeStyle = stroke || "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+  
+  // Floor grid
+  for (var i = -1; i <= 1; i++) {
+    for (var j = -1; j <= 1; j++) {
+      var isBlueStamped = (i === -1 && j === 0);
+      drawIsoTile(i, j, isBlueStamped ? "#93c5fd" : "#f1f5f9", isBlueStamped ? "#2563eb" : "#94a3b8");
+    }
+  }
+  
+  // The 3D Isometric Cube at (0, 0)
+  var gx = 0, gy = 0;
+  var b0 = isoPoint(gx, gy, 0);
+  var b1 = isoPoint(gx + 1, gy, 0);
+  var b2 = isoPoint(gx + 1, gy + 1, 0);
+  var b3 = isoPoint(gx, gy + 1, 0);
+
+  var t0 = isoPoint(gx, gy, 1);
+  var t1 = isoPoint(gx + 1, gy, 1);
+  var t2 = isoPoint(gx + 1, gy + 1, 1);
+  var t3 = isoPoint(gx, gy + 1, 1);
+
+  // Soft drop shadow
+  ctx.fillStyle = "rgba(15, 23, 42, 0.25)";
+  ctx.beginPath();
+  ctx.moveTo(b0.x, b0.y); ctx.lineTo(b1.x + 8, b1.y + 6); ctx.lineTo(b2.x + 8, b2.y + 6); ctx.lineTo(b3.x, b3.y);
+  ctx.closePath();
+  ctx.fill();
+
+  // Left Face (Cyan highlight)
+  ctx.fillStyle = "#0284c7";
+  ctx.beginPath();
+  ctx.moveTo(b0.x, b0.y); ctx.lineTo(b3.x, b3.y); ctx.lineTo(t3.x, t3.y); ctx.lineTo(t0.x, t0.y);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Right Face (Deep Cobalt shade)
+  ctx.fillStyle = "#1e3a8a";
+  ctx.beginPath();
+  ctx.moveTo(b3.x, b3.y); ctx.lineTo(b2.x, b2.y); ctx.lineTo(t2.x, t2.y); ctx.lineTo(t3.x, t3.y);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#3b82f6"; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Top Face (Vibrant Royal Blue)
+  ctx.fillStyle = "#2563eb";
+  ctx.beginPath();
+  ctx.moveTo(t0.x, t0.y); ctx.lineTo(t1.x, t1.y); ctx.lineTo(t2.x, t2.y); ctx.lineTo(t3.x, t3.y);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#93c5fd"; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Rotation Arrow showing rolling motion
+  ctx.save();
+  ctx.strokeStyle = "#f59e0b";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(t3.x + 24, t3.y - 20, 26, Math.PI * 0.8, Math.PI * 1.8);
+  ctx.stroke();
+  // Arrowhead
+  ctx.fillStyle = "#f59e0b";
+  ctx.beginPath();
+  ctx.moveTo(t3.x + 24 + 20, t3.y - 20 - 24);
+  ctx.lineTo(t3.x + 24 + 32, t3.y - 20 - 10);
+  ctx.lineTo(t3.x + 24 + 12, t3.y - 20 - 10);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+})();
+
+// -------------------------------------------------------------
+// 4. FIFTEEN (Classic 15-Puzzle Sliding Tiles with Open Slot)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_fifteen");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  // Outer frame
+  ctx.fillStyle = "#1e293b";
+  roundRect(ctx, 16, 16, 224, 224, 18, true, false);
+  
+  // Tray background
+  ctx.fillStyle = "#0f172a";
+  roundRect(ctx, 24, 24, 208, 208, 12, true, false);
+  
+  var tSize = 47;
+  var gap = 4;
+  var startX = 28, startY = 28;
+  
+  var numbers = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 0] // 0 is empty slot!
+  ];
+  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "bold 20px 'Inter', system-ui, sans-serif";
+  
+  for (var r = 0; r < 4; r++) {
+    for (var col = 0; col < 4; col++) {
+      var num = numbers[r][col];
+      var x = startX + col * (tSize + gap);
+      var y = startY + r * (tSize + gap);
+      
+      if (num === 0) {
+        // Empty recessed slot
+        ctx.fillStyle = "#090d16";
+        roundRect(ctx, x, y, tSize, tSize, 8, true, false);
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.3)";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, x, y, tSize, tSize, 8, false, true);
+        
+        // Directional slide arrow in empty slot
+        ctx.fillStyle = "#fbbf24";
+        ctx.beginPath();
+        ctx.moveTo(x + 12, y + tSize/2);
+        ctx.lineTo(x + tSize - 16, y + tSize/2);
+        ctx.lineTo(x + tSize - 24, y + tSize/2 - 8);
+        ctx.lineTo(x + tSize - 24, y + tSize/2 + 8);
+        ctx.fill();
+      } else {
+        // Tactile beveled number tile
+        var grad = ctx.createLinearGradient(x, y, x, y + tSize);
+        grad.addColorStop(0, "#f8fafc");
+        grad.addColorStop(1, "#cbd5e1");
+        ctx.fillStyle = grad;
+        roundRect(ctx, x, y, tSize, tSize, 8, true, false);
+        
+        // Border & bevel
+        ctx.strokeStyle = "#94a3b8";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, x, y, tSize, tSize, 8, false, true);
+        
+        ctx.fillStyle = (num === 15) ? "#d97706" : "#0f172a";
+        ctx.fillText(num.toString(), x + tSize / 2, y + tSize / 2 + 1);
+      }
+    }
+  }
+})();
+
+// -------------------------------------------------------------
+// 5. SIXTEEN (Toroidal Shift with Wraparound Looping Arrows)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_sixteen");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  var tSize = 42;
+  var gap = 4;
+  var ox = 44, oy = 44;
+  
+  var rowColors = [
+    ["#fca5a5", "#dc2626"],
+    ["#fde68a", "#d97706"],
+    ["#86efac", "#059669"],
+    ["#93c5fd", "#2563eb"]
+  ];
+  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "bold 18px 'Inter', system-ui, sans-serif";
+  
+  for (var r = 0; r < 4; r++) {
+    for (var col = 0; col < 4; col++) {
+      var num = r * 4 + col + 1;
+      var x = ox + col * (tSize + gap);
+      var y = oy + r * (tSize + gap);
+      
+      var grad = ctx.createLinearGradient(x, y, x, y + tSize);
+      grad.addColorStop(0, rowColors[r][0]);
+      grad.addColorStop(1, rowColors[r][1]);
+      ctx.fillStyle = grad;
+      roundRect(ctx, x, y, tSize, tSize, 7, true, false);
+      
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(num.toString(), x + tSize / 2, y + tSize / 2 + 1);
+    }
+  }
+  
+  // Toroidal shift arrows (curving outside from right back to left)
+  ctx.strokeStyle = "#8b5cf6";
+  ctx.lineWidth = 4;
+  
+  // Horizontal loop top row
+  ctx.beginPath();
+  ctx.moveTo(ox + 4 * (tSize + gap) + 4, oy + tSize/2);
+  ctx.bezierCurveTo(248, oy + tSize/2, 248, 12, 128, 12);
+  ctx.bezierCurveTo(12, 12, 12, oy + tSize/2, ox - 8, oy + tSize/2);
+  ctx.stroke();
+  
+  // Left arrow head
+  ctx.fillStyle = "#8b5cf6";
+  ctx.beginPath();
+  ctx.moveTo(ox - 2, oy + tSize/2);
+  ctx.lineTo(ox - 14, oy + tSize/2 - 7);
+  ctx.lineTo(ox - 14, oy + tSize/2 + 7);
+  ctx.closePath();
+  ctx.fill();
+})();
+
+// -------------------------------------------------------------
+// 6. FLIP (Lights Out / GF(2) Matrix Logic)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_flip");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  // Dark electronic console
+  ctx.fillStyle = "#0f172a";
+  roundRect(ctx, 16, 16, 224, 224, 20, true, false);
+  
+  var grid = [
+    [0, 1, 0, 0],
+    [1, 1, 1, 0],
+    [0, 1, 0, 1],
+    [0, 0, 1, 0]
+  ];
+  
+  var ox = 32, oy = 32;
+  var step = 48;
+  
+  // Crosshair laser lines from (1, 1)
+  ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(ox + 1 * step + 24, oy);
+  ctx.lineTo(ox + 1 * step + 24, oy + 4 * step);
+  ctx.moveTo(ox, oy + 1 * step + 24);
+  ctx.lineTo(ox + 4 * step, oy + 1 * step + 24);
+  ctx.stroke();
+  
+  for (var r = 0; r < 4; r++) {
+    for (var col = 0; col < 4; col++) {
+      var cx = ox + col * step + 24;
+      var cy = oy + r * step + 24;
+      var isOn = grid[r][col] === 1;
+      
+      // Lamp socket
+      ctx.fillStyle = "#1e293b";
+      ctx.beginPath();
+      ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+      ctx.fill();
+      
+      if (isOn) {
+        // Glowing Neon Lamp
+        var g = ctx.createRadialGradient(cx, cy, 2, cx, cy, 15);
+        g.addColorStop(0, "#fef08a");
+        g.addColorStop(0.4, "#22c55e");
+        g.addColorStop(1, "#15803d");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Aura glow
+        ctx.strokeStyle = "rgba(34, 197, 94, 0.5)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 17, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        // Dim dark lamp
+        ctx.fillStyle = "#334155";
+        ctx.beginPath();
+        ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+})();
+
+// -------------------------------------------------------------
+// 7. RECTANGLES / SHIKAKU (Color-Partitioned Area Rectangles)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_rect");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  var ox = 20, oy = 20;
+  var u = 36; // unit size (6x6 grid = 216px)
+  
+  // Background grid
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 1;
+  for (var i = 0; i <= 6; i++) {
+    ctx.beginPath();
+    ctx.moveTo(ox + i * u, oy); ctx.lineTo(ox + i * u, oy + 6 * u);
+    ctx.moveTo(ox, oy + i * u); ctx.lineTo(ox + 6 * u, oy + i * u);
+    ctx.stroke();
+  }
+  
+  // Rectangles: [x, y, w, h, number, fillColor, strokeColor]
+  var rects = [
+    [0, 0, 4, 2, 8, "rgba(245, 158, 11, 0.25)", "#d97706"],
+    [4, 0, 2, 3, 6, "rgba(16, 185, 129, 0.25)", "#059669"],
+    [0, 2, 2, 2, 4, "rgba(56, 189, 248, 0.25)", "#0284c7"],
+    [2, 2, 2, 4, 8, "rgba(168, 85, 247, 0.25)", "#7e22ce"],
+    [0, 4, 2, 2, 4, "rgba(244, 63, 94, 0.25)", "#e11d48"],
+    [4, 3, 2, 3, 6, "rgba(20, 184, 166, 0.25)", "#0d9488"]
+  ];
+  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "bold 26px 'Inter', system-ui, sans-serif";
+  
+  rects.forEach(function(rc) {
+    var rx = ox + rc[0] * u;
+    var ry = oy + rc[1] * u;
+    var rw = rc[2] * u;
+    var rh = rc[3] * u;
+    
+    ctx.fillStyle = rc[5];
+    ctx.fillRect(rx, ry, rw, rh);
+    
+    ctx.strokeStyle = rc[6];
+    ctx.lineWidth = 3.5;
+    ctx.strokeRect(rx, ry, rw, rh);
+    
+    ctx.fillStyle = rc[6];
+    ctx.fillText(rc[4].toString(), rx + rw / 2, ry + rh / 2);
+  });
+})();
+
+// -------------------------------------------------------------
+// 8. PALISADE (Fortress Palisade Walls Enclosing Garden Cells)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_palisade");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  var ox = 26, oy = 26;
+  var u = 51; // 4x4 grid
+  
+  // Meadow cells
+  for (var r = 0; r < 4; r++) {
+    for (var col = 0; col < 4; col++) {
+      var isYellow = (r < 2 && col < 2) || (r >= 2 && col >= 2);
+      ctx.fillStyle = isYellow ? "#fef9c3" : "#ecfdf5";
+      ctx.fillRect(ox + col * u, oy + r * u, u, u);
+    }
+  }
+  
+  // Numbers in cells
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "bold 24px 'Inter', system-ui, sans-serif";
+  ctx.fillStyle = "#1e293b";
+  var clues = [
+    [0, 0, 2], [1, 0, 3], [0, 1, 3], [1, 1, 1],
+    [2, 2, 3], [3, 2, 2], [2, 3, 2], [3, 3, 3]
+  ];
+  clues.forEach(function(cl) {
+    ctx.fillText(cl[2].toString(), ox + cl[0] * u + u/2, oy + cl[1] * u + u/2);
+  });
+  
+  // Palisade Fortress Walls (Heavy dark brown beams)
+  ctx.strokeStyle = "#78350f";
+  ctx.lineWidth = 7;
+  ctx.lineCap = "round";
+  
+  var walls = [
+    // Outer border
+    [[0,0], [4,0]], [[4,0], [4,4]], [[4,4], [0,4]], [[0,4], [0,0]],
+    // Internal dividing palisade lines
+    [[0,2], [2,2]], [[2,0], [2,4]], [[2,2], [4,2]]
+  ];
+  
+  walls.forEach(function(w) {
+    ctx.beginPath();
+    ctx.moveTo(ox + w[0][0] * u, oy + w[0][1] * u);
+    ctx.lineTo(ox + w[1][0] * u, oy + w[1][1] * u);
+    ctx.stroke();
+  });
+  
+  // Fence Posts at vertices
+  ctx.fillStyle = "#b45309";
+  for (var i = 0; i <= 4; i++) {
+    for (var j = 0; j <= 4; j++) {
+      if ((i === 2) || (j === 2) || i === 0 || i === 4 || j === 0 || j === 4) {
+        ctx.beginPath();
+        ctx.arc(ox + i * u, oy + j * u, 5.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+})();
+
+// -------------------------------------------------------------
+// 9. FILLING / FILLOMINO (Polyominoes of Size N Filled with Digit N)
+// -------------------------------------------------------------
+(function() {
+  var c = document.getElementById("c_filling");
+  var ctx = c.getContext("2d");
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 256, 256);
+  
+  var ox = 20, oy = 20;
+  var u = 43; // 5x5 grid
+  
+  // Distinct polyomino regions:
+  // Polyomino of 4s (T-tetromino in Cyan)
+  // Polyomino of 3s (L-tromino in Amber)
+  // Polyomino of 5s (Pentomino in Emerald)
+  // Polyomino of 2s (Domino in Purple)
+  // Polyomino of 1s (Monomino in Coral)
+  
+  var grid = [
+    [{n:4, c:"#e0f2fe", b:"#0284c7"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:1, c:"#ffe4e6", b:"#e11d48"}, {n:2, c:"#f3e8ff", b:"#7e22ce"}],
+    [{n:3, c:"#fef3c7", b:"#d97706"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:5, c:"#d1fae5", b:"#059669"}, {n:5, c:"#d1fae5", b:"#059669"}, {n:2, c:"#f3e8ff", b:"#7e22ce"}],
+    [{n:3, c:"#fef3c7", b:"#d97706"}, {n:3, c:"#fef3c7", b:"#d97706"}, {n:5, c:"#d1fae5", b:"#059669"}, {n:5, c:"#d1fae5", b:"#059669"}, {n:5, c:"#d1fae5", b:"#059669"}],
+    [{n:2, c:"#f3e8ff", b:"#7e22ce"}, {n:2, c:"#f3e8ff", b:"#7e22ce"}, {n:3, c:"#fef3c7", b:"#d97706"}, {n:3, c:"#fef3c7", b:"#d97706"}, {n:3, c:"#fef3c7", b:"#d97706"}],
+    [{n:1, c:"#ffe4e6", b:"#e11d48"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:4, c:"#e0f2fe", b:"#0284c7"}, {n:4, c:"#e0f2fe", b:"#0284c7"}]
+  ];
+  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "bold 24px 'Inter', system-ui, sans-serif";
+  
+  for (var r = 0; r < 5; r++) {
+    for (var col = 0; col < 5; col++) {
+      var cell = grid[r][col];
+      var x = ox + col * u;
+      var y = oy + r * u;
+      
+      ctx.fillStyle = cell.c;
+      ctx.fillRect(x, y, u, u);
+      
+      ctx.fillStyle = cell.b;
+      ctx.fillText(cell.n.toString(), x + u/2, y + u/2);
+    }
+  }
+  
+  // Thick borders between DIFFERENT numbers
+  ctx.strokeStyle = "#1e293b";
+  ctx.lineWidth = 3.5;
+  for (var r = 0; r < 5; r++) {
+    for (var col = 0; col < 5; col++) {
+      var cell = grid[r][col];
+      var x = ox + col * u;
+      var y = oy + r * u;
+      
+      // Right edge
+      if (col < 4 && grid[r][col+1].n !== cell.n) {
+        ctx.beginPath(); ctx.moveTo(x + u, y); ctx.lineTo(x + u, y + u); ctx.stroke();
+      }
+      // Bottom edge
+      if (r < 4 && grid[r+1][col].n !== cell.n) {
+        ctx.beginPath(); ctx.moveTo(x, y + u); ctx.lineTo(x + u, y + u); ctx.stroke();
+      }
+    }
+  }
+  // Outer frame
+  ctx.strokeRect(ox, oy, 5 * u, 5 * u);
+})();
+</script>
+
+</body>
+</html>
