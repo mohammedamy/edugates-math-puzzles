@@ -1325,11 +1325,32 @@
       return;
     }
 
+    // Default rectangle fill
     ctx.fillStyle = colStr;
     ctx.fillRect(x, y, w, h);
-    if (colour === 0 && w >= 22 && w <= 130 && Math.abs(w - h) <= 4) {
-      ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
-      ctx.fillRect(x + 1, y + 1, w - 2, 1.5);
+
+    // Tactile 3D Bevel Engine for Game Cells / Tiles across all puzzles
+    if (w >= 18 && h >= 18 && w <= 240 && h <= 240 && Math.abs(w - h) <= 14) {
+      var isDarkTile = (colour === 1 && puzzleId === "flip") || (colStr === "#1e293b" || colStr === "#0f172a" || colStr === "#334155" || colStr === "#475569" || colStr === "#2b374d");
+      if (isDarkTile) {
+        // Pressed / Active recessed 3D tile bevel (e.g. Flip dark tiles, Unruly black cells)
+        ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+        ctx.fillRect(x + 1, y + 1, w - 2, 2);
+        ctx.fillRect(x + 1, y + 1, 2, h - 2);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.14)";
+        ctx.fillRect(x + 1, y + h - 2, w - 2, 1.5);
+        ctx.fillRect(x + w - 2, y + 1, 1.5, h - 2);
+      } else {
+        // Raised tactile 3D tile bevel (Light tiles, number tiles, game blocks)
+        ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+        ctx.fillRect(x + 1, y + 1, w - 2, 1.8);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
+        ctx.fillRect(x + 1, y + 1, 1.5, h - 2);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.20)";
+        ctx.fillRect(x + 1, y + h - 2, w - 2, 1.8);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
+        ctx.fillRect(x + w - 2, y + 1, 1.5, h - 2);
+      }
     }
   };
 
@@ -1801,8 +1822,8 @@
     var viewport = document.querySelector(".sb-canvas-viewport");
     if (!viewport || !window.Module || !window.Module._resize_puzzle) return;
     var dpr = window.__EDUGATES_DPR__ || window.devicePixelRatio || 1;
-    var availW = Math.max(260, (viewport.clientWidth - 24) * currentZoomScale);
-    var availH = Math.max(240, (viewport.clientHeight - 24) * currentZoomScale);
+    var availW = Math.max(220, (viewport.clientWidth - 80) * currentZoomScale);
+    var availH = Math.max(200, (viewport.clientHeight - 110) * currentZoomScale);
     try {
       window.Module._resize_puzzle((availW * dpr) | 0, (availH * dpr) | 0);
       syncAnnotationCanvasSize();
@@ -2240,6 +2261,10 @@
       annotCanvas.width = w;
       annotCanvas.height = h;
     }
+    annotCanvas.style.width = w + "px";
+    annotCanvas.style.height = h + "px";
+    annotCanvas.style.top = (pCanvas.offsetTop || 16) + "px";
+    annotCanvas.style.left = (pCanvas.offsetLeft || 16) + "px";
   }
 
   function initAnnotationLayer() {

@@ -1611,11 +1611,11 @@ html[data-theme="day"] .sb-board-stage {
   justify-content: center;
   position: relative;
   overflow: auto;
-  padding: 14px;
+  padding: 18px;
   border-radius: var(--radius-lg);
-  background: radial-gradient(circle at 50% 45%, #0f1c34 0%, #080f1e 100%);
-  border: 1px solid rgba(56, 189, 248, 0.16);
-  box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+  background: radial-gradient(circle at 50% 45%, #101c34 0%, #060b14 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(0, 0, 0, 0.5);
 }
 
 html[data-theme="day"] .sb-canvas-viewport {
@@ -1624,28 +1624,38 @@ html[data-theme="day"] .sb-canvas-viewport {
   box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.08);
 }
 
-/* Polished In-Game Tabletop Bezel around the Puzzle Canvas */
+/* Polished In-Game Tabletop 3D Chassis around the Puzzle Canvas */
 #resizable {
+  box-sizing: content-box !important;
   position: relative;
   margin: auto;
   display: inline-block;
-  padding: 10px;
-  border-radius: 20px;
-  background: linear-gradient(145deg, #182642 0%, #0d1627 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.32);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 24px rgba(56, 189, 248, 0.12);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  padding: 16px;
+  border-radius: 24px;
+  background: linear-gradient(165deg, #1d2b45 0%, #111a2d 60%, #0c1322 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.8),
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.55);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 html[data-theme="day"] #resizable {
-  background: linear-gradient(145deg, #ffffff 0%, #e9eef5 100%);
-  border: 1.5px solid rgba(2, 132, 199, 0.35);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8), 0 0 16px rgba(2, 132, 199, 0.1);
+  background: linear-gradient(165deg, #ffffff 0%, #e2e8f0 100%);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.14),
+    0 6px 16px rgba(15, 23, 42, 0.08),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.9);
 }
 
 #resizable.move-pulse {
-  border-color: #fbbf24;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 32px rgba(245, 158, 11, 0.45);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.8),
+    0 0 32px rgba(245, 158, 11, 0.5),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Board Frame Celebratory Shockwave */
@@ -1655,35 +1665,31 @@ html[data-theme="day"] #resizable {
 
 @keyframes victoryBezelShockwave {
   0% {
-    border-color: rgba(56, 189, 248, 0.32);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), inset 0 1.5px 0 rgba(255, 255, 255, 0.22);
     transform: scale(1);
   }
   14% {
-    border-color: #fde047;
     box-shadow:
-      0 20px 60px rgba(245, 158, 11, 0.7),
+      0 24px 70px rgba(245, 158, 11, 0.7),
       0 0 0 3px #fbbf24,
-      0 0 50px rgba(245, 158, 11, 0.85),
-      0 0 100px rgba(253, 224, 71, 0.45);
+      0 0 55px rgba(245, 158, 11, 0.85),
+      0 0 110px rgba(253, 224, 71, 0.45),
+      inset 0 1.5px 0 #fde047;
     transform: scale(1.02);
   }
   35% {
-    border-color: #fbbf24;
     box-shadow:
-      0 18px 50px rgba(245, 158, 11, 0.5),
+      0 20px 55px rgba(245, 158, 11, 0.5),
       0 0 0 2px #fbbf24,
       0 0 35px rgba(245, 158, 11, 0.5);
     transform: scale(1.008);
   }
   70% {
-    border-color: rgba(245, 158, 11, 0.45);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.65), 0 0 24px rgba(245, 158, 11, 0.25);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), 0 0 24px rgba(245, 158, 11, 0.25);
     transform: scale(1);
   }
   100% {
-    border-color: rgba(56, 189, 248, 0.32);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 24px rgba(56, 189, 248, 0.12);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), inset 0 1.5px 0 rgba(255, 255, 255, 0.22);
     transform: scale(1);
   }
 }
@@ -1694,13 +1700,13 @@ html[data-theme="day"] #resizable {
 
 @keyframes victoryViewportGlow {
   0% {
-    box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(0, 0, 0, 0.5);
   }
   20% {
-    box-shadow: inset 0 3px 25px rgba(245, 158, 11, 0.45), inset 0 0 60px rgba(245, 158, 11, 0.25), 0 0 40px rgba(245, 158, 11, 0.2);
+    box-shadow: inset 0 4px 35px rgba(245, 158, 11, 0.45), inset 0 0 70px rgba(245, 158, 11, 0.25), 0 0 40px rgba(245, 158, 11, 0.2);
   }
   100% {
-    box-shadow: inset 0 3px 20px rgba(0, 0, 0, 0.65), inset 0 0 45px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -1712,9 +1718,12 @@ html[data-theme="day"] #resizable {
   font-family: "Inter", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
   font-weight: 700;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 16px;
   background-color: #d4dce8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.45),
+    inset 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 #puzzlecanvas:focus {
@@ -1724,14 +1733,14 @@ html[data-theme="day"] #resizable {
 /* Teacher Whiteboard Annotation Canvas Overlay */
 #annotation-canvas {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  top: 14px;
+  left: 14px;
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
   pointer-events: none;
   touch-action: none;
   z-index: 15;
-  border-radius: 10px;
+  border-radius: 14px;
 }
 
 #annotation-canvas.active {
@@ -1752,21 +1761,31 @@ html[data-theme="day"] #resizable {
 
 #statusbar {
   width: 100%;
-  min-height: 30px;
-  margin-top: 6px;
-  padding: 5px 14px;
-  background: linear-gradient(180deg, #0f182c 0%, #09101f 100%);
-  color: #f8fafc;
-  font-size: 0.86rem;
+  min-height: 28px;
+  margin-top: 12px;
+  padding: 6px 14px;
+  background: linear-gradient(180deg, #090e18 0%, #0d1626 100%);
+  color: var(--brand-sky);
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size: 0.82rem;
   font-weight: 800;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.45);
+}
+
+html[data-theme="day"] #statusbar {
+  background: #f1f5f9;
+  color: #0369a1;
+  border-color: #cbd5e1;
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.12), 0 1px 0 rgba(255, 255, 255, 0.8);
+  text-shadow: none;
 }
 
 #resizehandle {
