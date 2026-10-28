@@ -3196,37 +3196,37 @@
     return [
       {
         icon: "🌟",
-        title: isAr() ? "البديهية الأولى ($A_0$)" : "First Axiom ($A_0$)",
+        title: isAr() ? 'البديهية الأولى · <span class="badge-math" dir="ltr">$A_0$</span>' : 'First Axiom · <span class="badge-math" dir="ltr">$A_0$</span>',
         desc: isAr() ? "أكمل أول مختبر ألغاز لفريق الرياضيات والعلوم." : "Complete your first Math-Science puzzle workbench.",
         unlocked: summary.solvedPuzzlesCount >= 1
       },
       {
         icon: "⚡",
-        title: isAr() ? "تكتيكي السرعة ($t < 60\\text{s}$)" : "Speed Tactician ($t < 60\\text{s}$)",
+        title: isAr() ? 'تكتيكي السرعة · <span class="badge-math" dir="ltr">$t < 60\\text{s}$</span>' : 'Speed Tactician · <span class="badge-math" dir="ltr">$t < 60\\text{s}$</span>',
         desc: isAr() ? "حل أي مختبر في زمن $t < 60$ ثانية." : "Solve any workbench in under 60 seconds.",
         unlocked: hasFastSolve
       },
       {
         icon: "🌉",
-        title: isAr() ? "عالم نظرية البيانات ($G=(V,E)$)" : "Graph Theorist ($G=(V,E)$)",
+        title: isAr() ? 'عالم نظرية البيانات · <span class="badge-math" dir="ltr">$G=(V,E)$</span>' : 'Graph Theorist · <span class="badge-math" dir="ltr">$G=(V,E)$</span>',
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في نظرية البيانات والاتصال المستوي." : "Master 3+ Graph Theory & Topology workbenches.",
         unlocked: countSolvedInList(["bridges","slant","net","loopy","untangle","map","pearl","tracks","signpost","netslide"]) >= 3
       },
       {
         icon: "🔢",
-        title: isAr() ? "بارع الجبر والمربعات ($L \\in S_N$)" : "Algebra Virtuoso ($L \\in S_N$)",
+        title: isAr() ? 'بارع الجبر والمربعات · <span class="badge-math" dir="ltr">$L \\in S_N$</span>' : 'Algebra Virtuoso · <span class="badge-math" dir="ltr">$L \\in S_N$</span>',
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في المربعات اللاتينية وبديهيات الزمر." : "Master 3+ Latin Squares & Abstract Algebra labs.",
         unlocked: countSolvedInList(["towers","solo","keen","unequal","group","singles"]) >= 3
       },
       {
         icon: "🔬",
-        title: isAr() ? "فيزيائي البصريات والكم ($\\vec{v}, \\mathbf{R}$)" : "Quantum Physicist ($\\vec{v}, \\mathbf{R}$)",
+        title: isAr() ? 'فيزيائي البصريات والكم · <span class="badge-math" dir="ltr">$\\mathbf{R}^3, \\vec{v}$</span>' : 'Quantum Physicist · <span class="badge-math" dir="ltr">$\\mathbf{R}^3, \\vec{v}$</span>',
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في البصريات والقطبية والهندسة الفراغية." : "Master 3+ Ray Optics, Polarity & 3D Geometry labs.",
         unlocked: countSolvedInList(["lightup","blackbox","undead","magnets","inertia","cube","galaxies"]) >= 3
       },
       {
         icon: "🧮",
-        title: isAr() ? "خبير التوافقيات ($\\binom{N}{k}$)" : "Combinatorialist ($\\binom{N}{k}$)",
+        title: isAr() ? 'خبير التوافقيات · <span class="badge-math" dir="ltr">$C(N, k)$</span>' : 'Combinatorialist · <span class="badge-math" dir="ltr">$C(N, k)$</span>',
         desc: isAr() ? "أتقن 5 مختبرات أو أكثر في التوافقيات والاستنتاج الشبكي." : "Master 5+ Combinatorics & Grid Deduction labs.",
         unlocked: countSolvedInList(["pattern","mines","dominosa","rect","palisade","filling","range","tents","mosaic","unruly"]) >= 5
       },
@@ -3238,7 +3238,7 @@
       },
       {
         icon: "👑",
-        title: isAr() ? "الأستاذ الأعظم للأولمبياد ($\\sum \\text{Stars} \\ge 30$)" : "Olympiad Grandmaster ($\\sum \\text{Stars} \\ge 30$)", 
+        title: isAr() ? 'أستاذ الأولمبياد الأعظم · <span class="badge-math" dir="ltr">$\\ge 30★$</span>' : 'Olympiad Grandmaster · <span class="badge-math" dir="ltr">$\\ge 30★$</span>', 
         desc: isAr() ? "اجمع 30 نجمة إتقان أو أكثر عبر المختبرات." : "Earn 30+ total Mastery Stars across the lab.",
         unlocked: summary.totalStars >= 30
       }
@@ -3831,12 +3831,18 @@
     });
   });
 
-  document.addEventListener("DOMContentLoaded", function () {
+  function boot() {
     if (document.body && document.body.classList.contains("puzzle-page")) {
       upgradePuzzleWorkspaceUI();
     } else {
       initHubPortalEnhancements();
     }
     applyEdugatesLanguage();
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
 })();

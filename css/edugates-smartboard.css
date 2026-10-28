@@ -162,11 +162,6 @@ html[dir="rtl"] .sb-more-popover {
   left: 0;
 }
 
-html[dir="rtl"] .sb-solve-confirm {
-  left: auto;
-  right: 12px;
-}
-
 /* ==========================================================================
    KATEX MATHEMATICAL TYPOGRAPHY & RTL/LTR ISOLATION
    Ensures 100% correct mathematical rendering in both Arabic and English.
@@ -860,9 +855,23 @@ html[data-theme="day"] .eis-badge-card.unlocked {
 }
 
 .eis-badge-title {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: var(--text-main);
+  line-height: 1.4;
+  display: block;
+}
+
+.eis-badge-title .badge-math {
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--brand-sky);
+  font-weight: 700;
+}
+
+.eis-badge-title .katex {
+  font-size: 0.92em;
 }
 
 .eis-badge-desc {
@@ -1000,7 +1009,8 @@ html[data-theme="day"] .hub-diff-pill.active {
 .hub-search-wrap {
   position: relative;
   flex: 1;
-  max-width: 350px;
+  max-width: 480px;
+  min-width: 240px;
 }
 
 .hub-search {
@@ -1227,9 +1237,10 @@ html[data-theme="day"] .diff-olympiad { color: #b45309; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  padding-top: 9px;
+  gap: 10px;
+  padding-top: 10px;
   border-top: 1px solid var(--border-color);
+  margin-top: auto;
 }
 
 .math-domain-tag {
@@ -1237,25 +1248,40 @@ html[data-theme="day"] .diff-olympiad { color: #b45309; }
   font-weight: 800;
   color: var(--brand-gold);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
 }
 
 .play-now-badge {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 800;
-  color: var(--brand-teal);
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 999px;
+  padding: 3px 10px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: transform 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html[data-theme="day"] .play-now-badge {
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.28);
 }
 
 .puzzle-card:hover .play-now-badge {
-  color: var(--brand-yellow);
-  transform: translateX(3px);
-}
-html[dir="rtl"] .puzzle-card:hover .play-now-badge {
-  transform: translateX(-3px);
+  color: #ffffff;
+  background: var(--brand-sky);
+  border-color: var(--brand-sky);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -1563,10 +1589,16 @@ html[data-theme="day"] .sb-actionbar {
   border: 2px solid var(--brand-sky);
   border-radius: var(--radius-md);
   padding: 10px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.25);
   z-index: 80;
   flex-direction: column;
   gap: 6px;
+}
+
+html[data-theme="day"] .sb-more-popover {
+  background-color: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15), 0 0 15px rgba(2, 132, 199, 0.15);
 }
 
 .sb-more-popover.open {
@@ -1579,25 +1611,44 @@ html[data-theme="day"] .sb-actionbar {
   padding: 8px 12px;
 }
 
-/* Safe Solve Confirmation Popover */
+/* Safe Solve Confirmation Floating Modal */
 .sb-solve-confirm {
   display: none;
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 12px;
-  background-color: var(--bg-panel);
+  position: fixed;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #13223f 0%, #0d172c 100%);
   border: 2px solid var(--brand-gold);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  box-shadow: var(--shadow-soft);
-  z-index: 85;
+  border-radius: var(--radius-md, 14px);
+  padding: 12px 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(245, 158, 11, 0.25);
+  z-index: 9999;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+html[data-theme="day"] .sb-solve-confirm {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-color: #d97706;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15), 0 0 20px rgba(245, 158, 11, 0.2);
 }
 
 .sb-solve-confirm.open {
-  display: flex;
+  display: flex !important;
+  animation: slideDownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 /* ==========================================================================
@@ -1692,6 +1743,36 @@ html[data-theme="day"] .sb-actionbar {
   background: var(--brand-gold);
   color: #000000;
   border-color: #fbbf24;
+}
+
+html[data-theme="day"] .sb-team-bar {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border-bottom-color: #d97706;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="day"] .sb-team-chip {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="day"] .sb-team-chip.active-turn {
+  border-color: #d97706;
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  box-shadow: 0 0 12px rgba(217, 119, 6, 0.25);
+}
+
+html[data-theme="day"] .sb-team-score {
+  background-color: #f1f5f9;
+  border-color: #d97706;
+  color: #b45309;
+}
+
+html[data-theme="day"] .sb-team-btn {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border-color: #cbd5e1;
+  color: #0f172a;
 }
 
 /* ==========================================================================
