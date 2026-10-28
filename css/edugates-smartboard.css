@@ -2145,6 +2145,30 @@ html[data-theme="day"] .sb-victory-banner {
   text-transform: uppercase;
 }
 
+.sb-victory-badge.sb-badge-demo {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(14, 165, 233, 0.15) 100%);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #38bdf8;
+}
+
+.sb-vstar-row.is-demo-stars .sb-vstar {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.eis-btn-blue {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+
+.eis-btn-blue:hover {
+  background: linear-gradient(180deg, #0369a1 0%, #075985 100%);
+  border-color: #7dd3fc;
+  transform: translateY(-1px);
+}
+
 .sb-vstar-row {
   display: flex;
   gap: 10px;

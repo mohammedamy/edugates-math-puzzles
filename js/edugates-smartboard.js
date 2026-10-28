@@ -17,9 +17,13 @@
   window.__EDUGATES_CLICK_MODE__ = 0; // 0 = Left, 2 = Right (Mark), 1 = Middle (Lock)
   window.__EDUGATES_ANNOTATE_ACTIVE__ = false;
 
-  var savedTheme = localStorage.getItem("edugates_math_theme") || "night";
+  var urlParams = new URLSearchParams(window.location.search);
+  var urlTheme = urlParams.get("theme");
+  var savedTheme = urlTheme || localStorage.getItem("edugates_math_theme") || "night";
   if (savedTheme === "day") {
     document.documentElement.setAttribute("data-theme", "day");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
   }
 
   var currentBoardStyle = localStorage.getItem("edugates_board_style") || "studio";
@@ -713,24 +717,39 @@
         oscM.start(now);
         oscM.stop(now + 0.04);
       } else if (type === "victory") {
-        // Triumphant Harmonious "Ta-Da!" Fanfare:
-        // 1. "Ta-" (Herald upbeat): 2 rapid staccato brass calls + ascending grace
-        // 2. "-DAAA!" (Triumphant grand resolution): Multi-octave C-Major chord in rich harmony
-        // with brass warmth (filtered saw), crystalline sparkle (sine/bell), and smooth reverberant decay.
+        // Triumphant Orchestral "Ta-Da!" Fanfare:
+        // 1. "Ta-" (Royal Herald Arpeggio): Staccato herald fanfare call (C5 -> E5 -> G5 -> B5 -> C6) with brass & bell sparkle
+        // 2. "-DAAA!" (Grand Majestic Climax):
+        //    - Timpani & Sub-Bass Thump (130Hz -> 65Hz) giving powerful acoustic classroom punch
+        //    - Full 8-Voice Orchestral Brass Section (C3, G3, C4, E4, G4, C5 chorus pair, E5 chorus pair, G5)
+        //    - Dual-Formant Resonant Brass Filter (opening wide at climax and decaying with acoustic warmth)
+        //    - Glittering Celesta & Golden Bell Cascade (C6 -> E6 -> G6 -> B6 -> C7 -> E7)
+        //    - Stereo Ambient Delay Reverb Tail (~2.4s) for grand hall presence on smartboard speakers!
         var masterGain = ctx.createGain();
-        masterGain.gain.setValueAtTime(0.85, now);
+        masterGain.gain.setValueAtTime(0.92, now);
+
+        // Acoustic delay/reverb bus for spacious hall presence
+        var delayNode = ctx.createDelay();
+        delayNode.delayTime.setValueAtTime(0.14, now);
+        var delayGain = ctx.createGain();
+        delayGain.gain.setValueAtTime(0.24, now);
+        delayGain.gain.exponentialRampToValueAtTime(0.001, now + 2.4);
+        delayNode.connect(delayGain);
+        delayGain.connect(masterGain);
+
         masterGain.connect(ctx.destination);
 
-        // Lowpass filter for warm acoustic brass resonance
+        // Dynamic acoustic brass filter
         var brassFilter = ctx.createBiquadFilter();
         brassFilter.type = "lowpass";
-        brassFilter.Q.setValueAtTime(2.2, now);
-        brassFilter.frequency.setValueAtTime(2800, now);
-        brassFilter.frequency.exponentialRampToValueAtTime(4200, now + 0.28);
-        brassFilter.frequency.exponentialRampToValueAtTime(1050, now + 1.9);
+        brassFilter.Q.setValueAtTime(2.6, now);
+        brassFilter.frequency.setValueAtTime(2400, now);
+        brassFilter.frequency.exponentialRampToValueAtTime(5200, now + 0.30);
+        brassFilter.frequency.exponentialRampToValueAtTime(1100, now + 2.2);
         brassFilter.connect(masterGain);
+        brassFilter.connect(delayNode);
 
-        // Play a brass voice (warm sawtooth into filter)
+        // Helper: Play brass voice (warm detuned sawtooth with punchy attack)
         function playBrass(freq, startTime, duration, peakGain, detuneCents) {
           var osc = ctx.createOscillator();
           var gain = ctx.createGain();
@@ -739,16 +758,16 @@
           if (detuneCents) osc.detune.setValueAtTime(detuneCents, startTime);
 
           gain.gain.setValueAtTime(0.0001, startTime);
-          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.016);
+          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.015);
           gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
           osc.connect(gain);
           gain.connect(brassFilter);
           osc.start(startTime);
-          osc.stop(startTime + duration + 0.03);
+          osc.stop(startTime + duration + 0.04);
         }
 
-        // Play a crystalline bell/chime sparkle voice
+        // Helper: Play glittering crystalline bell / celesta chime
         function playChime(freq, startTime, duration, peakGain) {
           var osc = ctx.createOscillator();
           var gain = ctx.createGain();
@@ -756,69 +775,67 @@
           osc.frequency.setValueAtTime(freq, startTime);
 
           gain.gain.setValueAtTime(0.0001, startTime);
-          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.012);
+          gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.008);
           gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
           osc.connect(gain);
           gain.connect(masterGain);
+          gain.connect(delayNode);
           osc.start(startTime);
-          osc.stop(startTime + duration + 0.03);
+          osc.stop(startTime + duration + 0.04);
         }
 
-        // --- PART 1: The "Ta-" (Herald Upbeat Fanfare) ---
-        // Staccato herald 1: G4 (392Hz) + C5 (523.25Hz)
-        playBrass(392.00, now + 0.00, 0.085, 0.15, 0);
-        playBrass(523.25, now + 0.00, 0.085, 0.13, 3);
-        playChime(1046.50, now + 0.00, 0.09, 0.05);
+        // --- PART 1: The "Ta-" (Herald Arpeggio Call) ---
+        // Rapid ascending herald fanfare
+        playBrass(523.25, now + 0.00, 0.08, 0.15, 0);   // C5
+        playChime(1046.50, now + 0.00, 0.08, 0.06);     // C6
 
-        // Staccato herald 2: E5 (659.25Hz) + G5 (783.99Hz)
-        playBrass(659.25, now + 0.095, 0.095, 0.16, -3);
-        playBrass(783.99, now + 0.095, 0.095, 0.14, 3);
-        playChime(1318.51, now + 0.095, 0.10, 0.05);
+        playBrass(659.25, now + 0.065, 0.08, 0.16, -2); // E5
+        playChime(1318.51, now + 0.065, 0.08, 0.06);    // E6
 
-        // Quick grace leap: B5 (987.77Hz)
-        playBrass(987.77, now + 0.19, 0.065, 0.12, 0);
+        playBrass(783.99, now + 0.13, 0.09, 0.17, +2);  // G5
+        playChime(1567.98, now + 0.13, 0.09, 0.07);     // G6
 
-        // --- PART 2: The "-DAAA!" (Grand Harmonic Resolution) ---
-        var daTime = now + 0.25;
-        var chordDuration = 1.95;
+        playBrass(987.77, now + 0.195, 0.065, 0.14, 0); // B5 (leading note grace)
+        playChime(1975.53, now + 0.195, 0.065, 0.06);   // B6
 
-        // Sub & Foundation Bass (warm room presence on smartboard speakers)
+        // --- PART 2: The "-DAAA!" (Grand Triumphant Orchestral Resolution) ---
+        var daTime = now + 0.26;
+        var chordDuration = 2.2;
+
+        // 1. Timpani & Sub-Bass Thump
         var subOsc = ctx.createOscillator();
         var subGain = ctx.createGain();
         subOsc.type = "triangle";
         subOsc.frequency.setValueAtTime(130.81, daTime); // C3
+        subOsc.frequency.exponentialRampToValueAtTime(65.41, daTime + 0.18); // pitch bend thump
         subGain.gain.setValueAtTime(0.0001, daTime);
-        subGain.gain.linearRampToValueAtTime(0.18, daTime + 0.025);
-        subGain.gain.exponentialRampToValueAtTime(0.0001, daTime + 1.5);
+        subGain.gain.linearRampToValueAtTime(0.24, daTime + 0.02);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, daTime + 1.6);
         subOsc.connect(subGain);
         subGain.connect(masterGain);
         subOsc.start(daTime);
-        subOsc.stop(daTime + 1.55);
+        subOsc.stop(daTime + 1.65);
 
-        // Rich Multi-Voice C-Major Chord in Full Harmony:
-        // C4 (Bass, 261.63Hz)
-        playBrass(261.63, daTime, chordDuration, 0.15, 0);
-        // G4 (Tenor 5th, 392.00Hz)
-        playBrass(392.00, daTime, chordDuration, 0.13, -3);
-        // C5 (Lead Root, 523.25Hz) — chorus detuned pair for lush orchestral spread
-        playBrass(523.25, daTime, chordDuration, 0.16, -4);
-        playBrass(523.25, daTime, chordDuration, 0.16, +4);
-        // E5 (Major 3rd, 659.25Hz) — defines triumphant major harmony!
-        playBrass(659.25, daTime, chordDuration, 0.16, -2);
-        playBrass(659.25, daTime, chordDuration, 0.16, +3);
-        // G5 (Upper 5th, 783.99Hz)
-        playBrass(783.99, daTime, chordDuration, 0.14, 0);
+        // 2. Full Orchestral Brass Section (C-Major Harmonic Spread)
+        playBrass(130.81, daTime, chordDuration, 0.18, 0);     // C3 Bass Horn
+        playBrass(196.00, daTime, chordDuration, 0.15, -2);    // G3 Trombone
+        playBrass(261.63, daTime, chordDuration, 0.18, 0);     // C4 Tenor Horn
+        playBrass(329.63, daTime, chordDuration, 0.16, 2);     // E4 French Horn
+        playBrass(392.00, daTime, chordDuration, 0.16, -3);    // G4 Trumpet 2
+        playBrass(523.25, daTime, chordDuration, 0.18, -4);    // C5 Trumpet 1 Lead (Chorus L)
+        playBrass(523.25, daTime, chordDuration, 0.18, +4);    // C5 Trumpet 1 Lead (Chorus R)
+        playBrass(659.25, daTime, chordDuration, 0.17, -2);    // E5 Major 3rd
+        playBrass(659.25, daTime, chordDuration, 0.17, +3);    // E5 Major 3rd
+        playBrass(783.99, daTime, chordDuration, 0.15, 0);     // G5 High Trumpet
 
-        // High Golden Chime / Bell Sparkles ringing out over the brass:
-        // C6 (High Octave Bell, 1046.50Hz)
-        playChime(1046.50, daTime, 1.95, 0.10);
-        // E6 (High 3rd Shimmer, 1318.51Hz)
-        playChime(1318.51, daTime, 1.75, 0.08);
-        // G6 (High 5th Sparkle, 1567.98Hz)
-        playChime(1567.98, daTime, 1.45, 0.06);
-        // C7 (Celebratory Star Chime, 2093.00Hz)
-        playChime(2093.00, daTime, 1.15, 0.04);
+        // 3. Glittering Celesta & Golden Bell Cascade (Staggered Arpeggio Shimmer)
+        playChime(1046.50, daTime + 0.00, 2.1, 0.11); // C6
+        playChime(1318.51, daTime + 0.035, 1.9, 0.10); // E6
+        playChime(1567.98, daTime + 0.070, 1.7, 0.09); // G6
+        playChime(1975.53, daTime + 0.105, 1.5, 0.08); // B6
+        playChime(2093.00, daTime + 0.140, 1.3, 0.08); // C7 High Bell
+        playChime(2637.02, daTime + 0.175, 1.1, 0.06); // E7 Fairy Sparkle
       }
     } catch (e) {}
   }
@@ -2020,7 +2037,7 @@
       }, 3500);
     }
 
-    // 2. High-energy dual-cannon confetti, ribbons & golden star sparkles
+    // 2. High-energy dual-cannon confetti, 3D ribbons & golden star sparkles
     triggerVictoryConfetti();
   }
 
@@ -2046,48 +2063,60 @@
       "#10b981", "#34d399",             // Emeralds
       "#38bdf8", "#0284c7",             // Sky Blues
       "#a855f7", "#c084fc",             // Amethysts
-      "#f43f5e", "#fb7185"              // Crimson / Coral
+      "#f43f5e", "#fb7185",             // Crimson / Coral
+      "#ffffff"                         // Pure White Sparkle
     ];
 
     var parts = [];
 
     // Helper: spawn particles from cannon origin
-    function spawnCannon(originX, originY, baseAngleDeg, spreadDeg, count, minSpeed, maxSpeed) {
+    function spawnParticles(originX, originY, baseAngleDeg, spreadDeg, count, minSpeed, maxSpeed) {
       for (var i = 0; i < count; i++) {
         var angle = (baseAngleDeg + (Math.random() - 0.5) * spreadDeg) * (Math.PI / 180);
         var speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-        var pType = Math.random() < 0.28 ? "star" : (Math.random() < 0.16 ? "circle" : "ribbon");
+        var randShape = Math.random();
+        var pType = "star";
+        if (randShape < 0.35) pType = "star";
+        else if (randShape < 0.62) pType = "ribbon";
+        else if (randShape < 0.82) pType = "diamond";
+        else pType = "circle";
+
         parts.push({
           x: originX,
           y: originY,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: pType === "star" ? (Math.random() * 6 + 7) : (Math.random() * 7 + 6),
+          size: pType === "star" ? (Math.random() * 8 + 8) : (pType === "ribbon" ? (Math.random() * 8 + 9) : (Math.random() * 6 + 6)),
           color: colors[Math.floor(Math.random() * colors.length)],
+          colorBack: colors[Math.floor(Math.random() * colors.length)],
           type: pType,
           rot: Math.random() * Math.PI * 2,
-          vrot: (Math.random() - 0.5) * 0.24,
+          vrot: (Math.random() - 0.5) * 0.28,
           tilt: Math.random() * Math.PI,
-          vtilt: (Math.random() * 0.15 + 0.08),
+          vtilt: Math.random() * 0.16 + 0.08,
           sway: Math.random() * Math.PI * 2,
           opacity: 1
         });
       }
     }
 
-    var cannonCount = isLite ? 22 : 44;
-    var centerCount = isLite ? 12 : 26;
+    var cannonCount = isLite ? 28 : 55;
 
     // Cannon 1: Bottom-Left firing up & right (-55 deg)
-    spawnCannon(w * 0.08, h * 0.95, -55, 34, cannonCount, 13, 23);
+    spawnParticles(w * 0.06, h * 0.96, -55, 36, cannonCount, 14, 25);
     // Cannon 2: Bottom-Right firing up & left (-125 deg)
-    spawnCannon(w * 0.92, h * 0.95, -125, 34, cannonCount, 13, 23);
-    // Cannon 3: Center fireworks starburst
-    spawnCannon(w * 0.5, h * 0.42, -90, 180, centerCount, 4, 14);
+    spawnParticles(w * 0.94, h * 0.96, -125, 36, cannonCount, 14, 25);
+
+    // Stage 2: Center secondary starburst explosion after 260ms
+    setTimeout(function () {
+      if (confettiAnimId) {
+        spawnParticles(w * 0.5, h * 0.28, 90, 360, isLite ? 16 : 42, 3.5, 12);
+      }
+    }, 260);
 
     if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
     var frames = 0;
-    var maxFrames = isLite ? 150 : 210;
+    var maxFrames = isLite ? 160 : 230;
 
     function drawStar(c, cx, cy, spikes, outerRadius, innerRadius, fill) {
       var rot = (Math.PI / 2) * 3;
@@ -2112,29 +2141,40 @@
       c.fill();
     }
 
+    function drawDiamond(c, size, fill) {
+      c.beginPath();
+      c.moveTo(0, -size);
+      c.lineTo(size * 0.65, 0);
+      c.lineTo(0, size);
+      c.lineTo(-size * 0.65, 0);
+      c.closePath();
+      c.fillStyle = fill;
+      c.fill();
+    }
+
     function step() {
       frames++;
       ctx.clearRect(0, 0, w, h);
       var alive = false;
-      var fadeStart = maxFrames - 45;
+      var fadeStart = maxFrames - 50;
 
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.32; // gravity
-        p.vx *= 0.985; // air resistance
-        p.vy *= 0.985;
+        p.vy += 0.33; // gravity
+        p.vx *= 0.984; // air drag
+        p.vy *= 0.984;
         p.rot += p.vrot;
         p.tilt += p.vtilt;
-        p.sway += 0.07;
-        p.x += Math.sin(p.sway) * 0.8;
+        p.sway += 0.08;
+        p.x += Math.sin(p.sway) * 0.9;
 
         if (frames > fadeStart) {
-          p.opacity = Math.max(0, (maxFrames - frames) / 45);
+          p.opacity = Math.max(0, (maxFrames - frames) / 50);
         }
 
-        if (p.y < h + 30 && p.opacity > 0) alive = true;
+        if (p.y < h + 35 && p.opacity > 0) alive = true;
 
         ctx.save();
         ctx.globalAlpha = p.opacity;
@@ -2142,18 +2182,20 @@
         ctx.rotate(p.rot);
 
         if (p.type === "star") {
-          drawStar(ctx, 0, 0, 5, p.size, p.size * 0.45, p.color);
+          drawStar(ctx, 0, 0, 5, p.size, p.size * 0.44, p.color);
+        } else if (p.type === "diamond") {
+          drawDiamond(ctx, p.size * 0.6, p.color);
         } else if (p.type === "circle") {
           ctx.beginPath();
-          ctx.arc(0, 0, p.size * 0.4, 0, Math.PI * 2);
+          ctx.arc(0, 0, p.size * 0.42, 0, Math.PI * 2);
           ctx.fillStyle = p.color;
           ctx.fill();
         } else {
-          // 3D flipping ribbon
+          // 3D flipping two-toned ribbon
           var scaleX = Math.cos(p.tilt);
           ctx.scale(scaleX, 1);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size * 0.5, -p.size * 0.28, p.size, p.size * 0.56);
+          ctx.fillStyle = scaleX >= 0 ? p.color : p.colorBack;
+          ctx.fillRect(-p.size * 0.5, -p.size * 0.3, p.size, p.size * 0.6);
         }
         ctx.restore();
       }
@@ -2168,11 +2210,74 @@
     confettiAnimId = requestAnimationFrame(step);
   }
 
+  // ==========================================================================
+  // 10. UNIVERSAL VICTORY DETECTION (ALL 41 GAMES) & CELEBRATION BANNER
+  // ==========================================================================
+  function checkWasmVictory() {
+    try {
+      var me = window.__edugates_me;
+      var exports = window.__edugates_wasmExports;
+      if (!me || !exports) return false;
+      var mem32 = new Uint32Array(exports.memory.buffer);
+      var table = exports.__indirect_function_table;
+      if (!table) return false;
+      var ourgame = mem32[(me + 8) >> 2];
+      var statepos = mem32[(me + 52) >> 2];
+      var states = mem32[(me + 56) >> 2];
+      if (statepos <= 0 || !states) return false;
+      var currentEntry = states + (statepos - 1) * 12;
+      var currentState = mem32[currentEntry >> 2];
+      if (!currentState) return false;
+      var statusFnIdx = mem32[(ourgame >> 2) + 46];
+      if (statusFnIdx <= 0 || statusFnIdx >= table.length) return false;
+      var statusFn = table.get(statusFnIdx);
+      return statusFn(currentState) === 1;
+    } catch (e) {
+      return false;
+    }
+  }
+  window.__edugatesCheckVictory = checkWasmVictory;
+
   var lastVictoryResult = null;
+
   function renderVictoryBannerContent(res) {
     var banner = document.getElementById("sb-victory-banner");
     if (!banner || !res) return;
 
+    var isDemo = !!res.isDemo;
+    var activeTeam = teamsState.teams[teamsState.activeIdx] || teamsState.teams[0];
+    var dispTeam = getTeamDisplayName(activeTeam);
+
+    if (isDemo) {
+      // Demonstration / Auto-solved mode
+      var demoChip = isAr() ? "💡 استعراض الحل النموذجي" : "💡 MODEL SOLUTION DEMONSTRATED";
+      var demoTitle = isAr() ? "📖 تم كشف إثبات اللغز بنجاح!" : "📖 Proof Revealed Successfully!";
+      var demoSub = isAr()
+        ? "استعراض الخطوات الرياضية — قم بحل اللغز يدوياً للحصول على النجوم ونقاط الفصل!"
+        : "Step-by-step demonstration — Solve manually to earn stars & House Points!";
+
+      banner.innerHTML =
+        '<div class="sb-victory-badge sb-badge-demo">' + demoChip + '</div>' +
+        '<div class="sb-vstar-row is-demo-stars">' +
+          '<span class="sb-vstar is-empty">☆</span>' +
+          '<span class="sb-vstar is-empty">☆</span>' +
+          '<span class="sb-vstar is-empty">☆</span>' +
+        '</div>' +
+        '<div class="sb-victory-title">' + demoTitle + '</div>' +
+        '<div style="font-size:0.86rem;color:var(--text-muted);max-width:420px;line-height:1.45">' + demoSub + '</div>' +
+        '<div class="sb-victory-stats">' +
+          '<div class="sb-vstat"><div class="sb-vstat-label">' + (isAr() ? '🎯 الحركات' : '🎯 Moves') + '</div><div class="sb-vstat-val">' + moveCount + '</div></div>' +
+          '<div class="sb-vstat"><div class="sb-vstat-label">' + (isAr() ? '⏱️ الوقت' : '⏱️ Elapsed') + '</div><div class="sb-vstat-val">' + formatTime(timerSeconds) + '</div></div>' +
+        '</div>' +
+        '<div class="sb-victory-actions">' +
+          '<button type="button" class="eis-btn eis-btn-gold" onclick="document.getElementById(\'new\').click()">' + (isAr() ? '🆕 اللغز التالي ←' : '🆕 Next Puzzle →') + '</button>' +
+          '<button type="button" class="eis-btn eis-btn-blue" onclick="document.getElementById(\'restart\').click(); document.getElementById(\'sb-victory-banner\').classList.remove(\'visible\');">' + (isAr() ? '🔄 إعادة المحاولة يدوياً' : '🔄 Retry Manually') + '</button>' +
+          '<button type="button" class="eis-btn" onclick="document.getElementById(\'sb-victory-banner\').classList.remove(\'visible\')">' + (isAr() ? '🔍 فحص اللوحة' : '🔍 Inspect Board') + '</button>' +
+        '</div>';
+      return;
+    }
+
+    // Genuine Human Victory mode
     var starsHtml = '<div class="sb-vstar-row">';
     for (var i = 0; i < 3; i++) {
       var isFilled = i < res.stars;
@@ -2181,8 +2286,6 @@
     }
     starsHtml += '</div>';
 
-    var activeTeam = teamsState.teams[teamsState.activeIdx] || teamsState.teams[0];
-    var dispTeam = getTeamDisplayName(activeTeam);
     var recBadge = res.isNewRecord
       ? (' <span style="color:#10b981;font-size:0.72rem">' + (isAr() ? '🔥 رقم قياسي!' : '🔥 RECORD!') + '</span>')
       : '';
@@ -2205,24 +2308,72 @@
       '</div>';
   }
 
-  window.__edugatesOnStatus = function (txt) {
-    var banner = document.getElementById("sb-victory-banner");
-    if (!banner) return;
-    if (txt && txt.indexOf("COMPLETED") !== -1 && txt.indexOf("Auto-solved") === -1 && !wasAutoSolved) {
-      if (!timerSolved) {
-        timerSolved = true;
-        var puzzleId = getCurrentPuzzleId();
-        var res = recordPuzzleCompletion(puzzleId, timerSeconds, moveCount);
-        lastVictoryResult = res;
-        updateBestTimeBadge();
-        playSound("victory");
-        triggerVictoryCelebration();
-        renderVictoryBannerContent(res);
-        banner.classList.add("visible");
-      }
-    } else if (txt && txt.indexOf("COMPLETED") === -1) {
-      banner.classList.remove("visible");
+  function triggerSolved(mode) {
+    if (timerSolved) return;
+    timerSolved = true;
+    timerPaused = true;
+
+    var isHuman = (mode !== "auto" && !wasAutoSolved);
+    var puzzleId = getCurrentPuzzleId();
+    var res = null;
+
+    if (isHuman) {
+      res = recordPuzzleCompletion(puzzleId, timerSeconds, moveCount);
+      lastVictoryResult = res;
+      updateBestTimeBadge();
+    } else {
+      var bestT = null;
+      var mData = loadMasteryData();
+      if (mData.puzzles[puzzleId]) bestT = mData.puzzles[puzzleId].bestTime;
+      res = {
+        stars: 0,
+        bestTime: bestT,
+        isNewRecord: false,
+        isDemo: true
+      };
+      lastVictoryResult = res;
     }
+
+    playSound("victory");
+    triggerVictoryCelebration();
+    renderVictoryBannerContent(res);
+    var banner = document.getElementById("sb-victory-banner");
+    if (banner) banner.classList.add("visible");
+  }
+
+  function evaluateVictoryCondition(source, extraText) {
+    var wasmWon = checkWasmVictory();
+    var statusTextWon = false;
+    if (extraText && typeof extraText === "string") {
+      var upper = extraText.toUpperCase();
+      if (upper.indexOf("COMPLETED") !== -1 || upper.indexOf("SOLVED") !== -1 || upper.indexOf("CORRECT") !== -1 || upper.indexOf("WON!") !== -1) {
+        statusTextWon = true;
+      }
+    }
+
+    if (statusTextWon || wasmWon) {
+      if (!timerSolved) {
+        triggerSolved(wasAutoSolved ? "auto" : "human");
+      }
+    } else if (timerSolved && !wasmWon && !statusTextWon) {
+      // User undid the winning move or restarted
+      timerSolved = false;
+      var banner = document.getElementById("sb-victory-banner");
+      if (banner) banner.classList.remove("visible");
+    }
+  }
+  window.__edugatesEvaluateVictory = evaluateVictoryCondition;
+
+  window.__edugatesOnStatus = function (txt) {
+    evaluateVictoryCondition("status", txt);
+  };
+
+  window.__edugatesOnPostMove = function (undo, redo) {
+    evaluateVictoryCondition("postMove");
+  };
+
+  window.__edugatesOnTimerActivated = function () {
+    evaluateVictoryCondition("timerFlash");
   };
 
   var pulseTimeout = null;
@@ -2230,6 +2381,9 @@
     moveCount++;
     if (!skipTapSound) playSound("tap");
     updateTimerDisplay();
+    setTimeout(function () {
+      evaluateVictoryCondition("userMove");
+    }, 40);
     var resDiv = document.getElementById("resizable");
     if (resDiv) {
       resDiv.classList.add("move-pulse");
@@ -2755,6 +2909,9 @@
           } else {
             allowImmediateSolve = false;
             wasAutoSolved = true;
+            setTimeout(function () {
+              triggerSolved("auto");
+            }, 450);
           }
         }, true);
 
@@ -2766,6 +2923,9 @@
             allowImmediateSolve = true;
             wasAutoSolved = true;
             solveBtn.click();
+            setTimeout(function () {
+              triggerSolved("auto");
+            }, 450);
           };
         }
         if (noBtn) {

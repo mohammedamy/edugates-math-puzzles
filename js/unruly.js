@@ -1414,6 +1414,8 @@ function createWasm() {
   /** @param {WebAssembly.Module=} module*/
   function receiveInstance(instance, module) {
     wasmExports = instance.exports;
+    window.__edugates_wasmExports = wasmExports;
+    window.__edugates_instance = instance;
     wasmMemory = wasmExports['memory'];
     assert(wasmMemory, 'memory not found in wasm exports');
     updateMemoryViews();
@@ -1855,6 +1857,7 @@ var _environ_sizes_get = (penviron_count, penviron_buf_size) => {
   return 0;
 };
 function _js_activate_timer() {
+  if (window.__edugatesOnTimerActivated) window.__edugatesOnTimerActivated();
   timer_reference = performance.now();
   var frame = function (now) {
     timer = window.requestAnimationFrame(frame);
@@ -2217,6 +2220,7 @@ function _js_dialog_string(index, title, initialtext) {
 function _js_enable_undo_redo(undo, redo) {
   disable_menu_item(undo_button, undo == 0);
   disable_menu_item(redo_button, redo == 0);
+  if (window.__edugatesOnPostMove) window.__edugatesOnPostMove(undo, redo);
 }
 function _js_error_box(ptr) {
   alert(UTF8ToString(ptr));
@@ -2238,6 +2242,7 @@ function _js_init_puzzle() {
   initPuzzle();
 }
 function _js_load_prefs(me) {
+  window.__edugates_me = me;
   function load_prefs_from_string(prefsdata) {
     if (prefsdata !== undefined && prefsdata !== null) {
       var lenbytes = lengthBytesUTF8(prefsdata) + 1;

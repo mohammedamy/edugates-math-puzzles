@@ -495,6 +495,22 @@ function initPuzzle() {
   var get_save_file = Module.cwrap('get_save_file', 'number', []);
   var free_save_file = Module.cwrap('free_save_file', 'void', ['number']);
   var load_game = Module.cwrap('load_game', 'void', []);
+  window.__edugatesGetSave = function() {
+    try {
+      var ptr = get_save_file();
+      var str = UTF8ToString(ptr);
+      free_save_file(ptr);
+      return str;
+    } catch(e) { return ""; }
+  };
+  window.__edugatesGetTextFormat = function() {
+    try {
+      var ptr = get_text_format();
+      var str = UTF8ToString(ptr);
+      free_text_format(ptr);
+      return str;
+    } catch(e) { return ""; }
+  };
   if (save_button) save_button.onclick = function (event) {
     if (dlg_dimmer === null) {
       var savefile_ptr = get_save_file();
@@ -1414,6 +1430,8 @@ function createWasm() {
   /** @param {WebAssembly.Module=} module*/
   function receiveInstance(instance, module) {
     wasmExports = instance.exports;
+    window.__edugates_wasmExports = wasmExports;
+    window.__edugates_instance = instance;
     wasmMemory = wasmExports['memory'];
     assert(wasmMemory, 'memory not found in wasm exports');
     updateMemoryViews();
@@ -1855,6 +1873,8 @@ var _environ_sizes_get = (penviron_count, penviron_buf_size) => {
   return 0;
 };
 function _js_activate_timer() {
+  if (window.__edugatesOnTimerActivated) window.__edugatesOnTimerActivated();
+  console.log("EDUGATES_TIMER: ACTIVATE");
   timer_reference = performance.now();
   var frame = function (now) {
     timer = window.requestAnimationFrame(frame);
@@ -2133,6 +2153,7 @@ function _js_canvas_unclip(dr) {
   ctx.restore();
 }
 function _js_deactivate_timer() {
+  console.log("EDUGATES_TIMER: DEACTIVATE");
   window.cancelAnimationFrame(timer);
 }
 function _js_default_colour(output) {
@@ -2217,6 +2238,7 @@ function _js_dialog_string(index, title, initialtext) {
 function _js_enable_undo_redo(undo, redo) {
   disable_menu_item(undo_button, undo == 0);
   disable_menu_item(redo_button, redo == 0);
+  if (window.__edugatesOnPostMove) window.__edugatesOnPostMove(undo, redo);
 }
 function _js_error_box(ptr) {
   alert(UTF8ToString(ptr));
@@ -2238,6 +2260,8 @@ function _js_init_puzzle() {
   initPuzzle();
 }
 function _js_load_prefs(me) {
+  console.log("EDUGATES_ME:", me);
+  window.__edugates_me = me;
   function load_prefs_from_string(prefsdata) {
     if (prefsdata !== undefined && prefsdata !== null) {
       var lenbytes = lengthBytesUTF8(prefsdata) + 1;
