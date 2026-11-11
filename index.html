@@ -49,7 +49,7 @@
         <div>
           <div class="hub-hero-badges" style="margin-bottom:8px">
             <span class="hub-pill hub-pill-gold">Edugates International School • Math-Science Team</span>
-            <span class="hub-pill hub-pill-teal">41 WebAssembly Workbenches • 60 FPS Smartboard Engine</span>
+            <span class="hub-pill hub-pill-teal">42 Interactive Workbenches • 60 FPS Smartboard Engine</span>
           </div>
           <h1>Smartboard Logic &amp; Discrete Mathematics Lab</h1>
           <p style="margin-top:6px">Explore Graph Theory, Latin Squares, Abstract Algebra, Geometric Optics, and Combinatorial Deduction — engineered for zero-latency touch interaction and team competition on classroom Smartboards.</p>
@@ -63,11 +63,11 @@
           </div>
           <div class="hub-stat-box">
             <span class="hub-stat-label">Mastery Stars</span>
-            <span class="hub-stat-val gold" id="hub-stat-stars">⭐ 0 / 123</span>
+            <span class="hub-stat-val gold" id="hub-stat-stars">⭐ 0 / 126</span>
           </div>
           <div class="hub-stat-box">
             <span class="hub-stat-label">Workbenches Solved</span>
-            <span class="hub-stat-val teal" id="hub-stat-solved">✅ 0 / 41 Labs</span>
+            <span class="hub-stat-val teal" id="hub-stat-solved">✅ 0 / 42 Labs</span>
           </div>
           <div class="hub-stat-box">
             <span class="hub-stat-label">Active Streak</span>
@@ -101,12 +101,12 @@
   <section class="hub-controls" aria-label="Puzzle Categories and Search">
     <div class="hub-controls-row">
       <div class="hub-tabs" id="hubTabs">
-        <button type="button" class="hub-tab active" data-filter="all" onclick="filterPuzzles('all', this)">🏛️ All Lab Puzzles (41)</button>
+        <button type="button" class="hub-tab active" data-filter="all" onclick="filterPuzzles('all', this)">🏛️ All Lab Puzzles (42)</button>
         <button type="button" class="hub-tab" data-filter="featured" onclick="filterPuzzles('featured', this)">⭐ Featured Classics (6)</button>
         <button type="button" class="hub-tab" data-filter="graph" onclick="filterPuzzles('graph', this)">🕸️ Graph Theory (10)</button>
-        <button type="button" class="hub-tab" data-filter="algebra" onclick="filterPuzzles('algebra', this)">🔢 Algebra &amp; Squares (6)</button>
-        <button type="button" class="hub-tab" data-filter="combinatorics" onclick="filterPuzzles('combinatorics', this)">🧮 Combinatorics (11)</button>
-        <button type="button" class="hub-tab" data-filter="physics" onclick="filterPuzzles('physics', this)">🔬 Physics &amp; Optics (6)</button>
+        <button type="button" class="hub-tab" data-filter="algebra" onclick="filterPuzzles('algebra', this)">🔢 Algebra &amp; Squares (7)</button>
+        <button type="button" class="hub-tab" data-filter="combinatorics" onclick="filterPuzzles('combinatorics', this)">🧮 Combinatorics (10)</button>
+        <button type="button" class="hub-tab" data-filter="physics" onclick="filterPuzzles('physics', this)">🔬 Physics &amp; Optics (7)</button>
         <button type="button" class="hub-tab" data-filter="algorithmic" onclick="filterPuzzles('algorithmic', this)">🎯 Algorithmic (8)</button>
       </div>
     </div>
@@ -115,7 +115,7 @@
       <div class="hub-subfilters" id="hubDiffPills">
         <span style="font-size:0.76rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-right:2px">Level:</span>
         <button type="button" class="hub-diff-pill active" data-diff="all" onclick="filterDifficulty('all', this)">All Levels</button>
-        <button type="button" class="hub-diff-pill" data-diff="starter" onclick="filterDifficulty('starter', this)">🟢 Starter (14)</button>
+        <button type="button" class="hub-diff-pill" data-diff="starter" onclick="filterDifficulty('starter', this)">🟢 Starter (15)</button>
         <button type="button" class="hub-diff-pill" data-diff="intermediate" onclick="filterDifficulty('intermediate', this)">🟡 Intermediate (16)</button>
         <button type="button" class="hub-diff-pill" data-diff="olympiad" onclick="filterDifficulty('olympiad', this)">🔴 Olympiad (11)</button>
         <button type="button" class="hub-diff-pill" data-diff="solved" onclick="filterDifficulty('solved', this)">✅ Solved</button>
@@ -123,7 +123,7 @@
 
       <div class="hub-search-actions">
         <div class="hub-search-wrap">
-          <input type="search" id="hubSearch" class="hub-search" placeholder="🔍 Search puzzle or math topic (e.g. Graph, Optics, Sudoku)..." oninput="applySearchAndFilter()" autocomplete="off">
+          <input type="search" id="hubSearch" class="hub-search" placeholder="🔍 Search puzzle or math topic (e.g. ZooDoku, Graph, Optics, Sudoku)..." oninput="applySearchAndFilter()" autocomplete="off">
         </div>
         <button type="button" class="eis-btn eis-btn-gold" onclick="launchRandomPuzzle()" title="Pick a Random Puzzle from Current View">🎲 Surprise Me</button>
       </div>
@@ -131,8 +131,8 @@
   </section>
 
   <div class="hub-section-title">
-    <span id="hubCategoryHeading">🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)</span>
-    <span id="hubCountBadge" style="font-size:0.85rem;color:var(--text-muted)">Showing 41 puzzles</span>
+    <span id="hubCategoryHeading">🏛️ Complete Math-Science Puzzle Collection (42 Workbenches)</span>
+    <span id="hubCountBadge" style="font-size:0.85rem;color:var(--text-muted)">Showing 42 puzzles</span>
   </div>
 
   <!-- Main Grid -->
@@ -231,6 +231,20 @@
       </div>
       <div class="puzzle-card-footer">
         <span class="math-domain-tag">Latin Squares & Combinatorics</span>
+        <span class="play-now-badge">Launch Lab →</span>
+      </div>
+    </a>
+
+    <a href="zoodoku.html" class="puzzle-card" data-cat="algebra" data-featured="false" data-search="🦁 zoodoku zooduko (queens & habitats) star battle & rook-king independence place one animal in every row, column, and colored habitat — no two animals may touch, even diagonally. animals lion cat panda fox frog sudoku queens habitats زودوكو حيوانات مواطن ملكات">
+      <div class="puzzle-card-top">
+        <img src="assets/puzzles/zoodoku.png" alt="ZooDoku (Queens &amp; Habitats)" class="puzzle-thumb" loading="eager" width="128" height="128">
+        <div class="puzzle-card-info">
+          <div class="puzzle-card-title">🦁 ZooDoku (Queens &amp; Habitats)</div>
+          <p class="puzzle-card-desc">Place one animal in every row, column, and colored habitat — no two animals may touch, even diagonally.</p>
+        </div>
+      </div>
+      <div class="puzzle-card-footer">
+        <span class="math-domain-tag">Star Battle &amp; Rook-King Independence</span>
         <span class="play-now-badge">Launch Lab →</span>
       </div>
     </a>
@@ -720,7 +734,7 @@
     var currentCategoryFilter = "all";
     var currentDiffFilter = "all";
     var CATEGORY_TITLES = {
-      all: "🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)",
+      all: "🏛️ Complete Math-Science Puzzle Collection (42 Workbenches)",
       featured: "⭐ Featured Smartboard Classroom Classics",
       graph: "🕸️ Graph Theory, Spanning Trees & Topological Loops",
       algebra: "🔢 Latin Squares, Inequalities & Abstract Algebra",
@@ -729,7 +743,7 @@
       algorithmic: "🎯 Algorithmic State Spaces, GF(2) Matrix Logic & Permutation Groups"
     };
     var CATEGORY_TITLES_AR = {
-      all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (41 مختبراً)",
+      all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (42 مختبراً)",
       featured: "⭐ كلاسيكيات السبورة الذكية المميزة",
       graph: "🕸️ نظرية البيانات والأشجار الممتدة والمسارات الطوبولوجية",
       algebra: "🔢 المربعات اللاتينية والمتباينات والجبر المجرد",

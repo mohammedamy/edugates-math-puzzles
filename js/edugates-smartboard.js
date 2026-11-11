@@ -48,7 +48,7 @@
     return currentLang === "ar";
   }
 
-  // Bilingual Dictionary for all 41 Mathematical Workbenches
+  // Bilingual Dictionary for all 42 Mathematical Workbenches
   var PUZZLE_I18N = {
     "bridges": {
         "titleEn": "🌉 Bridges (Hashi)",
@@ -140,6 +140,19 @@
         "middleAr": "مسح الخلية",
         "rulesEn": "<p><strong>Mathematical Concept:</strong> Bijective Permutation Matrices & Subset Sum Constraints.</p>\n<p>Fill the grid with digits $1, \\dots, N$ such that each row, column, and sub-block is a bijection:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• In Killer variants, numbers within a dashed cage must sum to the cage value $K$ with no duplicates.</p>",
         "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مصفوفات التباديل التقابلية ومجاميع المجموعات الجزئية.</p>\n<p>املأ الشبكة بالأرقام $1, \\dots, N$ بحيث يمثل كل صف وعمود وكتلة تقابلاً تاما:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• في نمط كيلر (Killer)، يجب أن يساوي مجموع أرقام كل قفص القيمة المكتوبة في زاويته دون تكرار أي رقم داخل القفص.</p>"
+    },
+    "zoodoku": {
+        "titleEn": "🦁 ZooDoku (Queens & Habitats)",
+        "titleAr": "🦁 زودوكو (مواطن الحيوانات)",
+        "domainEn": "Star Battle & Rook-King Independence: $|R_k|=1, \\; \\|u-v\\|_\\infty \\ge 2$",
+        "domainAr": "مواطن الحيوانات واستقلال الملوك: $|R_k|=1, \\; \\|u-v\\|_\\infty \\ge 2$",
+        "descEn": "Place one animal in every row, column, and colored habitat — no two animals may touch, even diagonally.",
+        "descAr": "ضع حيواناً واحداً بالضبط في كل صف وعمود وموطن لوني — دون تلامس أي حيوانين حتى قطرياً.",
+        "leftAr": "نقر: ✕ ← حيوان (سحب ✕)",
+        "rightAr": "وضع / مسح علامة ✕",
+        "middleAr": "وضع الحيوان مباشرة",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> 1-Star Battle &amp; King-Graph Independent Rook Permutations over Polyomino Partitions.</p>\n<p>Select $N$ animal cells $S \\subset \\{1,\\dots,N\\}^2$ across colored habitats $R_1, \\dots, R_N$:</p>\n<div class=\"katex-display\">$$\\forall r,c,k: |S \\cap \\text{Row}_r| = |S \\cap \\text{Col}_c| = |S \\cap R_k| = 1, \\qquad \\forall u \\neq v \\in S: \\|u - v\\|_\\infty \\ge 2$$</div>\n<p>• <strong>1 per Row, Column &amp; Colored Habitat:</strong> Every row, column, and color gets exactly one animal.<br>• <strong>No Touching:</strong> Animals can never touch horizontally, vertically, or diagonally!<br>• <strong>Pure Logic:</strong> Tap once for <strong>✕</strong>, tap again for <strong>🦁</strong>, or drag to sweep <strong>✕</strong>s.</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مسألة (Star Battle) وتباديل الرخ المستقلة في بيان الملك عبر تجزئات المناطق الملونة.</p>\n<p>اختر $N$ خلايا للحيوانات $S \\subset \\{1,\\dots,N\\}^2$ عبر المواطن الملونة $R_1, \\dots, R_N$:</p>\n<div class=\"katex-display\">$$\\forall r,c,k: |S \\cap \\text{Row}_r| = |S \\cap \\text{Col}_c| = |S \\cap R_k| = 1, \\qquad \\forall u \\neq v \\in S: \\|u - v\\|_\\infty \\ge 2$$</div>\n<p>• <strong>حيوان واحد فقط:</strong> في كل صف أفقي، وكل عمود رأسي، وكل منطقة لونية.<br>• <strong>منع التلامس:</strong> لا يجوز تلامس حيوانين أفقياً أو رأسياً أو حتى قطرياً!<br>• <strong>استنتاج خالص:</strong> انقر مرة لوضع <strong>✕</strong>، وثانية لوضع <strong>🦁</strong>، أو اسحب لرسم عدة علامات <strong>✕</strong>.</p>"
     },
     "keen": {
         "titleEn": "➗ Keen (KenKen)",
@@ -864,7 +877,7 @@
     bridges: "starter", lightup: "starter", slant: "starter", tents: "starter",
     unruly: "starter", rect: "starter", flood: "starter", fifteen: "starter",
     samegame: "starter", flip: "starter", pattern: "starter", mosaic: "starter",
-    range: "starter", untangle: "starter",
+    range: "starter", untangle: "starter", zoodoku: "starter",
     towers: "intermediate", net: "intermediate", loopy: "intermediate", solo: "intermediate",
     keen: "intermediate", unequal: "intermediate", singles: "intermediate", magnets: "intermediate",
     galaxies: "intermediate", mines: "intermediate", dominosa: "intermediate", palisade: "intermediate",
@@ -912,6 +925,7 @@
     { id: "net", href: "net.html", title: "⚡ Net (Network)", domain: "Spanning Trees & Connectivity", desc: "Rotate network tiles to power every terminal from the central hub." },
     { id: "loopy", href: "slither.html", title: "➰ Slitherlink (Loopy)", domain: "Jordan Curve Theorem & Topology", desc: "Form a single continuous closed loop around numbered grid clues." },
     { id: "solo", href: "solo.html", title: "🔢 Solo (Sudoku)", domain: "Bijective Latin Squares", desc: "Complete the Latin square blocks with zero row or column repetition." },
+    { id: "zoodoku", href: "zoodoku.html", title: "🦁 ZooDoku (Queens & Habitats)", domain: "Star Battle & Habitat Logic", desc: "Place one animal per row, column, and colored habitat with no touching." },
     { id: "keen", href: "keen.html", title: "➗ Keen (KenKen)", domain: "Number Theory & Cage Arithmetic", desc: "Solve arithmetic cage equations inside a Latin square." },
     { id: "galaxies", href: "galaxies.html", title: "🌌 Galaxies (Symmetry)", domain: "180° Rotational Point Symmetry", desc: "Partition the grid into rotationally symmetric polyomino domains." },
     { id: "tents", href: "tents.html", title: "⛺ Tents (Matching)", domain: "Bipartite Matching & Hall's Theorem", desc: "Pair each tree with a non-adjacent tent matching row and column counts." },
@@ -961,7 +975,7 @@
 
     var rankTitle = isAr() ? "مبتدئ المنطق" : "Logic Initiate";
     var nextThreshold = 5;
-    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابة المعرفة الأعظم" : "Edugates Grandmaster"; nextThreshold = 123; }
+    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابة المعرفة الأعظم" : "Edugates Grandmaster"; nextThreshold = 126; }
     else if (totalStars >= 50) { rankTitle = isAr() ? "زميل أولمبياد STEM" : "STEM Olympiad Fellow"; nextThreshold = 90; }
     else if (totalStars >= 20) { rankTitle = isAr() ? "مهندس البديهيات" : "Axiom Architect"; nextThreshold = 50; }
     else if (totalStars >= 5) { rankTitle = isAr() ? "مستكشف البيانات" : "Graph Explorer"; nextThreshold = 20; }
@@ -1764,6 +1778,7 @@
     net:      { left: "↺ Rotate CCW", right: "↻ Rotate CW", middle: "🔒 Lock Tile", keys: [{k:"a", label:"↺ CCW (A)", cls:"key-accent"}, {k:"d", label:"↻ CW (D)", cls:"key-accent"}, {k:"s", label:"🔒 Lock (S)", cls:"key-accent"}, {k:"j", label:"🔀 Jumble (J)", cls:"key-wide"}, {k:"c", label:"🎯 Center (C)", cls:""}] },
     loopy:    { left: "➰ Draw Loop Edge", right: "✖️ Mark Non-Edge", middle: "Clear Edge", keys: [{k:"Enter", label:"➰ Toggle Edge", cls:"key-accent key-wide"}, {k:"Spacebar", label:"✖️ Mark X", cls:"key-wide"}] },
     solo:     { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
+    zoodoku:  { left: "Tap: ✕ → Animal (Drag ✕)", right: "Mark / Erase ✕", middle: "1-Tap Place Animal", keys: [{k:"Enter", label:"🦁 Place Animal", cls:"key-accent key-wide"}, {k:"x", label:"✕ Mark X", cls:"key-accent"}, {k:"a", label:"⚡ Sweep Auto-✕ (A)", cls:"key-accent key-wide"}, {k:"h", label:"💡 Smart Hint (H)", cls:"key-accent key-wide"}, {k:"m", label:"🐾 Switch Animal (M)", cls:""}, {k:"Backspace", label:"⌫ Clear Cell", cls:"key-danger"}] },
     keen:     { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
     unequal:  { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
     filling:  { left: "Select / Drag", right: "Clear Cell", middle: "Clear", keys: ["1","2","3","4","5","6","7","8","9","0", {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
@@ -2211,9 +2226,16 @@
   }
 
   // ==========================================================================
-  // 10. UNIVERSAL VICTORY DETECTION (ALL 41 GAMES) & CELEBRATION BANNER
+  // 10. UNIVERSAL VICTORY DETECTION (ALL 42 GAMES) & CELEBRATION BANNER
   // ==========================================================================
   function checkWasmVictory() {
+    if (typeof window.__edugatesCustomVictoryCheck === "function") {
+      try {
+        return !!window.__edugatesCustomVictoryCheck();
+      } catch (e) {
+        return false;
+      }
+    }
     try {
       var me = window.__edugates_me;
       var exports = window.__edugates_wasmExports;
@@ -2558,7 +2580,7 @@
   var LAB_GROUPS_DATA = [
     { labelEn: "★ Featured Classics", labelAr: "★ الكلاسيكيات المميزة", items: ["bridges","towers","lightup","slant","net","loopy"] },
     { labelEn: "🕸️ Graph Theory", labelAr: "🕸️ نظرية البيانات", items: ["untangle","map","pearl","tracks","signpost","netslide"] },
-    { labelEn: "🔢 Algebra & Squares", labelAr: "🔢 الجبر والمربعات اللاتينية", items: ["solo","keen","unequal","group","singles"] },
+    { labelEn: "🔢 Algebra & Squares", labelAr: "🔢 الجبر والمربعات اللاتينية", items: ["solo","zoodoku","keen","unequal","group","singles"] },
     { labelEn: "🔬 Physics & Optics", labelAr: "🔬 الفيزياء والبصريات", items: ["blackbox","undead","magnets","inertia","cube","galaxies"] },
     { labelEn: "🧮 Combinatorics", labelAr: "🧮 التوافقيات", items: ["pattern","mines","dominosa","rect","palisade","filling","range","tents","mosaic","unruly"] },
     { labelEn: "🎯 Algorithmic", labelAr: "🎯 الخوارزميات", items: ["flip","guess","flood","fifteen","sixteen","twiddle","pegs","samegame"] }
@@ -2568,8 +2590,8 @@
     if (!selectEl) return;
     selectEl.innerHTML = "";
     selectEl.title = isAr()
-      ? "الانتقال السريع إلى أي من مختبرات الرياضيات والعلوم (41 مختبراً)"
-      : "Quick-Switch to Any of the 41 Math-Science Workbenches";
+      ? "الانتقال السريع إلى أي من مختبرات الرياضيات والعلوم (42 مختبراً)"
+      : "Quick-Switch to Any of the 42 Math-Science Workbenches";
     for (var gIdx = 0; gIdx < LAB_GROUPS_DATA.length; gIdx++) {
       var grp = document.createElement("optgroup");
       grp.label = isAr() ? LAB_GROUPS_DATA[gIdx].labelAr : LAB_GROUPS_DATA[gIdx].labelEn;
@@ -2614,7 +2636,7 @@
     var homeLink = topbar ? topbar.querySelector("a[href='index.html'].eis-btn") : null;
     if (homeLink) {
       homeLink.textContent = isAr() ? "🏠 الرئيسية" : "🏠 Hub";
-      homeLink.title = isAr() ? "العودة إلى جميع الألغاز (41 مختبراً)" : "Back to All Puzzles";
+      homeLink.title = isAr() ? "العودة إلى جميع الألغاز (42 مختبراً)" : "Back to All Puzzles";
     }
     var penToggleBtn = document.getElementById("sb-pen-toggle");
     if (penToggleBtn) {
@@ -3090,7 +3112,13 @@
     "🌌 Toggle Edge": "🌌 تبديل الحد",
     "⌫ Remove Arrow": "⌫ إزالة السهم",
     "💡 Flip Selected": "💡 قلب المحدد",
-    "🧱 Select / Clear": "🧱 تحديد / حذف"
+    "🧱 Select / Clear": "🧱 تحديد / حذف",
+    "🦁 Place Animal": "🦁 وضع حيوان",
+    "✕ Mark X": "✕ علامة X",
+    "⚡ Sweep Auto-✕ (A)": "⚡ شطب تلقائي (A)",
+    "💡 Smart Hint (H)": "💡 تلميح منطقي (H)",
+    "🐾 Switch Animal (M)": "🐾 تغيير الحيوان (M)",
+    "⌫ Clear Cell": "⌫ مسح الخلية"
   };
 
   function buildSmartboardControls() {
@@ -3175,11 +3203,11 @@
     var solvedEl = document.getElementById("hub-stat-solved");
     var streakEl = document.getElementById("hub-stat-streak");
     if (rankEl) rankEl.textContent = "🏅 " + summary.rankTitle;
-    if (starsEl) starsEl.textContent = "⭐ " + summary.totalStars + " / 123";
+    if (starsEl) starsEl.textContent = "⭐ " + summary.totalStars + " / 126";
     if (solvedEl) {
       solvedEl.textContent = isAr()
-        ? ("✅ " + summary.solvedPuzzlesCount + " / 41 مختبر")
-        : ("✅ " + summary.solvedPuzzlesCount + " / 41 Labs");
+        ? ("✅ " + summary.solvedPuzzlesCount + " / 42 مختبر")
+        : ("✅ " + summary.solvedPuzzlesCount + " / 42 Labs");
     }
     if (streakEl) {
       streakEl.textContent = isAr()
@@ -3376,7 +3404,7 @@
         icon: "🔢",
         title: isAr() ? 'بارع الجبر والمربعات · <span class="badge-math" dir="ltr">$L \\in S_N$</span>' : 'Algebra Virtuoso · <span class="badge-math" dir="ltr">$L \\in S_N$</span>',
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في المربعات اللاتينية وبديهيات الزمر." : "Master 3+ Latin Squares & Abstract Algebra labs.",
-        unlocked: countSolvedInList(["towers","solo","keen","unequal","group","singles"]) >= 3
+        unlocked: countSolvedInList(["towers","solo","zoodoku","keen","unequal","group","singles"]) >= 3
       },
       {
         icon: "🔬",
@@ -3465,8 +3493,8 @@
         '</div>' +
         '<div class="hub-mastery-strip" style="border-top:none;padding-top:0">' +
           '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'الرتبة الحالية' : 'Current Rank') + '</span><span class="hub-stat-val gold">🏅 ' + summary.rankTitle + '</span></div>' +
-          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'نجوم الإتقان' : 'Mastery Stars') + '</span><span class="hub-stat-val gold">⭐ ' + summary.totalStars + ' / 123</span></div>' +
-          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'المختبرات المحلولة' : 'Labs Solved') + '</span><span class="hub-stat-val teal">✅ ' + summary.solvedPuzzlesCount + ' / 41</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'نجوم الإتقان' : 'Mastery Stars') + '</span><span class="hub-stat-val gold">⭐ ' + summary.totalStars + ' / 126</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'المختبرات المحلولة' : 'Labs Solved') + '</span><span class="hub-stat-val teal">✅ ' + summary.solvedPuzzlesCount + ' / 42</span></div>' +
           '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'أوسمة الأولمبياد' : 'Olympiad Badges') + '</span><span class="hub-stat-val green">🎖️ ' + unlockedCount + ' / 8</span></div>' +
         '</div>' +
         '<div>' +
@@ -3600,8 +3628,8 @@
       }
       if (tealPill) {
         tealPill.textContent = isAr()
-          ? "41 مختبراً تفاعلياً بـ WebAssembly • محرك 60 إطاراً/ث للسبورة الذكية"
-          : "41 WebAssembly Workbenches • 60 FPS Smartboard Engine";
+          ? "42 مختبراً تفاعلياً بـ WebAssembly و JS • محرك 60 إطاراً/ث للسبورة الذكية"
+          : "42 Interactive Workbenches • 60 FPS Smartboard Engine";
       }
       var heroH1 = document.querySelector(".hub-hero-banner h1");
       var heroP = document.querySelector(".hub-hero-banner p");
@@ -3625,12 +3653,12 @@
 
       // Category Tabs
       var tabMap = {
-        all: { en: "🏛️ All Lab Puzzles (41)", ar: "🏛️ جميع المختبرات (41)" },
+        all: { en: "🏛️ All Lab Puzzles (42)", ar: "🏛️ جميع المختبرات (42)" },
         featured: { en: "⭐ Featured Classics (6)", ar: "⭐ الكلاسيكيات المميزة (6)" },
         graph: { en: "🕸️ Graph Theory (10)", ar: "🕸️ نظرية البيانات (10)" },
-        algebra: { en: "🔢 Algebra & Squares (6)", ar: "🔢 الجبر والمربعات (6)" },
-        combinatorics: { en: "🧮 Combinatorics (11)", ar: "🧮 التوافقيات (11)" },
-        physics: { en: "🔬 Physics & Optics (6)", ar: "🔬 الفيزياء والبصريات (6)" },
+        algebra: { en: "🔢 Algebra & Squares (7)", ar: "🔢 الجبر والمربعات (7)" },
+        combinatorics: { en: "🧮 Combinatorics (10)", ar: "🧮 التوافقيات (10)" },
+        physics: { en: "🔬 Physics & Optics (7)", ar: "🔬 الفيزياء والبصريات (7)" },
         algorithmic: { en: "🎯 Algorithmic (8)", ar: "🎯 الخوارزميات (8)" }
       };
       var tabs = document.querySelectorAll("#hubTabs .hub-tab");
@@ -3649,7 +3677,7 @@
       }
       var diffMap = {
         all: { en: "All Levels", ar: "جميع المستويات" },
-        starter: { en: "🟢 Starter (14)", ar: "🟢 مبتدئ (14)" },
+        starter: { en: "🟢 Starter (15)", ar: "🟢 مبتدئ (15)" },
         intermediate: { en: "🟡 Intermediate (16)", ar: "🟡 متوسط (16)" },
         olympiad: { en: "🔴 Olympiad (11)", ar: "🔴 أولمبياد (11)" },
         solved: { en: "✅ Solved", ar: "✅ تم حلها" }
@@ -3665,8 +3693,8 @@
       var searchInput = document.getElementById("hubSearch");
       if (searchInput) {
         searchInput.placeholder = isAr()
-          ? "🔍 ابحث عن لغز أو موضوع رياضي (مثل: جسور، أبراج، سودوكو، بصريات)..."
-          : "🔍 Search puzzle or math topic (e.g. Graph, Optics, Sudoku)...";
+          ? "🔍 ابحث عن لغز أو موضوع رياضي (مثل: زودوكو، جسور، أبراج، سودوكو، بصريات)..."
+          : "🔍 Search puzzle or math topic (e.g. ZooDoku, Graph, Optics, Sudoku)...";
       }
       var surpriseBtn = document.querySelector("button[onclick*='launchRandomPuzzle']");
       if (surpriseBtn) {
@@ -3688,7 +3716,7 @@
       var catKey = activeCatTab ? activeCatTab.getAttribute("data-filter") : "all";
       var catHeading = document.getElementById("hubCategoryHeading");
       var catTitlesAr = {
-        all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (41 مختبراً)",
+        all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (42 مختبراً)",
         featured: "⭐ كلاسيكيات السبورة الذكية المميزة",
         graph: "🕸️ نظرية البيانات والأشجار الممتدة والمسارات الطوبولوجية",
         algebra: "🔢 المربعات اللاتينية والمتباينات والجبر المجرد",
@@ -3697,7 +3725,7 @@
         algorithmic: "🎯 الخوارزميات وجبر المصفوفات GF(2) وزمر التباديل"
       };
       var catTitlesEn = {
-        all: "🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)",
+        all: "🏛️ Complete Math-Science Puzzle Collection (42 Workbenches)",
         featured: "⭐ Featured Smartboard Classroom Classics",
         graph: "🕸️ Graph Theory, Spanning Trees & Topological Loops",
         algebra: "🔢 Latin Squares, Inequalities & Abstract Algebra",

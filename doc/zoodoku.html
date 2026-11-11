@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZooDoku (Queens &amp; Habitats) — Edugates International School Math-Science Team</title>
+<link rel="ToC" href="index.html">
+<link rel="up" href="index.html">
+<link rel="index" href="docindex.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style type="text/css">
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0b1120;
+    color: #f8fafc;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 24px 48px;
+    line-height: 1.65;
+    font-size: 16px;
+    word-wrap: break-word;
+  }
+  a:link { color: #38bdf8; text-decoration: none; font-weight: 600; }
+  a:visited { color: #7dd3fc; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3 { color: #fbbf24; margin-top: 1.3em; }
+  .edugates-doc-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #131c31;
+    border: 2px solid #263554;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+  .edugates-doc-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .edugates-doc-brand img {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 2px;
+    object-fit: contain;
+  }
+  .edugates-doc-school {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #f8fafc;
+  }
+  .edugates-doc-dept {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #38bdf8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .edugates-doc-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .edugates-doc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e293b;
+    color: #f8fafc !important;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+  .edugates-doc-btn.primary {
+    background: #0284c7;
+    border-color: #38bdf8;
+  }
+  .rule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .rule-box {
+    background: #131c31;
+    border: 1px solid #263554;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .rule-box strong { color: #38bdf8; display: block; margin-bottom: 4px; }
+  code {
+    background: #1e293b;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #fde047;
+  }
+  hr { border: 0; border-top: 1px solid #263554; margin: 24px 0; }
+</style>
+</head>
+<body>
+<div class="edugates-doc-banner">
+  <div class="edugates-doc-brand">
+    <img src="../assets/eis-logo.jpg" alt="Edugates International School">
+    <div>
+      <div class="edugates-doc-school">Edugates International School</div>
+      <div class="edugates-doc-dept">Math-Science Team &bull; Official Puzzle Reference Manual</div>
+    </div>
+  </div>
+  <div class="edugates-doc-actions">
+    <a class="edugates-doc-btn primary" href="../zoodoku.html">&#9654; Play ZooDoku on Smartboard</a>
+    <a class="edugates-doc-btn" href="../index.html">&larr; Smartboard Puzzle Hub</a>
+  </div>
+</div>
+
+<p><a href="solo.html">Solo</a> | <a href="index.html">Contents</a> | <a href="docindex.html">Index</a> | <a href="tents.html">Tents</a></p>
+
+<h1>ZooDoku (Queens &amp; Colored Habitats)</h1>
+
+<p>
+<strong>ZooDoku</strong> is a pure-deduction spatial logic puzzle (mathematically related to <em>1-Star Battle</em> and <em>Non-Attacking Rook-King Permutations</em>). Instead of arithmetic or number lists, an <em>N</em>&times;<em>N</em> zoo grid is partitioned into <em>N</em> colored polyomino habitats. Your goal is to place exactly <em>N</em> animals so that every row, column, and colored habitat receives its own animal without any two animals touching.
+</p>
+
+<div class="rule-grid">
+  <div class="rule-box">
+    <strong>1. One per Row</strong>
+    Every horizontal row contains exactly one animal.
+  </div>
+  <div class="rule-box">
+    <strong>2. One per Column</strong>
+    Every vertical column contains exactly one animal.
+  </div>
+  <div class="rule-box">
+    <strong>3. One per Colored Habitat</strong>
+    Every colored region (even if split on 10&times;10 Olympiad boards) contains exactly one animal.
+  </div>
+  <div class="rule-box">
+    <strong>4. No Touching (Even Diagonally)</strong>
+    Two animals may never share an edge or a corner — all 8 surrounding squares around an animal are ruled out!
+  </div>
+</div>
+
+<p>
+Every generated ZooDoku board is verified by an exact combinatorial solver to have a <strong>single unique solution</strong> solvable step-by-step with zero guessing.
+</p>
+
+<h2>1. Smartboard &amp; Touch Controls</h2>
+<ul>
+  <li><strong>Tap Cycle (Default Mode):</strong> Tap an empty square once to mark <code>&#10005;</code> (eliminated). Tap a <code>&#10005;</code> square again to place your animal (&#129409;). Tap an animal to clear the square.</li>
+  <li><strong>Drag to Sweep <code>&#10005;</code>:</strong> Press and drag across empty squares to paint a continuous trail of <code>&#10005;</code> marks, or drag starting on an <code>&#10005;</code> to erase multiple <code>&#10005;</code> marks without disturbing placed animals.</li>
+  <li><strong>Right-Click / Secondary Mode:</strong> Directly toggles <code>&#10005;</code> elimination marks.</li>
+  <li><strong>1-Tap Animal (Aux Mode):</strong> Places or removes an animal in a single tap.</li>
+  <li><strong><code>&#10005; Auto-&#10005;</code> Sweep &amp; Live <code>&#9889; Auto-&#10005;</code> Mode:</strong> Automatically crosses off the row, column, colored habitat, and 8 neighboring squares around placed animals.</li>
+  <li><strong><code>&#128161; Smart Hint</code>:</strong> Analyzes your current board and highlights the exact next logical deduction (such as <em>Last Square Standing</em>, <em>Region Confinement</em>, or <em>No-Touching Shadow</em>).</li>
+  <li><strong>Animal Mascot Selector:</strong> Cycle between Lion, Cat, Giant Panda, Red Fox, Tree Frog, Owl, Giraffe, Tiger, and <em>Mixed Zoo</em> mode, or switch to <strong>Blueprint</strong> board style for geometric colorblind-friendly region patterns.</li>
+</ul>
+
+<h2>2. Core Logical Deduction Techniques</h2>
+<ul>
+  <li><strong>Small Anchor Habitats:</strong> Always inspect 1-square, 2-square, and 3-square habitats first. A 1-square habitat immediately receives an animal; a 2-square domino habitat rules out the squares touching <em>both</em> ends of the domino!</li>
+  <li><strong>Region &harr; Line Confinement:</strong> If all remaining open squares of the Pink habitat lie inside Row 4, then Row 4's animal <em>must</em> be Pink — so every non-Pink square in Row 4 can be marked <code>&#10005;</code>. Conversely, if all open squares of Column 2 lie inside the Green habitat, the rest of Green outside Column 2 can be marked <code>&#10005;</code>.</li>
+  <li><strong>Two-Habitat Pigeonhole:</strong> If two colored habitats only have open squares inside Rows 1 and 2, those two habitats claim both rows' animals — eliminating every other color in Rows 1 and 2.</li>
+  <li><strong>What-If Elimination (Advanced 9&times;9 &amp; 10&times;10):</strong> On Master and Olympiad grids, test a tight square mentally: if placing an animal there immediately wipes out every remaining cell of a neighboring small habitat, that square must be <code>&#10005;</code>.</li>
+</ul>
+
+<h2>3. Difficulty Tiers &amp; Sizes</h2>
+<ul>
+  <li><strong>Daily ZooDoku (8&times;8):</strong> Deterministic daily puzzle shared across all classroom Smartboards on the same calendar date.</li>
+  <li><strong>5&times;5 Junior Zoo &amp; 6&times;6 Easy:</strong> Gentle warm-ups solvable purely with direct elimination and 2-cell domino shadows.</li>
+  <li><strong>7&times;7 Classic &amp; 8&times;8 Medium:</strong> Balanced classroom puzzles featuring region-line confinement and two-habitat pigeonhole deductions.</li>
+  <li><strong>9&times;9 Hard &amp; 10&times;10 Olympiad (Split Zones):</strong> Competition-grade boards requiring multi-region confinement and non-contiguous habitat patches marked with <code>&#9670;</code>.</li>
+</ul>
+
+<hr>
+<p style="font-size:0.85rem;color:#94a3b8;text-align:center;">
+  <strong>Edugates International School &mdash; Math-Science Team</strong> &bull;
+  Interactive Smartboard Edition (Bilingual Arabic / English Discrete Mathematics Lab)
+</p>
+</body>
+</html>
