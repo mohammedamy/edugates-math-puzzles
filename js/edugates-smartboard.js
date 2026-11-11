@@ -141,6 +141,19 @@
         "rulesEn": "<p><strong>Mathematical Concept:</strong> Bijective Permutation Matrices & Subset Sum Constraints.</p>\n<p>Fill the grid with digits $1, \\dots, N$ such that each row, column, and sub-block is a bijection:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• In Killer variants, numbers within a dashed cage must sum to the cage value $K$ with no duplicates.</p>",
         "rulesAr": "<p><strong>المفهوم الرياضي:</strong> مصفوفات التباديل التقابلية ومجاميع المجموعات الجزئية.</p>\n<p>املأ الشبكة بالأرقام $1, \\dots, N$ بحيث يمثل كل صف وعمود وكتلة تقابلاً تاما:</p>\n<div class=\"katex-display\">$$\\sum_{k=1}^N x_{ik} = \\frac{N(N+1)}{2}, \\quad \\prod_{k=1}^N x_{ik} = N!, \\quad \\sum_{c \\in \\text{Cage}} x_c = K$$</div>\n<p>• في نمط كيلر (Killer)، يجب أن يساوي مجموع أرقام كل قفص القيمة المكتوبة في زاويته دون تكرار أي رقم داخل القفص.</p>"
     },
+    "zoodoku": {
+        "titleEn": "🦁 Zoodoku (Animal Sudoku)",
+        "titleAr": "🦁 زودوكو (سودوكو الحيوانات)",
+        "domainEn": "Latin Squares & Combinatorics: $\\forall i, j: \\sigma_i \\in S_N, \\text{Card}(\\mathcal{A})=N$",
+        "domainAr": "المربعات اللاتينية وتوافيق الحيوانات: $\\forall i, j: \\sigma_i \\in S_N$",
+        "descEn": "Place friendly safari animals in Latin square blocks with zero row, column, or block duplication.",
+        "descAr": "رتب حيوانات السفاري في المربعات اللاتينية دون أي تكرار في الصفوف أو الأعمدة أو الكتل الفرعية.",
+        "leftAr": "تحديد الخلية / وضع الحيوان",
+        "rightAr": "ملاحظات القلم",
+        "middleAr": "مسح الخلية",
+        "rulesEn": "<p><strong>Mathematical Concept:</strong> Bijective Animal Permutations over Latin Squares $\\sigma_i \\in S_N$.</p>\n<p>Place safari animals $\\mathcal{A} = \\{\\text{🦁, 🐘, 🦒, 🐵, 🐼, 🐯, 🦓, 🦊, 🐧}\\}$ into the grid such that each row, column, and sub-block is an exact bijection:</p>\n<div class=\"katex-display\">$$\\forall i \\in \\{1, \\dots, N\\}: \\quad \\{X_{i,1}, X_{i,2}, \\dots, X_{i,N}\\} = \\mathcal{A}_N, \\qquad \\forall j \\in \\{1, \\dots, N\\}: \\quad \\{X_{1,j}, X_{2,j}, \\dots, X_{N,j}\\} = \\mathcal{A}_N$$</div>\n<p>• No identical animals may inhabit the same row, column, or outlined block.<br>• Use 4×4 Junior for grades 1–3, 6×6 for grades 4–6, and 9×9 for advanced Olympiad deduction!</p>",
+        "rulesAr": "<p><strong>المفهوم الرياضي:</strong> التباديل التقابلية لرموز الحيوانات على المربعات اللاتينية $\\sigma_i \\in S_N$.</p>\n<p>رتب بطاقات الحيوانات $\\mathcal{A} = \\{\\text{🦁, 🐘, 🦒, 🐵, 🐼, 🐯, 🦓, 🦊, 🐧}\\}$ في الشبكة بحيث يحقق كل صف وعمود وكتلة تقابلاً تاماً:</p>\n<div class=\"katex-display\">$$\\forall i \\in \\{1, \\dots, N\\}: \\quad \\{X_{i,1}, X_{i,2}, \\dots, X_{i,N}\\} = \\mathcal{A}_N, \\qquad \\forall j \\in \\{1, \\dots, N\\}: \\quad \\{X_{1,j}, X_{2,j}, \\dots, X_{N,j}\\} = \\mathcal{A}_N$$</div>\n<p>• يُمنع تكرار الحيوان نفسه في الصف الواحد أو العمود الواحد أو الكتلة المحددة بخطوط سميكة.<br>• ابدأ بنمط 4×4 للصغار، ثم 6×6 للمرحلة المتوسطة، ثم 9×9 الكلاسيكي لمستوى الأولمبياد المتقدم!</p>"
+    },
     "keen": {
         "titleEn": "➗ Keen (KenKen)",
         "titleAr": "➗ كين (مربعات الحساب - كين كين)",
@@ -864,7 +877,7 @@
     bridges: "starter", lightup: "starter", slant: "starter", tents: "starter",
     unruly: "starter", rect: "starter", flood: "starter", fifteen: "starter",
     samegame: "starter", flip: "starter", pattern: "starter", mosaic: "starter",
-    range: "starter", untangle: "starter",
+    range: "starter", untangle: "starter", zoodoku: "starter",
     towers: "intermediate", net: "intermediate", loopy: "intermediate", solo: "intermediate",
     keen: "intermediate", unequal: "intermediate", singles: "intermediate", magnets: "intermediate",
     galaxies: "intermediate", mines: "intermediate", dominosa: "intermediate", palisade: "intermediate",
@@ -961,7 +974,7 @@
 
     var rankTitle = isAr() ? "مبتدئ المنطق" : "Logic Initiate";
     var nextThreshold = 5;
-    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابة المعرفة الأعظم" : "Edugates Grandmaster"; nextThreshold = 123; }
+    if (totalStars >= 90) { rankTitle = isAr() ? "أستاذ بوابة المعرفة الأعظم" : "Edugates Grandmaster"; nextThreshold = 126; }
     else if (totalStars >= 50) { rankTitle = isAr() ? "زميل أولمبياد STEM" : "STEM Olympiad Fellow"; nextThreshold = 90; }
     else if (totalStars >= 20) { rankTitle = isAr() ? "مهندس البديهيات" : "Axiom Architect"; nextThreshold = 50; }
     else if (totalStars >= 5) { rankTitle = isAr() ? "مستكشف البيانات" : "Graph Explorer"; nextThreshold = 20; }
@@ -1549,7 +1562,73 @@
     ctx.stroke();
   };
 
+  var ZOODOKU_ANIMALS = {
+    "1": { emoji: "🦁", nameEn: "Lion", nameAr: "أسد" },
+    "2": { emoji: "🐘", nameEn: "Elephant", nameAr: "فيل" },
+    "3": { emoji: "🦒", nameEn: "Giraffe", nameAr: "زرافة" },
+    "4": { emoji: "🐵", nameEn: "Monkey", nameAr: "قرد" },
+    "5": { emoji: "🐼", nameEn: "Panda", nameAr: "باندا" },
+    "6": { emoji: "🐯", nameEn: "Tiger", nameAr: "نمر" },
+    "7": { emoji: "🦓", nameEn: "Zebra", nameAr: "حمار وحشي" },
+    "8": { emoji: "🦊", nameEn: "Fox", nameAr: "ثعلب" },
+    "9": { emoji: "🐧", nameEn: "Penguin", nameAr: "بطريق" }
+  };
+
+  window.__zoodokuMode = "animals";
+  window.toggleZoodokuMode = function () {
+    window.__zoodokuMode = window.__zoodokuMode === "animals" ? "numbers" : "animals";
+    playSound("mode");
+    var btn = document.getElementById("zoodoku-mode-btn");
+    if (btn) {
+      if (window.__zoodokuMode === "animals") {
+        btn.textContent = isAr() ? "🐾 الحيوانات" : "🐾 Animals";
+        btn.title = isAr() ? "التبديل إلى وضع الأرقام" : "Switch to Number Digits";
+      } else {
+        btn.textContent = isAr() ? "🔢 الأرقام" : "🔢 Numbers";
+        btn.title = isAr() ? "التبديل إلى وضع الحيوانات" : "Switch to Animal Emojis";
+      }
+    }
+    if (window.__edugatesForceRedraw) {
+      window.__edugatesForceRedraw();
+    }
+  };
+
   window.__edugatesDrawText = function (ctx, x, y, halign, colour, fontsize, monospaced, str, colours, canvas_set_font) {
+    var puzzleId = getCurrentPuzzleId();
+    if (puzzleId === "zoodoku" && window.__zoodokuMode !== "numbers") {
+      var animal = ZOODOKU_ANIMALS[str];
+      if (animal) {
+        ctx.save();
+        ctx.textAlign = halign === 0 ? "left" : (halign === 1 ? "center" : "right");
+        ctx.textBaseline = "middle";
+
+        var colStr = (colours && colours[colour]) || "#0f172a";
+        var isErr = (colStr === "#ef4444" || colStr === "#f43f5e" || colStr === "#dc2626");
+
+        if (fontsize >= 16) {
+          var centerY = y - fontsize * 0.32;
+          if (isErr) {
+            ctx.beginPath();
+            ctx.arc(x, centerY, fontsize * 0.54, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(239, 68, 68, 0.28)";
+            ctx.strokeStyle = "#ef4444";
+            ctx.lineWidth = 2.5;
+            ctx.fill();
+            ctx.stroke();
+          }
+          var emojiSize = Math.round(fontsize * 1.08);
+          ctx.font = emojiSize + "px -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif";
+          ctx.fillText(animal.emoji, x, centerY);
+        } else {
+          var miniSize = Math.max(11, Math.round(fontsize * 0.95));
+          ctx.font = miniSize + "px -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif";
+          ctx.fillText(animal.emoji, x, y - fontsize * 0.28);
+        }
+        ctx.restore();
+        return;
+      }
+    }
+
     canvas_set_font(ctx, fontsize, monospaced);
     ctx.textAlign = halign === 0 ? "left" : (halign === 1 ? "center" : "right");
     ctx.textBaseline = "alphabetic";
@@ -1764,6 +1843,19 @@
     net:      { left: "↺ Rotate CCW", right: "↻ Rotate CW", middle: "🔒 Lock Tile", keys: [{k:"a", label:"↺ CCW (A)", cls:"key-accent"}, {k:"d", label:"↻ CW (D)", cls:"key-accent"}, {k:"s", label:"🔒 Lock (S)", cls:"key-accent"}, {k:"j", label:"🔀 Jumble (J)", cls:"key-wide"}, {k:"c", label:"🎯 Center (C)", cls:""}] },
     loopy:    { left: "➰ Draw Loop Edge", right: "✖️ Mark Non-Edge", middle: "Clear Edge", keys: [{k:"Enter", label:"➰ Toggle Edge", cls:"key-accent key-wide"}, {k:"Spacebar", label:"✖️ Mark X", cls:"key-wide"}] },
     solo:     { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
+    zoodoku:  { left: "Place Animal", right: "Pencil Note", middle: "Clear Cell", keys: [
+      {k:"1", label:"🦁 Lion (1)", cls:"key-accent"},
+      {k:"2", label:"🐘 Elephant (2)", cls:"key-accent"},
+      {k:"3", label:"🦒 Giraffe (3)", cls:"key-accent"},
+      {k:"4", label:"🐵 Monkey (4)", cls:"key-accent"},
+      {k:"5", label:"🐼 Panda (5)", cls:"key-accent"},
+      {k:"6", label:"🐯 Tiger (6)", cls:"key-accent"},
+      {k:"7", label:"🦓 Zebra (7)", cls:"key-accent"},
+      {k:"8", label:"🦊 Fox (8)", cls:"key-accent"},
+      {k:"9", label:"🐧 Penguin (9)", cls:"key-accent"},
+      {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"},
+      {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}
+    ] },
     keen:     { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
     unequal:  { left: "Select Cell", right: "Pencil Mark", middle: "Clear Cell", keys: ["1","2","3","4","5","6","7","8","9", {k:"m", label:"✏️ Pencil (M)", cls:"key-accent"}, {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
     filling:  { left: "Select / Drag", right: "Clear Cell", middle: "Clear", keys: ["1","2","3","4","5","6","7","8","9","0", {k:"Backspace", label:"⌫ Erase", cls:"key-danger key-wide"}] },
@@ -1896,6 +1988,25 @@
         var groupTitleNode = parentSub.parentElement.childNodes[1];
         var groupTitle = groupTitleNode ? groupTitleNode.textContent.trim() : "";
         if (groupTitle) labelText = groupTitle + " — " + labelText;
+      }
+      if (getCurrentPuzzleId() === "zoodoku") {
+        if (labelText.indexOf("2x2 Trivial") !== -1) {
+          labelText = isAr() ? "🐾 4×4 للصغار (🦁🐘🦒🐵) - مبتدئ" : "🐾 4×4 Junior (🦁🐘🦒🐵) - Starter";
+        } else if (labelText.indexOf("2x3 Basic") !== -1) {
+          labelText = isAr() ? "🐾 6×6 للمتوسطين (6 حيوانات)" : "🐾 6×6 Intermediate (6 Animals)";
+        } else if (labelText.indexOf("3x3 Trivial") !== -1) {
+          labelText = isAr() ? "🐾 9×9 سفاري كلاسيكي (سهل)" : "🐾 9×9 Classic Safari (Trivial)";
+        } else if (labelText.indexOf("3x3 Basic X") !== -1) {
+          labelText = isAr() ? "🐾 9×9 سفاري قطري (Sudoku-X)" : "🐾 9×9 Diagonal Safari (Sudoku-X)";
+        } else if (labelText.indexOf("3x3 Basic") !== -1) {
+          labelText = isAr() ? "🐾 9×9 سفاري كلاسيكي (أساسي)" : "🐾 9×9 Classic Safari (Basic)";
+        } else if (labelText.indexOf("3x3 Intermediate") !== -1) {
+          labelText = isAr() ? "🐾 9×9 سفاري متقدم" : "🐾 9×9 Advanced Safari";
+        } else if (labelText.indexOf("3x3 Killer") !== -1) {
+          labelText = isAr() ? "🐾 9×9 كيلر سفاري (أقفاص)" : "🐾 9×9 Killer Safari (Cages)";
+        } else if (labelText.indexOf("Jigsaw") !== -1) {
+          labelText = labelText.replace("Jigsaw", isAr() ? "جيغسو سفاري" : "Jigsaw Safari");
+        }
       }
       opt.textContent = labelText;
       if (r.checked) opt.selected = true;
@@ -2558,7 +2669,7 @@
   var LAB_GROUPS_DATA = [
     { labelEn: "★ Featured Classics", labelAr: "★ الكلاسيكيات المميزة", items: ["bridges","towers","lightup","slant","net","loopy"] },
     { labelEn: "🕸️ Graph Theory", labelAr: "🕸️ نظرية البيانات", items: ["untangle","map","pearl","tracks","signpost","netslide"] },
-    { labelEn: "🔢 Algebra & Squares", labelAr: "🔢 الجبر والمربعات اللاتينية", items: ["solo","keen","unequal","group","singles"] },
+    { labelEn: "🔢 Algebra & Squares", labelAr: "🔢 الجبر والمربعات اللاتينية", items: ["solo","zoodoku","keen","unequal","group","singles"] },
     { labelEn: "🔬 Physics & Optics", labelAr: "🔬 الفيزياء والبصريات", items: ["blackbox","undead","magnets","inertia","cube","galaxies"] },
     { labelEn: "🧮 Combinatorics", labelAr: "🧮 التوافقيات", items: ["pattern","mines","dominosa","rect","palisade","filling","range","tents","mosaic","unruly"] },
     { labelEn: "🎯 Algorithmic", labelAr: "🎯 الخوارزميات", items: ["flip","guess","flood","fifteen","sixteen","twiddle","pegs","samegame"] }
@@ -2568,8 +2679,8 @@
     if (!selectEl) return;
     selectEl.innerHTML = "";
     selectEl.title = isAr()
-      ? "الانتقال السريع إلى أي من مختبرات الرياضيات والعلوم (41 مختبراً)"
-      : "Quick-Switch to Any of the 41 Math-Science Workbenches";
+      ? "الانتقال السريع إلى أي من مختبرات الرياضيات والعلوم (42 مختبراً)"
+      : "Quick-Switch to Any of the 42 Math-Science Workbenches";
     for (var gIdx = 0; gIdx < LAB_GROUPS_DATA.length; gIdx++) {
       var grp = document.createElement("optgroup");
       grp.label = isAr() ? LAB_GROUPS_DATA[gIdx].labelAr : LAB_GROUPS_DATA[gIdx].labelEn;
@@ -2614,7 +2725,7 @@
     var homeLink = topbar ? topbar.querySelector("a[href='index.html'].eis-btn") : null;
     if (homeLink) {
       homeLink.textContent = isAr() ? "🏠 الرئيسية" : "🏠 Hub";
-      homeLink.title = isAr() ? "العودة إلى جميع الألغاز (41 مختبراً)" : "Back to All Puzzles";
+      homeLink.title = isAr() ? "العودة إلى جميع الألغاز (42 مختبراً)" : "Back to All Puzzles";
     }
     var penToggleBtn = document.getElementById("sb-pen-toggle");
     if (penToggleBtn) {
@@ -3044,6 +3155,15 @@
   }
 
   var KEY_AR_MAP = {
+    "🦁 Lion (1)": "🦁 أسد (1)",
+    "🐘 Elephant (2)": "🐘 فيل (2)",
+    "🦒 Giraffe (3)": "🦒 زرافة (3)",
+    "🐵 Monkey (4)": "🐵 قرد (4)",
+    "🐼 Panda (5)": "🐼 باندا (5)",
+    "🐯 Tiger (6)": "🐯 نمر (6)",
+    "🦓 Zebra (7)": "🦓 حمار وحشي (7)",
+    "🦊 Fox (8)": "🦊 ثعلب (8)",
+    "🐧 Penguin (9)": "🐧 بطريق (9)",
     "📏 Grid (G)": "📏 الشبكة (G)",
     "🔒 Lock (L)": "🔒 قفل (L)",
     "✏️ Pencil (M)": "✏️ ملاحظات (M)",
@@ -3175,11 +3295,11 @@
     var solvedEl = document.getElementById("hub-stat-solved");
     var streakEl = document.getElementById("hub-stat-streak");
     if (rankEl) rankEl.textContent = "🏅 " + summary.rankTitle;
-    if (starsEl) starsEl.textContent = "⭐ " + summary.totalStars + " / 123";
+    if (starsEl) starsEl.textContent = "⭐ " + summary.totalStars + " / 126";
     if (solvedEl) {
       solvedEl.textContent = isAr()
-        ? ("✅ " + summary.solvedPuzzlesCount + " / 41 مختبر")
-        : ("✅ " + summary.solvedPuzzlesCount + " / 41 Labs");
+        ? ("✅ " + summary.solvedPuzzlesCount + " / 42 مختبر")
+        : ("✅ " + summary.solvedPuzzlesCount + " / 42 Labs");
     }
     if (streakEl) {
       streakEl.textContent = isAr()
@@ -3230,7 +3350,7 @@
         '</div>';
     }
 
-    // Enhance all 41 Puzzle Cards with Difficulty Tier, Stars, Best Time & Bilingual Text
+    // Enhance all 42 Puzzle Cards with Difficulty Tier, Stars, Best Time & Bilingual Text
     var cards = grid.querySelectorAll(".puzzle-card");
     var diffLabels = {
       starter: { textEn: "🟢 Starter", textAr: "🟢 مبتدئ", cls: "diff-starter" },
@@ -3376,7 +3496,7 @@
         icon: "🔢",
         title: isAr() ? 'بارع الجبر والمربعات · <span class="badge-math" dir="ltr">$L \\in S_N$</span>' : 'Algebra Virtuoso · <span class="badge-math" dir="ltr">$L \\in S_N$</span>',
         desc: isAr() ? "أتقن 3 مختبرات أو أكثر في المربعات اللاتينية وبديهيات الزمر." : "Master 3+ Latin Squares & Abstract Algebra labs.",
-        unlocked: countSolvedInList(["towers","solo","keen","unequal","group","singles"]) >= 3
+        unlocked: countSolvedInList(["towers","solo","zoodoku","keen","unequal","group","singles"]) >= 3
       },
       {
         icon: "🔬",
@@ -3465,8 +3585,8 @@
         '</div>' +
         '<div class="hub-mastery-strip" style="border-top:none;padding-top:0">' +
           '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'الرتبة الحالية' : 'Current Rank') + '</span><span class="hub-stat-val gold">🏅 ' + summary.rankTitle + '</span></div>' +
-          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'نجوم الإتقان' : 'Mastery Stars') + '</span><span class="hub-stat-val gold">⭐ ' + summary.totalStars + ' / 123</span></div>' +
-          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'المختبرات المحلولة' : 'Labs Solved') + '</span><span class="hub-stat-val teal">✅ ' + summary.solvedPuzzlesCount + ' / 41</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'نجوم الإتقان' : 'Mastery Stars') + '</span><span class="hub-stat-val gold">⭐ ' + summary.totalStars + ' / 126</span></div>' +
+          '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'المختبرات المحلولة' : 'Labs Solved') + '</span><span class="hub-stat-val teal">✅ ' + summary.solvedPuzzlesCount + ' / 42</span></div>' +
           '<div class="hub-stat-box"><span class="hub-stat-label">' + (isAr() ? 'أوسمة الأولمبياد' : 'Olympiad Badges') + '</span><span class="hub-stat-val green">🎖️ ' + unlockedCount + ' / 8</span></div>' +
         '</div>' +
         '<div>' +
@@ -3600,8 +3720,8 @@
       }
       if (tealPill) {
         tealPill.textContent = isAr()
-          ? "41 مختبراً تفاعلياً بـ WebAssembly • محرك 60 إطاراً/ث للسبورة الذكية"
-          : "41 WebAssembly Workbenches • 60 FPS Smartboard Engine";
+          ? "42 مختبراً تفاعلياً بـ WebAssembly • محرك 60 إطاراً/ث للسبورة الذكية"
+          : "42 WebAssembly Workbenches • 60 FPS Smartboard Engine";
       }
       var heroH1 = document.querySelector(".hub-hero-banner h1");
       var heroP = document.querySelector(".hub-hero-banner p");
@@ -3625,10 +3745,10 @@
 
       // Category Tabs
       var tabMap = {
-        all: { en: "🏛️ All Lab Puzzles (41)", ar: "🏛️ جميع المختبرات (41)" },
+        all: { en: "🏛️ All Lab Puzzles (42)", ar: "🏛️ جميع المختبرات (42)" },
         featured: { en: "⭐ Featured Classics (6)", ar: "⭐ الكلاسيكيات المميزة (6)" },
         graph: { en: "🕸️ Graph Theory (10)", ar: "🕸️ نظرية البيانات (10)" },
-        algebra: { en: "🔢 Algebra & Squares (6)", ar: "🔢 الجبر والمربعات (6)" },
+        algebra: { en: "🔢 Algebra & Squares (7)", ar: "🔢 الجبر والمربعات (7)" },
         combinatorics: { en: "🧮 Combinatorics (11)", ar: "🧮 التوافقيات (11)" },
         physics: { en: "🔬 Physics & Optics (6)", ar: "🔬 الفيزياء والبصريات (6)" },
         algorithmic: { en: "🎯 Algorithmic (8)", ar: "🎯 الخوارزميات (8)" }
@@ -3649,7 +3769,7 @@
       }
       var diffMap = {
         all: { en: "All Levels", ar: "جميع المستويات" },
-        starter: { en: "🟢 Starter (14)", ar: "🟢 مبتدئ (14)" },
+        starter: { en: "🟢 Starter (15)", ar: "🟢 مبتدئ (15)" },
         intermediate: { en: "🟡 Intermediate (16)", ar: "🟡 متوسط (16)" },
         olympiad: { en: "🔴 Olympiad (11)", ar: "🔴 أولمبياد (11)" },
         solved: { en: "✅ Solved", ar: "✅ تم حلها" }
@@ -3688,7 +3808,7 @@
       var catKey = activeCatTab ? activeCatTab.getAttribute("data-filter") : "all";
       var catHeading = document.getElementById("hubCategoryHeading");
       var catTitlesAr = {
-        all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (41 مختبراً)",
+        all: "🏛️ المجموعة الكاملة لألغاز الرياضيات والعلوم (42 مختبراً)",
         featured: "⭐ كلاسيكيات السبورة الذكية المميزة",
         graph: "🕸️ نظرية البيانات والأشجار الممتدة والمسارات الطوبولوجية",
         algebra: "🔢 المربعات اللاتينية والمتباينات والجبر المجرد",
@@ -3697,7 +3817,7 @@
         algorithmic: "🎯 الخوارزميات وجبر المصفوفات GF(2) وزمر التباديل"
       };
       var catTitlesEn = {
-        all: "🏛️ Complete Math-Science Puzzle Collection (41 Workbenches)",
+        all: "🏛️ Complete Math-Science Puzzle Collection (42 Workbenches)",
         featured: "⭐ Featured Smartboard Classroom Classics",
         graph: "🕸️ Graph Theory, Spanning Trees & Topological Loops",
         algebra: "🔢 Latin Squares, Inequalities & Abstract Algebra",
@@ -3758,6 +3878,17 @@
       for (var ak = 0; ak < actKeys.length; ak++) {
         var el = document.getElementById(actKeys[ak]);
         if (el) el.textContent = isAr() ? actMap[actKeys[ak]].ar : actMap[actKeys[ak]].en;
+      }
+
+      var zModeBtn = document.getElementById("zoodoku-mode-btn");
+      if (zModeBtn) {
+        if (window.__zoodokuMode === "animals") {
+          zModeBtn.textContent = isAr() ? "🐾 الحيوانات" : "🐾 Animals";
+          zModeBtn.title = isAr() ? "التبديل إلى وضع الأرقام" : "Switch to Number Digits";
+        } else {
+          zModeBtn.textContent = isAr() ? "🔢 الأرقام" : "🔢 Numbers";
+          zModeBtn.title = isAr() ? "التبديل إلى وضع الحيوانات" : "Switch to Animal Emojis";
+        }
       }
 
       var dockSwapBtn = document.getElementById("sb-dock-swap-btn");
