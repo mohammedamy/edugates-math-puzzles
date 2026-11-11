@@ -1,13 +1,12 @@
 /*
  * Edugates International School — Math-Science Team
- * Offline Smartboard Service Worker (v3.7 — Zoodoku Animal Sudoku Workbench)
+ * Offline Smartboard Service Worker (v3.6 — Universal Victory Detection & Rich Fanfare)
  */
-const CACHE_NAME = 'edugates-math-science-smartboard-v15';
+const CACHE_NAME = 'edugates-math-science-smartboard-v14';
 
 const CORE_ASSETS = [
   './',
   './index.html',
-  './zoodoku.html',
   './manifest.json',
   './css/katex.min.css',
   './css/edugates-smartboard.css',
@@ -17,8 +16,7 @@ const CORE_ASSETS = [
   './assets/eis-logo.jpg',
   './assets/logo.png',
   './assets/icon-192.png',
-  './assets/icon-512.png',
-  './assets/puzzles/zoodoku.png'
+  './assets/icon-512.png'
 ];
 
 self.addEventListener('install', function (event) {
